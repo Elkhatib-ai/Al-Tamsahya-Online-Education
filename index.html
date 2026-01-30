@@ -1,0 +1,1121 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>منصة تعليمية متقدمة - المرحلة الإعدادية المصرية</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1e40af">
+
+
+
+</head>
+<body>
+    <div class="app-container">
+
+        <nav class="top-nav">
+            <div class="nav-title">
+                منصة تعليمية متقدمة – المرحلة الإعدادية
+            </div>
+            <div id="navUser" class="nav-user"></div>
+            <button id="darkToggle" onclick="toggleDarkMode()">🌙</button>
+
+        </nav>
+        <button id="installBtn" class="install-btn hidden">
+            📲 تثبيت التطبيق
+        </button>
+
+
+        <!-- 🧑‍🎓 رسالة ترحيب رسمية -->
+        <section class="welcome-message" id="welcomeMessage">
+
+            <h2>مرحبًا بكم في منصة التعليم المتقدمة 🎓</h2>
+            <p>
+                نرحب بطلاب المرحلة الإعدادية في منصتنا التعليمية الرقمية،
+                والتي تهدف إلى تقديم محتوى تعليمي مبسط ومنظم
+                وفقًا للمنهج المصري.
+            </p>
+            <p>
+                تتيح المنصة دروسًا تفاعلية، شروحات مرئية،
+                ومتابعة مستمرة لمستوى الطالب الأكاديمي.
+            </p>
+            <p>
+                <strong>نتمنى لكم تجربة تعليمية ناجحة ومثمرة 🌟</strong>
+            </p>
+        </section>
+
+        <!-- شريط تنقل عام -->
+        <div id="globalNav" class="nav-btns hidden">
+            <button id="backBtn" onclick="smartBack()">⬅️ رجوع</button>
+            <button onclick="goHome()">🏠 الصفحة الرئيسية</button>
+        </div>
+
+
+
+
+
+        <!-- صفحة تسجيل الدخول -->
+        <!-- صفحة تسجيل الدخول -->
+        <div id="loginPage" class="login-container">
+
+            <h1>AI-Tamsahya-Online-Education</h1>
+
+            <input id="email" type="text" placeholder="البريد الإلكتروني">
+            <input id="password" type="password" placeholder="كلمة المرور">
+
+            <!-- الأزرار داخل صفحة الدخول -->
+            <div class="auth-buttons">
+                <button class="login-btn" onclick="login()">
+                    دخول
+                </button>
+
+                <button class="register-btn secondary" onclick="registerStudentPage()">
+                    تسجيل حساب جديد
+                </button>
+            </div>
+
+        </div>
+
+
+
+
+        <!-- صفحة التسجيل للطالب -->
+        <div id="registerPage" class="login-container hidden">
+
+            <h1 class="register-title">تسجيل حساب جديد</h1>
+
+            <input type="text" id="regEmail" placeholder="البريد الإلكتروني">
+            <input type="password" id="regPassword" placeholder="كلمة المرور">
+
+            <button class="register-btn primary"
+                    onclick="registerStudent()">
+                إرسال طلب التسجيل
+            </button>
+
+            <button class="register-btn secondary"
+                    onclick="backToLogin()">
+                رجوع للصفحة الرئيسية
+            </button>
+
+            <p class="trust-message">
+                🔒 بيانات الطالب محفوظة بأمان<br>
+                ولا يتم مشاركتها مع أي جهة خارجية
+            </p>
+
+        </div>
+
+
+
+        <!-- الصفحة الرئيسية بعد تسجيل الدخول -->
+        <div id="mainPage" class="hidden">
+
+            <!-- صفحة اختيار الصف -->
+            <div id="gradePage" class="list-container"></div>
+
+            <!-- صفحة اختيار المادة -->
+            <div id="subjectPage" class="list-container hidden"></div>
+
+            <!-- صفحة اختيار الوحدة -->
+            <div id="unitPage" class="list-container hidden"></div>
+
+            <div id="lessonPath" class="lesson-path"></div>
+            <!-- صفحة الدرس -->
+            <div id="lessonPage" class="hidden">
+
+                <div class="nav-btns"></div>
+
+                <!-- شريط التقدم -->
+                <div class="progress-box">
+                    <div id="progressBar" class="progress-bar"></div>
+                </div>
+
+                <h2 id="lessonTitle"></h2>
+
+                <button id="toggleLessonsBtn" class="toggle-lessons-btn" onclick="toggleLessons()">
+                    📚 قائمة الدروس
+                </button>
+
+                <div id="lessonList" class="list-container"></div>
+
+                <!-- أزرار التنقل بين الدروس -->
+                <div class="nav-btns">
+                    <button id="prevLessonBtn" onclick="prevLesson()">⬅️ الدرس السابق</button>
+                    <button id="nextLessonBtn" onclick="nextLesson()">➡️ الدرس التالي</button>
+                </div>
+
+                <div id="lessonPageContent">
+                    <div id="lessonVideo"></div>
+                    <div id="lessonText"></div>
+                </div>
+
+            </div>
+
+
+
+            <!-- لوحة التحكم للمدير والمشرف -->
+            <div id="adminPanel" class="admin-box hidden">
+                <h3>الإدارة</h3>
+                <div class="nav-btns">
+                    <button class="custom-btn" onclick="showAdminSection('students')">قائمة الطلاب</button>
+                    <button class="custom-btn" onclick="showAdminSection('supervisors')">المشرفون</button>
+                    <button class="custom-btn" onclick="showAdminSection('tests')">الاختبارات</button>
+                    <button class="custom-btn" onclick="showAdminSection('results')">النتائج الأسبوعية</button>
+
+
+                </div>
+                <div id="adminContent">
+                    <div id="studentsList" class="table-container hidden"></div>
+                    <div id="supervisorsList" class="table-container hidden"></div>
+                    <div id="testsList" class="table-container hidden"></div>
+                    <div id="resultsList" class="table-container hidden"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- النماذج المنبثقة -->
+        <div id="studentModal" class="modal">
+            <div class="modal-content">
+                <h3>إضافة طالب جديد</h3>
+                <input type="text" id="newStudentEmail" placeholder="البريد الإلكتروني" />
+                <input type="password" id="newStudentPassword" placeholder="كلمة المرور" />
+                <br />
+                <button onclick="addStudent()">إضافة</button>
+                <button class="close-btn" onclick="closeModal('studentModal')">إلغاء</button>
+            </div>
+        </div>
+
+        <div id="supervisorModal" class="modal">
+            <div class="modal-content">
+                <h3>إضافة مشرف جديد</h3>
+                <input type="text" id="newSupervisorEmail" placeholder="البريد الإلكتروني" />
+                <input type="password" id="newSupervisorPassword" placeholder="كلمة المرور" />
+                <br />
+                <button onclick="addSupervisor()">إضافة</button>
+                <button class="close-btn" onclick="closeModal('supervisorModal')">إلغاء</button>
+            </div>
+        </div>
+
+        <button class="logout-btn hidden" onclick="logout()">
+            تسجيل الخروج
+        </button>
+
+        <footer>© 2026 منصة التعليم المصرية</footer>
+
+        <script>
+            // بيانات افتراضية
+            const defaultUsers = [
+                {
+                    email: "mohsen@school.com",
+                    password: "admin123",
+                    role: "ADMIN",
+                    approved: true
+                },
+                {
+                    email: "khatib@school.com",
+                    password: "khatib123",
+                    role: "SUPERVISOR",
+                    approved: true
+                }
+            ];
+
+            const grades = ["الصف الأول الإعدادي", "الصف الثاني الإعدادي", "الصف الثالث الإعدادي"];
+            const subjectsPerGrade = {
+                "الصف الأول الإعدادي": [
+                    "اللغة العربية",
+                    "اللغة الإنجليزية",
+                    "الرياضيات",
+                    "العلوم",
+                    "الدراسات الاجتماعية",
+                    "التربية الدينية",
+                    "النشاط الفني/الحاسب الآلي/الرياضة",
+                ],
+                "الصف الثاني الإعدادي": [
+                    "اللغة العربية",
+                    "اللغة الإنجليزية",
+                    "الرياضيات",
+                    "العلوم",
+                    "الدراسات الاجتماعية",
+                    "التربية الدينية",
+                    "النشاط الفني/الحاسب الآلي/الرياضة",
+                ],
+                "الصف الثالث الإعدادي": [
+                    "اللغة العربية",
+                    "اللغة الإنجليزية",
+                    "الرياضيات",
+                    "العلوم",
+                    "الدراسات الاجتماعية",
+                    "التربية الدينية",
+                    "النشاط الفني/الحاسب الآلي/الرياضة",
+                ],
+            };
+            const unitsPerSubject = {
+                "اللغة العربية": ["النحو", "البلاغة", "القراءة", "الكتابة"],
+                "اللغة الإنجليزية": ["القواعد", "المفردات", "القراءة", "الكتابة"],
+                الرياضيات: ["جبر", "هندسة", "إحصاء", "مسائل تطبيقية"],
+                العلوم: ["المادة والطاقة", "الكائنات الحية", "الأرض والفضاء", "التجارب العلمية"],
+                "الدراسات الاجتماعية": ["التاريخ", "الجغرافيا", "الوطنية", "التربية الدينية"],
+                "التربية الدينية": ["القرآن/الكتاب المقدس", "السلوك والقيم"],
+                "النشاط الفني/الحاسب الآلي/الرياضة": ["الفنون", "الحاسب الآلي", "الرياضة"],
+            };
+            let lessons = {};
+            grades.forEach((grade) => {
+                lessons[grade] = {};
+                subjectsPerGrade[grade].forEach((sub) => {
+                    lessons[grade][sub] = {};
+                    unitsPerSubject[sub].forEach((unit) => {
+                        lessons[grade][sub][unit] = [
+                            {
+                                title: "درس 1 " + unit,
+                                content: "شرح نصي مفصل لدرس 1 في " + unit,
+                                video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+                            },
+                            {
+                                title: "درس 2 " + unit,
+                                content: "شرح نصي مفصل لدرس 2 في " + unit,
+                                video: "https://www.youtube.com/embed/9bZkp7q19f0",
+                            },
+                        ];
+                    });
+                });
+            });
+
+            let users = JSON.parse(
+                localStorage.getItem("users") || JSON.stringify(defaultUsers)
+            );
+
+            let scores = JSON.parse(localStorage.getItem("scores") || "{}");
+
+            let currentUser = null;
+            let currentGrade = null;
+            let currentSubject = null;
+            let currentUnit = null;
+
+
+            function updateBackButton() {
+                const backBtn = document.getElementById("backBtn");
+                if (!backBtn) return;
+
+                // ❌ لا يظهر في الصفحة الرئيسية ولا اختيار الصف
+                if (!currentGrade) {
+                    backBtn.style.display = "none";
+                }
+                // ❌ لا يظهر في اختيار الصف
+                else if (currentGrade && !currentSubject) {
+                    backBtn.style.display = "none";
+                }
+                // ✅ يظهر من صفحة المواد وما بعدها
+                else {
+                    backBtn.style.display = "inline-block";
+                }
+            }
+
+
+            // خاص بالدروس
+            let currentLessonIndex = 0;
+            let currentLessonsList = [];
+            let lessonCompleted = false;
+
+            // حفظ آخر درس شاهده الطالب
+            function saveLastLesson(index) {
+                if (!currentUser || !currentGrade || !currentSubject || !currentUnit) return;
+
+                const key = `lastLesson_${currentUser.email}_${currentGrade}_${currentSubject}_${currentUnit}`;
+                localStorage.setItem(key, index);
+            }
+
+            // جلب آخر درس شاهده الطالب
+            function getLastLesson() {
+                if (!currentUser || !currentGrade || !currentSubject || !currentUnit) return null;
+
+                const key = `lastLesson_${currentUser.email}_${currentGrade}_${currentSubject}_${currentUnit}`;
+                const index = localStorage.getItem(key);
+
+                return index !== null ? parseInt(index) : null;
+            }
+
+
+
+            // حفظ البيانات
+            function saveData() {
+                localStorage.setItem("users", JSON.stringify(users));
+                localStorage.setItem("scores", JSON.stringify(scores));
+            }
+
+            // تسجيل الدخول
+            function login() {
+                const email = document.getElementById("email").value.trim().toLowerCase();
+                const password = document.getElementById("password").value.trim();
+
+                const user = users.find(
+                    (u) =>
+                        u.email.toLowerCase().trim() === email &&
+                        u.password === password
+                );
+
+                if (!user) {
+                    alert("بيانات الدخول غير صحيحة!");
+                    return;
+                }
+
+                if (user.role === "STUDENT" && !user.approved) {
+                    alert("حسابك لم يتم تفعيله بعد!");
+                    return;
+                }
+
+                currentUser = user;
+
+                // 👇 إخفاء رسالة الترحيب
+                document.getElementById("welcomeMessage").classList.add("hidden");
+
+                document.getElementById("loginPage").classList.add("hidden");
+                document.getElementById("registerPage").classList.add("hidden");
+                document.getElementById("mainPage").classList.remove("hidden");
+                document.querySelector(".logout-btn").classList.remove("hidden");
+                document.getElementById("navUser").textContent = " | " + currentUser.email;
+
+                renderGrades();
+
+                document.getElementById("adminPanel").classList.toggle(
+                    "hidden",
+                    !(user.role === "ADMIN" || user.role === "SUPERVISOR")
+                );
+                hideAllAdminSections();
+            }
+
+
+
+            // تسجيل خروج
+            function logout() {
+                currentUser = null;
+
+                // إيقاف الفيديو نهائيًا
+                document.getElementById("lessonVideo").innerHTML = "";
+
+                document.getElementById("loginPage").classList.remove("hidden");
+                document.getElementById("registerPage").classList.add("hidden");
+                document.getElementById("mainPage").classList.add("hidden");
+                document.getElementById("adminPanel").classList.add("hidden");
+                document.querySelector(".logout-btn").classList.add("hidden");
+                document.getElementById("navUser").textContent = "";
+                document.getElementById("welcomeMessage").classList.remove("hidden");
+
+                resetNavigation();
+            }
+            function goHome() {
+                stopVideo();      // ⛔ إيقاف الفيديو مثل زر الرجوع
+                currentGrade = null;
+                currentSubject = null;
+                currentUnit = null;
+                renderGrades();   // الذهاب لاختيار المرحلة
+            }
+
+
+            // صفحة التسجيل
+            function registerStudentPage() {
+                document.getElementById("loginPage").classList.add("hidden");
+                document.getElementById("welcomeMessage").classList.add("hidden");
+
+                document.getElementById("registerPage").classList.remove("hidden");
+            }
+            function backToLogin() {
+                document.getElementById("registerPage").classList.add("hidden");
+                document.getElementById("loginPage").classList.remove("hidden");
+            }
+
+            // تسجيل طالب جديد
+            async function registerStudent() {
+                const email = document.getElementById("regEmail").value.trim();
+                const password = document.getElementById("regPassword").value.trim();
+
+                if (!email || !password) {
+                    alert("يرجى إدخال البريد الإلكتروني وكلمة المرور!");
+                    return;
+                }
+
+                try {
+                    const res = await fetch("/api/students/register", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            name: email.split("@")[0],
+                            email: email,
+                            password: password
+                        })
+                    });
+
+                    if (!res.ok) {
+                        const msg = await res.text();
+                        alert("فشل إرسال الطلب ❌\n" + msg);
+                        return;
+                    }
+
+                    alert("تم إرسال طلب التسجيل للموافقة من المشرف ✅");
+
+                    // تنظيف الحقول
+                    document.getElementById("regEmail").value = "";
+                    document.getElementById("regPassword").value = "";
+
+                    // رجوع للصفحة الرئيسية
+                    backToLogin();
+
+                } catch (err) {
+                    alert("تعذر الاتصال بالسيرفر ❌\n" + err.message);
+                }
+            }
+
+
+
+            // عرض الصفوف بشكل جميل
+            function renderGrades() {
+                resetNavigation();
+                updateGlobalNav(false); // إخفاء زر الصفحة الرئيسية هنا فقط
+
+                const container = document.getElementById("gradePage");
+
+                // هيكل منسق
+                container.innerHTML = `
+                                                                                                                    <section class="grades-section">
+                                                                                                                        <h2>اختر الصف الدراسي</h2>
+                                                                                                                        <div class="grades-grid"></div>
+                                                                                                                    </section>
+                                                                                                                `;
+
+                const grid = container.querySelector(".grades-grid");
+
+                grades.forEach((grade) => {
+                    const btn = document.createElement("button");
+                    btn.textContent = grade;
+                    btn.className = "grade-card";
+                    btn.onclick = () => {
+                        currentGrade = grade;
+                        renderSubjects(grade);
+                    };
+                    grid.appendChild(btn);
+                });
+
+                showSection("gradePage");
+                updateBackButton();
+            }
+
+
+
+
+
+            // عرض المواد بشكل جميل
+            function renderSubjects(grade) {
+                updateGlobalNav(true);
+                resetNavigation();
+
+                currentSubject = null;
+                currentUnit = null;
+
+                const container = document.getElementById("subjectPage");
+
+                container.innerHTML = `
+                                                                                                                    <section class="subjects-section">
+                                                                                                                        <h2>${grade}</h2>
+                                                                                                                        <p class="section-subtitle">اختر المادة الدراسية</p>
+                                                                                                                        <div class="subjects-grid"></div>
+                                                                                                                    </section>
+                                                                                                                `;
+
+                const grid = container.querySelector(".subjects-grid");
+
+                subjectsPerGrade[grade].forEach((sub) => {
+                    const btn = document.createElement("button");
+                    const icons = {
+                        "اللغة العربية": "📘",
+                        "اللغة الإنجليزية": "📕",
+                        "الرياضيات": "📐",
+                        "العلوم": "🧪",
+                        "الدراسات الاجتماعية": "🌍",
+                        "التربية الدينية": "🕌",
+                        "النشاط الفني/الحاسب الآلي/الرياضة": "🎨"
+                    };
+
+                    btn.innerHTML = `
+                                                                                                        <div class="subject-icon">${icons[sub] || "📘"}</div>
+                                                                                                        <div>${sub}</div>
+`;
+
+                    btn.className = "subject-card";
+                    btn.onclick = () => {
+                        currentSubject = sub;
+                        renderUnits(grade, sub);
+                    };
+                    grid.appendChild(btn);
+                });
+
+                showSection("subjectPage");
+                updateBackButton();
+            }
+
+
+            // عرض الوحدات
+            // عرض الوحدات بشكل منسق
+            function renderUnits(grade, subject) {
+                stopVideo();
+                resetNavigation();
+                updateGlobalNav(true);
+
+                currentUnit = null;
+
+                const container = document.getElementById("unitPage");
+
+                container.innerHTML = `
+                                                                                                                    <section class="units-section">
+                                                                                                                        <h2>${subject}</h2>
+                                                                                                                        <p class="section-subtitle">اختر الوحدة</p>
+                                                                                                                        <div class="units-grid"></div>
+                                                                                                                    </section>
+                                                                                                                `;
+
+                const grid = container.querySelector(".units-grid");
+
+                unitsPerSubject[subject].forEach((unit) => {
+                    const btn = document.createElement("button");
+                    btn.textContent = unit;
+                    btn.className = "unit-card";
+                    btn.onclick = () => {
+                        currentUnit = unit;
+                        renderLessons(grade, subject, unit);
+                    };
+                    grid.appendChild(btn);
+                });
+
+                showSection("unitPage");
+                updateBackButton();
+            }
+
+
+
+            // عرض الدروس
+            function renderLessons(grade, subject, unit) {
+                resetNavigation();
+
+                currentLessonsList = lessons[grade][subject][unit];
+
+                // 🔹 جلب آخر درس محفوظ
+                const lastIndex = getLastLesson();
+                currentLessonIndex =
+                    lastIndex !== null && lastIndex < currentLessonsList.length
+                        ? lastIndex
+                        : 0;
+                document.getElementById("lessonPath").style.display = "block";
+
+                showSection("lessonPage");
+                updateBackButton();
+
+                document.getElementById("lessonTitle").textContent =
+                    `${grade} - ${subject} - ${unit}`;
+
+                renderLessonList();
+                loadLesson(currentLessonIndex);
+            }
+
+            // عرض تفاصيل الدرس (فيديو + شرح نصي)
+            function showLessonDetail(lesson) {
+                const videoDiv = document.getElementById("lessonVideo");
+                const textDiv = document.getElementById("lessonText");
+
+                videoDiv.innerHTML = `
+                                                                                                                                                              <video
+                                                                                                                                                              id="lessonPlayer"
+                                                                                                                                                              controls
+                                                                                                                                                              autoplay
+                                                                                                                                                              playsinline
+                                                                                                                                                              width="100%"
+                                                                                                                                                              style="max-height: 220px; border-radius: 12px;"
+                                                                                                                                                                >
+                                                                                                                                                                           <source src="videos/lesson1.mp4" type="video/mp4">
+                                                                                                                                                                          المتصفح لا يدعم تشغيل الفيديو
+                                                                                                                                                                           </video>
+                                                                                                                                                                                                                                                  `;
+
+                const video = document.getElementById("lessonPlayer");
+
+                // 🔒 قفل زر الدرس التالي عند بداية الدرس
+                lessonCompleted = false;
+                const nextBtn = document.getElementById("nextLessonBtn");
+                if (nextBtn) nextBtn.disabled = true;
+
+                /* ===============================
+                   🔊 ❌ لم يتم تغيير أي شيء هنا
+                   =============================== */
+                video.addEventListener("loadeddata", () => {
+                    video.muted = false;
+                    video.play().catch(() => {
+                        console.log("المتصفح منع التشغيل التلقائي بالصوت");
+                    });
+                });
+
+                // ✅ عند انتهاء الفيديو
+                video.addEventListener("ended", () => {
+                    lessonCompleted = true;
+
+                    // 🔓 فتح زر التالي
+                    if (nextBtn) nextBtn.disabled = false;
+
+                    // 💾 حفظ آخر درس مكتمل
+                    saveLastLesson(currentLessonIndex);
+                });
+
+                textDiv.textContent = lesson.content;
+
+                updateLessonNav(true);
+            }
+
+
+            // عرض قائمة الدروس بشكل كروت
+            function renderLessonList() {
+                const listDiv = document.getElementById("lessonList");
+                if (!listDiv) return;
+
+                listDiv.innerHTML = `<div class="lessons-grid"></div>`;
+                const grid = listDiv.querySelector(".lessons-grid");
+
+                currentLessonsList.forEach((lesson, index) => {
+                    const btn = document.createElement("button");
+                    btn.textContent = lesson.title;
+                    btn.className = "lesson-card";
+                    btn.onclick = () => loadLesson(index);
+                    grid.appendChild(btn);
+                });
+            }
+
+
+            // ▶️ تحميل درس معين
+            function loadLesson(index) {
+                currentLessonIndex = index;
+                lessonCompleted = false;
+                document.getElementById("lessonList").style.display = "none";
+
+                const lesson = currentLessonsList[index];
+
+                // مسار الدرس
+                document.getElementById("lessonPath").innerHTML = `
+                                                                                                            <span>${currentSubject}</span>
+                                                                                                            <span> &gt; </span>
+                                                                                                            <span>${currentUnit}</span>
+                                                                                                            <span> &gt; </span>
+                                                                                                            <strong>${lesson.title}</strong>
+                                                                                                        `;
+
+                showLessonDetail(lesson);
+
+                const prevBtn = document.getElementById("prevLessonBtn");
+                const nextBtn = document.getElementById("nextLessonBtn");
+
+                if (prevBtn) prevBtn.disabled = index === 0;
+                if (nextBtn) nextBtn.disabled = true;
+
+                // 📊 شريط التقدم
+                const progress =
+                    ((index + 1) / currentLessonsList.length) * 100;
+                document.getElementById("progressBar").style.width = progress + "%";
+
+                saveLastLesson(index);
+            }
+
+
+
+            function prevLesson() {
+                if (currentLessonIndex > 0) {
+                    currentLessonIndex--;
+                    loadLesson(currentLessonIndex);
+                }
+            }
+
+            function nextLesson() {
+                // 🔒 حماية إضافية: لا ينتقل إلا إذا اكتمل الدرس
+                if (!lessonCompleted) {
+                    alert("يجب مشاهدة الفيديو كاملًا قبل الانتقال للدرس التالي");
+                    return;
+                }
+
+                if (currentLessonIndex < currentLessonsList.length - 1) {
+                    currentLessonIndex++;
+                    loadLesson(currentLessonIndex);
+                } else {
+                    alert("🎉 أحسنت! انتهيت من جميع دروس هذه الوحدة");
+                }
+            }
+
+
+            // التنقل للرجوع حسب الصفحة
+            function back(page) {
+                stopVideo();           // ⛔ إيقاف الفيديو فور الرجوع
+                updateLessonNav(false); // ✅ إخفاء زر "رجوع للوحدة"
+                document.getElementById("lessonList").style.display = "block";
+
+                switch (page) {
+                    case "grade":
+                        renderGrades();
+                        break;
+                    case "subject":
+                        if (currentGrade) renderSubjects(currentGrade);
+                        break;
+                    case "unit":
+                        if (currentGrade && currentSubject) renderUnits(currentGrade, currentSubject);
+                        break;
+                    default:
+                        renderGrades();
+                }
+            }
+
+            function smartBack() {
+                stopVideo();
+
+                if (currentUnit) {
+                    // داخل الدروس → رجوع للوحدات
+                    currentUnit = null;
+                    renderUnits(currentGrade, currentSubject);
+                }
+                else if (currentSubject) {
+                    // داخل الوحدات → رجوع للمواد
+                    currentSubject = null;
+                    renderSubjects(currentGrade);
+                }
+                else if (currentGrade) {
+                    // داخل المواد → رجوع للصفوف
+                    currentGrade = null;
+                    renderGrades();
+                }
+            }
+
+
+
+            // إظهار قسم معين وإخفاء الباقي
+            function showSection(idToShow) {
+                ["gradePage", "subjectPage", "unitPage", "lessonPage"].forEach((id) => {
+                    document.getElementById(id).classList.toggle("hidden", id !== idToShow);
+                });
+                // لوحة الإدارة تظهر مع الأقسام الخاصة بها ولا تؤثر هنا
+            }
+
+            // إخفاء كل أقسام الإدارة
+            function hideAllAdminSections() {
+                ["studentsList", "supervisorsList", "testsList", "resultsList"].forEach((id) => {
+                    document.getElementById(id).classList.add("hidden");
+                });
+            }
+
+            // عرض أقسام الإدارة
+            function showAdminSection(section) {
+                hideAllAdminSections();
+                switch (section) {
+                    case "students":
+                        renderStudents();
+                        break;
+                    case "supervisors":
+                        renderSupervisors();
+                        break;
+                    case "tests":
+                        renderTests();
+                        break;
+                    case "results":
+                        renderResults();
+                        break;
+                }
+            }
+            async function loadPendingStudents() {
+                const res = await fetch("/api/students/pending"); // نطلب الطلبات من السيرفر
+                const data = await res.json();                    // نحولها JSON
+                console.log(data);                                // نعرضها في Console
+            }
+
+
+            // إدارة الطلاب (تعرض فقط للمدير والمشرف)
+            function renderStudents() {
+                const container = document.getElementById("studentsList");
+                container.innerHTML = `
+                                                                                                                                                                                                                                                      <h4>قائمة الطلاب</h4>
+                                                                                                                                                                                                                                                      <button class="custom-btn" onclick="showAddStudentModal()">إضافة طالب</button>
+                                                                                                                                                                                                                                                      <div class="table-container">
+                                                                                                                                                                                                                                                        <table>
+                                                                                                                                                                                                                                                          <thead>
+                                                                                                                                                                                                                                                            <tr>
+                                                                                                                                                                                                                                                              <th>البريد الإلكتروني</th>
+                                                                                                                                                                                                                                                              <th>الحالة</th>
+                                                                                                                                                                                                                                                              <th>الدرجة</th>
+                                                                                                                                                                                                                                                              <th>خيارات</th>
+                                                                                                                                                                                                                                                            </tr>
+                                                                                                                                                                                                                                                          </thead>
+                                                                                                                                                                                                                                                          <tbody>
+                                                                                                                                                                                                                                                            ${users
+                        .filter((u) => u.role === "STUDENT")
+                        .map(
+                            (s) => `
+                                                                                                                                                                                                                                                              <tr>
+                                                                                                                                                                                                                                                                <td>${s.email}</td>
+                                                                                                                                                                                                                                                                <td>${s.approved ? "مفعل" : "غير مفعل"}</td>
+                                                                                                                                                                                                                                                                <td>${scores[s.email] || "-"}</td>
+                                                                                                                                                                                                                                                                                <td>
+                                                                                                                                                                                                                                                  <button class="custom-btn" onclick="editStudent('${s.email}')">تعديل</button>
+                                                                                                                                                                                                                                                  <button class="custom-btn" onclick="toggleApprove('${s.email}')">
+                                                                                                                                                                                                                                                    ${s.approved ? "إلغاء التفعيل" : "تفعيل"}
+                                                                                                                                                                                                                                                  </button>
+                                                                                                                                                                                                                                                  <button class="custom-btn" onclick="deleteUser('${s.email}')">حذف</button>
+</td>
+                                                                                                                                                                                                                                                              </tr>`
+                        )
+                        .join("")}
+                                                                                                                                                                                                                                                          </tbody>
+                                                                                                                                                                                                                                                        </table>
+                                                                                                                                                                                                                                                      </div>`;
+                container.classList.remove("hidden");
+                // إخفاء باقي
+                ["supervisorsList", "testsList", "resultsList"].forEach((id) =>
+                    document.getElementById(id).classList.add("hidden")
+                );
+            }
+
+            // عرض نموذج إضافة طالب
+            function showAddStudentModal() {
+                document.getElementById("newStudentEmail").value = "";
+                document.getElementById("newStudentPassword").value = "";
+                document.getElementById("studentModal").style.display = "flex";
+            }
+
+            // إضافة طالب جديد
+            function addStudent() {
+                const email = document.getElementById("newStudentEmail").value.trim();
+                const password = document.getElementById("newStudentPassword").value.trim();
+                if (!email || !password) {
+                    alert("يرجى إدخال البريد الإلكتروني وكلمة المرور!");
+                    return;
+                }
+                if (users.find((u) => u.email === email)) {
+                    alert("هذا البريد مستخدم بالفعل!");
+                    return;
+                }
+                users.push({ email, password, role: "STUDENT", approved: true });
+                saveData();
+                closeModal("studentModal");
+                renderStudents();
+            }
+
+            // إدارة المشرفين
+            function renderSupervisors() {
+                const container = document.getElementById("supervisorsList");
+                container.innerHTML = `
+                                                                                                                                                                                                                                                      <h4>المشرفون</h4>
+                                                                                                                                                                                                                                                      <button class="custom-btn" onclick="showAddSupervisorModal()">إضافة مشرف</button>
+                                                                                                                                                                                                                                                      <div class="table-container">
+                                                                                                                                                                                                                                                        <table>
+                                                                                                                                                                                                                                                          <thead>
+                                                                                                                                                                                                                                                            <tr>
+                                                                                                                                                                                                                                                              <th>البريد الإلكتروني</th>
+                                                                                                                                                                                                                                                              <th>خيارات</th>
+                                                                                                                                                                                                                                                            </tr>
+                                                                                                                                                                                                                                                          </thead>
+                                                                                                                                                                                                                                                          <tbody>
+                                                                                                                                                                                                                                                            ${users
+                        .filter((u) => u.role === "SUPERVISOR")
+                        .map(
+                            (s) => `
+                                                                                                                                                                                                                                                              <tr>
+                                                                                                                                                                                                                                                                <td>${s.email}</td>
+                                                                                                                                                                                                                                                                <td>
+                                                                                                                                                                                                                                                                  <button class="custom-btn" onclick="deleteUser('${s.email}')">حذف</button>
+                                                                                                                                                                                                                                                                </td>
+                                                                                                                                                                                                                                                              </tr>`
+                        )
+                        .join("")}
+                                                                                                                                                                                                                                                          </tbody>
+                                                                                                                                                                                                                                                        </table>
+                                                                                                                                                                                                                                                      </div>`;
+                container.classList.remove("hidden");
+                // إخفاء باقي
+                ["studentsList", "testsList", "resultsList"].forEach((id) =>
+                    document.getElementById(id).classList.add("hidden")
+                );
+            }
+
+            // عرض نموذج إضافة مشرف
+            function showAddSupervisorModal() {
+                document.getElementById("newSupervisorEmail").value = "";
+                document.getElementById("newSupervisorPassword").value = "";
+                document.getElementById("supervisorModal").style.display = "flex";
+            }
+
+            // إضافة مشرف جديد
+            function addSupervisor() {
+                const email = document.getElementById("newSupervisorEmail").value.trim();
+                const password = document.getElementById("newSupervisorPassword").value.trim();
+                if (!email || !password) {
+                    alert("يرجى إدخال البريد الإلكتروني وكلمة المرور!");
+                    return;
+                }
+                if (users.find((u) => u.email === email)) {
+                    alert("هذا البريد مستخدم بالفعل!");
+                    return;
+                }
+                users.push({ email, password, role: "SUPERVISOR" });
+                saveData();
+                closeModal("supervisorModal");
+                renderSupervisors();
+            }
+
+            // حذف مستخدم
+            function deleteUser(email) {
+                if (!confirm("هل أنت متأكد من الحذف؟")) return;
+                users = users.filter((u) => u.email !== email);
+                saveData();
+                if (currentUser && (currentUser.role === "ADMIN" || currentUser.role === "SUPERVISOR")) {
+                    renderStudents();
+                    renderSupervisors();
+                }
+            }
+
+            // تفعيل/إلغاء تفعيل طالب
+            function toggleApprove(email) {
+                const user = users.find((u) => u.email === email);
+                if (!user) return;
+                user.approved = !user.approved;
+                saveData();
+                renderStudents();
+            }
+
+            // إغلاق النماذج
+            function closeModal(id) {
+                document.getElementById(id).style.display = "none";
+            }
+
+            // أقسام الإدارة الأخرى (نموذج مبدئي)
+            function renderTests() {
+                const container = document.getElementById("testsList");
+                container.innerHTML = `<h4>قائمة الاختبارات</h4><p>هنا يمكنك إضافة وإدارة الاختبارات لاحقاً.</p>`;
+                container.classList.remove("hidden");
+                ["studentsList", "supervisorsList", "resultsList"].forEach((id) =>
+                    document.getElementById(id).classList.add("hidden")
+                );
+            }
+            function renderResults() {
+                const container = document.getElementById("resultsList");
+                container.innerHTML = `<h4>النتائج الأسبوعية</h4><p>هنا يمكنك عرض نتائج الامتحانات الأسبوعية للطلاب.</p>`;
+                container.classList.remove("hidden");
+                ["studentsList", "supervisorsList", "testsList"].forEach((id) =>
+                    document.getElementById(id).classList.add("hidden")
+                );
+            }
+
+            // إعادة تعيين التنقل (اخفاء كل الصفحات عدا الرئيسية)
+            function resetNavigation() {
+                document.getElementById("gradePage").classList.add("hidden");
+                document.getElementById("subjectPage").classList.add("hidden");
+                document.getElementById("unitPage").classList.add("hidden");
+                document.getElementById("lessonPage").classList.add("hidden");
+
+                // ✅ إخفاء مسار الدرس في كل التنقلات
+                document.getElementById("lessonPath").style.display = "none";
+            }
+
+            // 🔴 إيقاف الفيديو عند مغادرة صفحة الدرس
+            function stopVideo() {
+                const video = document.getElementById("lessonPlayer");
+                if (video) {
+                    video.pause();
+                    video.currentTime = 0;
+                    video.src = "";
+                }
+            }
+            function updateLessonNav(showBackUnit = true) {
+                const btnBackUnit = document.getElementById("btnBackUnit");
+                const btnHome = document.getElementById("btnHome");
+
+                if (btnBackUnit) {
+                    btnBackUnit.style.display = showBackUnit ? "inline-block" : "none";
+                }
+
+                if (btnHome) {
+                    btnHome.style.display = "inline-block";
+                }
+            }
+            function updateGlobalNav(show) {
+                const nav = document.getElementById("globalNav");
+                if (!nav) return;
+
+                if (show) {
+                    nav.classList.remove("hidden");
+                } else {
+                    nav.classList.add("hidden");
+                }
+            }
+
+            function toggleLessons() {
+                const list = document.getElementById("lessonList");
+                list.style.display = list.style.display === "none" ? "block" : "none";
+            }
+
+            function toggleDarkMode() {
+                document.body.classList.toggle("dark-mode");
+
+                // حفظ الاختيار
+                localStorage.setItem(
+                    "darkMode",
+                    document.body.classList.contains("dark-mode")
+                );
+            }
+
+            // تحميل الوضع المحفوظ
+            if (localStorage.getItem("darkMode") === "true") {
+                document.body.classList.add("dark-mode");
+            }
+
+
+        </script>
+        <!--<div>
+    <script src="js/auth.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/lessons.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/app.js"></script>
+    </div>-->
+        <script>
+
+            // ===============================
+            // 📲 PWA Install Button Logic
+            // ===============================
+            let deferredPrompt;
+            const installBtn = document.getElementById("installBtn");
+
+            window.addEventListener("beforeinstallprompt", (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                installBtn.classList.remove("hidden");
+            });
+
+            installBtn.addEventListener("click", async () => {
+                if (!deferredPrompt) return;
+                deferredPrompt.prompt();
+                await deferredPrompt.userChoice;
+                deferredPrompt = null;
+                installBtn.classList.add("hidden");
+            });
+
+        </script>
+
+
+
+
+
+
+        <script>
+            if ("serviceWorker" in navigator) {
+                navigator.serviceWorker.register("/sw.js")
+                    .then(() => console.log("Service Worker Registered"))
+                    .catch(err => console.log("SW registration failed:", err));
+            }
+        </script>
+
+
+</body>
+</html>
+
