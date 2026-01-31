@@ -335,6 +335,7 @@ let users = JSON.parse(localStorage.getItem("users") || "[]");
             }
 
           // تسجيل الدخول (Firestore)
+// تسجيل الدخول (Firestore) - يعمل حتى لو Document ID ليس الإيميل
 async function login() {
     const email = document.getElementById("email").value.trim().toLowerCase();
     const password = document.getElementById("password").value.trim();
@@ -345,18 +346,24 @@ async function login() {
     }
 
     try {
-        const { doc, getDoc } = window.firestoreTools;
+        const { collection, getDocs, query, where } = window.firestoreTools;
 
-        // 👇 نبحث عن المستخدم في Firestore داخل collection اسمها students
-        const userRef = doc(window.db, "students", email);
-        const snap = await getDoc(userRef);
+        // 🔍 البحث عن المستخدم داخل students عن طريق email
+        const q = query(
+            collection(window.db, "students"),
+            where("email", "==", email)
+        );
 
-        if (!snap.exists()) {
+        const snap = await getDocs(q);
+
+        if (snap.empty) {
             alert("هذا الحساب غير موجود ❌");
             return;
         }
 
-        const user = snap.data();
+        // أول نتيجة
+        const userDoc = snap.docs[0];
+        const user = userDoc.data();
 
         // التحقق من كلمة المرور
         if (user.password !== password) {
@@ -385,7 +392,7 @@ async function login() {
         document.querySelector(".logout-btn").classList.remove("hidden");
 
         // عرض اسم المستخدم في الـ navbar
-        document.getElementById("navUser").textContent = " | " + currentUser.email;
+        document.getElementById("navUser").textContent = " | " + (user.email || email);
 
         // عرض الصفوف
         renderGrades();
@@ -403,6 +410,7 @@ async function login() {
         alert("حدث خطأ أثناء تسجيل الدخول ❌\n" + err.message);
     }
 }
+
 
 
                 // 👇 إخفاء رسالة الترحيب
@@ -1156,6 +1164,7 @@ async function login() {
 
 </body>
 </html>
+
 
 
 
