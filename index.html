@@ -282,8 +282,8 @@
                 });
             });
 
-            let users = JSON.parse(
-                localStorage.getItem("users") || JSON.stringify(defaultUsers)
+            let users = JSON.parse(localStorage.getItem("users") || "[]");
+
             );
 
             let scores = JSON.parse(localStorage.getItem("scores") || "{}");
@@ -1118,4 +1118,5 @@
 
 </body>
 </html>
+
 
