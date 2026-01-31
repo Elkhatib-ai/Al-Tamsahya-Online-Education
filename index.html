@@ -205,21 +205,11 @@
         <footer>© 2026 منصة التعليم المصرية</footer>
 
         <script>
-            // بيانات افتراضية
-            const defaultUsers = [
-                {
-                    email: "mohsen@school.com",
-                    password: "admin123",
-                    role: "ADMIN",
-                    approved: true
-                },
-                {
-                    email: "khatib@school.com",
-                    password: "khatib123",
-                    role: "SUPERVISOR",
-                    approved: true
-                }
-            ];
+          // ✅ لا نستخدم defaultUsers نهائيًا
+// لأن الحسابات أصبحت من Firestore وليس من داخل الكود
+
+let users = JSON.parse(localStorage.getItem("users") || "[]");
+
 
             const grades = ["الصف الأول الإعدادي", "الصف الثاني الإعدادي", "الصف الثالث الإعدادي"];
             const subjectsPerGrade = {
@@ -1118,5 +1108,6 @@
 
 </body>
 </html>
+
 
 
