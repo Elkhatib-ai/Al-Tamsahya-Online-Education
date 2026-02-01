@@ -272,10 +272,9 @@ let users = JSON.parse(localStorage.getItem("users") || "[]");
                 });
             });
 
-            let users = JSON.parse(localStorage.getItem("users") || "[]");
+            
 
-            );
-
+          
             let scores = JSON.parse(localStorage.getItem("scores") || "{}");
 
             let currentUser = null;
@@ -336,12 +335,13 @@ let users = JSON.parse(localStorage.getItem("users") || "[]");
 
           // تسجيل الدخول (Firestore)
 // تسجيل الدخول (Firestore) - يعمل حتى لو Document ID ليس الإيميل
+// تسجيل الدخول (Firestore) - يعمل حتى لو Document ID ليس الإيميل
 async function login() {
     const email = document.getElementById("email").value.trim().toLowerCase();
     const password = document.getElementById("password").value.trim();
 
     if (!email || !password) {
-        alert("يرجى إدخال البريد الإلكتروني وكلمة المرور!");
+        alert("من فضلك أدخل البريد وكلمة المرور");
         return;
     }
 
@@ -371,25 +371,15 @@ async function login() {
             return;
         }
 
-        // منع الطالب غير المفعل
-        if (user.role === "STUDENT" && user.approved === false) {
-            alert("حسابك لم يتم تفعيله بعد!");
-            return;
-        }
-
-        // ✅ تسجيل الدخول
         currentUser = user;
+
+        // إخفاء صفحة الدخول وإظهار الرئيسية
+        document.getElementById("loginPage").classList.add("hidden");
+        document.getElementById("mainPage").classList.remove("hidden");
+        document.querySelector(".logout-btn").classList.remove("hidden");
 
         // 👇 إخفاء رسالة الترحيب
         document.getElementById("welcomeMessage").classList.add("hidden");
-
-        // إخفاء صفحات الدخول والتسجيل
-        document.getElementById("loginPage").classList.add("hidden");
-        document.getElementById("registerPage").classList.add("hidden");
-
-        // عرض الصفحة الرئيسية
-        document.getElementById("mainPage").classList.remove("hidden");
-        document.querySelector(".logout-btn").classList.remove("hidden");
 
         // عرض اسم المستخدم في الـ navbar
         document.getElementById("navUser").textContent = " | " + (user.email || email);
@@ -397,17 +387,9 @@ async function login() {
         // عرض الصفوف
         renderGrades();
 
-        // إظهار لوحة الإدارة للـ Admin و Supervisor فقط
-        document.getElementById("adminPanel").classList.toggle(
-            "hidden",
-            !(user.role === "ADMIN" || user.role === "SUPERVISOR")
-        );
-
-        hideAllAdminSections();
-
     } catch (err) {
         console.error(err);
-        alert("حدث خطأ أثناء تسجيل الدخول ❌\n" + err.message);
+        alert("حدث خطأ أثناء تسجيل الدخول ❌");
     }
 }
 
@@ -1164,6 +1146,7 @@ async function login() {
 
 </body>
 </html>
+
 
 
 
