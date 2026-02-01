@@ -370,22 +370,28 @@ async function login() {
             alert("كلمة المرور غير صحيحة ❌");
             return;
         }
+currentUser = user;
 
-        currentUser = user;
+// إخفاء صفحة الدخول وإظهار الرئيسية
+document.getElementById("loginPage").classList.add("hidden");
+document.getElementById("mainPage").classList.remove("hidden");
+document.querySelector(".logout-btn").classList.remove("hidden");
 
-        // إخفاء صفحة الدخول وإظهار الرئيسية
-        document.getElementById("loginPage").classList.add("hidden");
-        document.getElementById("mainPage").classList.remove("hidden");
-        document.querySelector(".logout-btn").classList.remove("hidden");
+// 👇 إخفاء رسالة الترحيب
+document.getElementById("welcomeMessage").classList.add("hidden");
 
-        // 👇 إخفاء رسالة الترحيب
-        document.getElementById("welcomeMessage").classList.add("hidden");
+// عرض اسم المستخدم في الـ navbar
+document.getElementById("navUser").textContent = " | " + (user.email || email);
 
-        // عرض اسم المستخدم في الـ navbar
-        document.getElementById("navUser").textContent = " | " + (user.email || email);
+// ✅ إظهار لوحة الإدارة فقط لو ADMIN
+if (user.role && user.role.toUpperCase() === "ADMIN") {
+    document.getElementById("adminPanel").classList.remove("hidden");
+} else {
+    document.getElementById("adminPanel").classList.add("hidden");
+}
 
-        // عرض الصفوف
-        renderGrades();
+// عرض الصفوف
+renderGrades();
 
     } catch (err) {
         console.error(err);
@@ -1136,6 +1142,7 @@ async function login() {
 
 </body>
 </html>
+
 
 
 
