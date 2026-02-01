@@ -208,7 +208,7 @@
           // ✅ لا نستخدم defaultUsers نهائيًا
 // لأن الحسابات أصبحت من Firestore وليس من داخل الكود
 
-let users = JSON.parse(localStorage.getItem("users") || "[]");
+// let users = JSON.parse(localStorage.getItem("users") || "[]");
 
 
             const grades = ["الصف الأول الإعدادي", "الصف الثاني الإعدادي", "الصف الثالث الإعدادي"];
@@ -328,10 +328,10 @@ let users = JSON.parse(localStorage.getItem("users") || "[]");
 
 
             // حفظ البيانات
-            function saveData() {
-                localStorage.setItem("users", JSON.stringify(users));
-                localStorage.setItem("scores", JSON.stringify(scores));
-            }
+            // function saveData() {
+            //     localStorage.setItem("users", JSON.stringify(users));
+            //     localStorage.setItem("scores", JSON.stringify(scores));
+            // }
 
          // تسجيل الدخول (Firestore) - يعمل حتى لو Document ID ليس الإيميل
 async function login() {
@@ -346,9 +346,9 @@ async function login() {
     try {
         const { collection, getDocs, query, where } = window.firestoreTools;
 
-        // 🔍 البحث عن المستخدم داخل students عن طريق email
+        // نبحث في users (وليس students فقط)
         const q = query(
-            collection(window.db, "students"),
+            collection(window.db, "users"),
             where("email", "==", email)
         );
 
@@ -359,57 +359,51 @@ async function login() {
             return;
         }
 
-        // أول نتيجة
         const userDoc = snap.docs[0];
         const user = userDoc.data();
 
-        // التحقق من كلمة المرور
-        if (!user.password || user.password !== password) {
+        // تحقق كلمة المرور
+        if (user.password !== password) {
             alert("كلمة المرور غير صحيحة ❌");
             return;
         }
 
-        // ✅ role آمن
-        const role = (user.role || "").toString().trim().toUpperCase();
-
-        // ✅ لو طالب ومش approved يمنع الدخول (الأدمن يدخل عادي)
-        if (role !== "ADMIN" && user.approved !== true) {
-            alert("حسابك قيد المراجعة من الإدارة ⏳");
+        // تحقق التفعيل للطلاب فقط
+        const role = (user.role || "").toUpperCase();
+        if (role === "STUDENT" && user.approved !== true) {
+            alert("حسابك قيد المراجعة ولم يتم تفعيله بعد ⏳");
             return;
         }
 
-        // حفظ المستخدم الحالي
-        currentUser = user;
+        // تسجيل المستخدم الحالي
+        currentUser = { ...user, id: userDoc.id };
 
         // إخفاء صفحة الدخول وإظهار الرئيسية
         document.getElementById("loginPage").classList.add("hidden");
         document.getElementById("mainPage").classList.remove("hidden");
         document.querySelector(".logout-btn").classList.remove("hidden");
 
-        // 👇 إخفاء رسالة الترحيب
+        // إخفاء رسالة الترحيب
         document.getElementById("welcomeMessage").classList.add("hidden");
 
-        // عرض اسم المستخدم في الـ navbar
+        // عرض اسم المستخدم
         document.getElementById("navUser").textContent = " | " + (user.email || email);
 
-        // ✅ إظهار لوحة الإدارة فقط لو ADMIN
-        const adminPanel = document.getElementById("adminPanel");
-        if (adminPanel) {
-            if (role === "ADMIN") {
-                adminPanel.classList.remove("hidden");
-            } else {
-                adminPanel.classList.add("hidden");
-            }
+        // لوحة الإدارة تظهر فقط للأدمن
+        if (role === "ADMIN") {
+            document.getElementById("adminPanel").classList.remove("hidden");
+        } else {
+            document.getElementById("adminPanel").classList.add("hidden");
         }
 
-        // عرض الصفوف
         renderGrades();
 
     } catch (err) {
-        console.error("LOGIN ERROR:", err);
+        console.error(err);
         alert("حدث خطأ أثناء تسجيل الدخول ❌");
     }
 }
+
 
 
 
@@ -1153,6 +1147,7 @@ async function login() {
 
 </body>
 </html>
+
 
 
 
