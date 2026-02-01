@@ -275,7 +275,7 @@
             
 
           
-            let scores = JSON.parse(localStorage.getItem("scores") || "{}");
+            // let scores = JSON.parse(localStorage.getItem("scores") || "{}");
 
             let currentUser = null;
             let currentGrade = null;
@@ -333,7 +333,7 @@
             //     localStorage.setItem("scores", JSON.stringify(scores));
             // }
 
-         // تسجيل الدخول (Firestore) - يعمل حتى لو Document ID ليس الإيميل
+         // تسجيل الدخول (Admin + Student)
 async function login() {
     const email = document.getElementById("email").value.trim().toLowerCase();
     const password = document.getElementById("password").value.trim();
@@ -346,55 +346,83 @@ async function login() {
     try {
         const { collection, getDocs, query, where } = window.firestoreTools;
 
-        // نبحث في users (وليس students فقط)
-        const q = query(
-            collection(window.db, "users"),
+        // =========================
+        // 1) البحث داخل admins أولاً
+        // =========================
+        const adminQuery = query(
+            collection(window.db, "admins"),
             where("email", "==", email)
         );
 
-        const snap = await getDocs(q);
+        const adminSnap = await getDocs(adminQuery);
 
-        if (snap.empty) {
+        if (!adminSnap.empty) {
+            const adminDoc = adminSnap.docs[0];
+            const admin = adminDoc.data();
+
+            if (admin.password !== password) {
+                alert("كلمة المرور غير صحيحة ❌");
+                return;
+            }
+
+            // تسجيل دخول الأدمن
+            currentUser = { ...admin, id: adminDoc.id, role: "ADMIN" };
+
+            document.getElementById("loginPage").classList.add("hidden");
+            document.getElementById("mainPage").classList.remove("hidden");
+            document.querySelector(".logout-btn").classList.remove("hidden");
+
+            document.getElementById("welcomeMessage").classList.add("hidden");
+            document.getElementById("navUser").textContent = " | " + admin.email;
+
+            // ✅ إظهار لوحة الإدارة
+            document.getElementById("adminPanel").classList.remove("hidden");
+
+            renderGrades();
+            return;
+        }
+
+        // =========================
+        // 2) لو مش أدمن → نبحث داخل students
+        // =========================
+        const studentQuery = query(
+            collection(window.db, "students"),
+            where("email", "==", email)
+        );
+
+        const studentSnap = await getDocs(studentQuery);
+
+        if (studentSnap.empty) {
             alert("هذا الحساب غير موجود ❌");
             return;
         }
 
-        const userDoc = snap.docs[0];
-        const user = userDoc.data();
+        const studentDoc = studentSnap.docs[0];
+        const student = studentDoc.data();
 
-        // تحقق كلمة المرور
-        if (user.password !== password) {
+        if (student.password !== password) {
             alert("كلمة المرور غير صحيحة ❌");
             return;
         }
 
-        // تحقق التفعيل للطلاب فقط
-        const role = (user.role || "").toUpperCase();
-        if (role === "STUDENT" && user.approved !== true) {
+        // منع الدخول لو الحساب غير مفعل
+        if (student.approved !== true) {
             alert("حسابك قيد المراجعة ولم يتم تفعيله بعد ⏳");
             return;
         }
 
-        // تسجيل المستخدم الحالي
-        currentUser = { ...user, id: userDoc.id };
+        // تسجيل دخول الطالب
+        currentUser = { ...student, id: studentDoc.id, role: "STUDENT" };
 
-        // إخفاء صفحة الدخول وإظهار الرئيسية
         document.getElementById("loginPage").classList.add("hidden");
         document.getElementById("mainPage").classList.remove("hidden");
         document.querySelector(".logout-btn").classList.remove("hidden");
 
-        // إخفاء رسالة الترحيب
         document.getElementById("welcomeMessage").classList.add("hidden");
+        document.getElementById("navUser").textContent = " | " + student.email;
 
-        // عرض اسم المستخدم
-        document.getElementById("navUser").textContent = " | " + (user.email || email);
-
-        // لوحة الإدارة تظهر فقط للأدمن
-        if (role === "ADMIN") {
-            document.getElementById("adminPanel").classList.remove("hidden");
-        } else {
-            document.getElementById("adminPanel").classList.add("hidden");
-        }
+        // ❌ إخفاء لوحة الإدارة للطلاب
+        document.getElementById("adminPanel").classList.add("hidden");
 
         renderGrades();
 
@@ -403,6 +431,8 @@ async function login() {
         alert("حدث خطأ أثناء تسجيل الدخول ❌");
     }
 }
+
+
 
 
 
@@ -860,156 +890,296 @@ async function login() {
 
 
             // إدارة الطلاب (تعرض فقط للمدير والمشرف)
-            function renderStudents() {
-                const container = document.getElementById("studentsList");
-                container.innerHTML = `
-                                                                                                                                                                                                                                                      <h4>قائمة الطلاب</h4>
-                                                                                                                                                                                                                                                      <button class="custom-btn" onclick="showAddStudentModal()">إضافة طالب</button>
-                                                                                                                                                                                                                                                      <div class="table-container">
-                                                                                                                                                                                                                                                        <table>
-                                                                                                                                                                                                                                                          <thead>
-                                                                                                                                                                                                                                                            <tr>
-                                                                                                                                                                                                                                                              <th>البريد الإلكتروني</th>
-                                                                                                                                                                                                                                                              <th>الحالة</th>
-                                                                                                                                                                                                                                                              <th>الدرجة</th>
-                                                                                                                                                                                                                                                              <th>خيارات</th>
-                                                                                                                                                                                                                                                            </tr>
-                                                                                                                                                                                                                                                          </thead>
-                                                                                                                                                                                                                                                          <tbody>
-                                                                                                                                                                                                                                                            ${users
-                        .filter((u) => u.role === "STUDENT")
-                        .map(
-                            (s) => `
-                                                                                                                                                                                                                                                              <tr>
-                                                                                                                                                                                                                                                                <td>${s.email}</td>
-                                                                                                                                                                                                                                                                <td>${s.approved ? "مفعل" : "غير مفعل"}</td>
-                                                                                                                                                                                                                                                                <td>${scores[s.email] || "-"}</td>
-                                                                                                                                                                                                                                                                                <td>
-                                                                                                                                                                                                                                                  <button class="custom-btn" onclick="editStudent('${s.email}')">تعديل</button>
-                                                                                                                                                                                                                                                  <button class="custom-btn" onclick="toggleApprove('${s.email}')">
-                                                                                                                                                                                                                                                    ${s.approved ? "إلغاء التفعيل" : "تفعيل"}
-                                                                                                                                                                                                                                                  </button>
-                                                                                                                                                                                                                                                  <button class="custom-btn" onclick="deleteUser('${s.email}')">حذف</button>
-</td>
-                                                                                                                                                                                                                                                              </tr>`
-                        )
-                        .join("")}
-                                                                                                                                                                                                                                                          </tbody>
-                                                                                                                                                                                                                                                        </table>
-                                                                                                                                                                                                                                                      </div>`;
-                container.classList.remove("hidden");
-                // إخفاء باقي
-                ["supervisorsList", "testsList", "resultsList"].forEach((id) =>
-                    document.getElementById(id).classList.add("hidden")
-                );
-            }
+// ==============================
+// 👨‍💼 إدارة الطلاب والمشرفين (Firestore)
+// ==============================
 
-            // عرض نموذج إضافة طالب
-            function showAddStudentModal() {
-                document.getElementById("newStudentEmail").value = "";
-                document.getElementById("newStudentPassword").value = "";
-                document.getElementById("studentModal").style.display = "flex";
-            }
+// عرض قائمة الطلاب
+async function renderStudents() {
+    const container = document.getElementById("studentsList");
 
-            // إضافة طالب جديد
-            function addStudent() {
-                const email = document.getElementById("newStudentEmail").value.trim();
-                const password = document.getElementById("newStudentPassword").value.trim();
-                if (!email || !password) {
-                    alert("يرجى إدخال البريد الإلكتروني وكلمة المرور!");
-                    return;
-                }
-                if (users.find((u) => u.email === email)) {
-                    alert("هذا البريد مستخدم بالفعل!");
-                    return;
-                }
-                users.push({ email, password, role: "STUDENT", approved: true });
-                saveData();
-                closeModal("studentModal");
-                renderStudents();
-            }
+    container.classList.remove("hidden");
+    ["supervisorsList", "testsList", "resultsList"].forEach((id) =>
+        document.getElementById(id).classList.add("hidden")
+    );
 
-            // إدارة المشرفين
-            function renderSupervisors() {
-                const container = document.getElementById("supervisorsList");
-                container.innerHTML = `
-                                                                                                                                                                                                                                                      <h4>المشرفون</h4>
-                                                                                                                                                                                                                                                      <button class="custom-btn" onclick="showAddSupervisorModal()">إضافة مشرف</button>
-                                                                                                                                                                                                                                                      <div class="table-container">
-                                                                                                                                                                                                                                                        <table>
-                                                                                                                                                                                                                                                          <thead>
-                                                                                                                                                                                                                                                            <tr>
-                                                                                                                                                                                                                                                              <th>البريد الإلكتروني</th>
-                                                                                                                                                                                                                                                              <th>خيارات</th>
-                                                                                                                                                                                                                                                            </tr>
-                                                                                                                                                                                                                                                          </thead>
-                                                                                                                                                                                                                                                          <tbody>
-                                                                                                                                                                                                                                                            ${users
-                        .filter((u) => u.role === "SUPERVISOR")
-                        .map(
-                            (s) => `
-                                                                                                                                                                                                                                                              <tr>
-                                                                                                                                                                                                                                                                <td>${s.email}</td>
-                                                                                                                                                                                                                                                                <td>
-                                                                                                                                                                                                                                                                  <button class="custom-btn" onclick="deleteUser('${s.email}')">حذف</button>
-                                                                                                                                                                                                                                                                </td>
-                                                                                                                                                                                                                                                              </tr>`
-                        )
-                        .join("")}
-                                                                                                                                                                                                                                                          </tbody>
-                                                                                                                                                                                                                                                        </table>
-                                                                                                                                                                                                                                                      </div>`;
-                container.classList.remove("hidden");
-                // إخفاء باقي
-                ["studentsList", "testsList", "resultsList"].forEach((id) =>
-                    document.getElementById(id).classList.add("hidden")
-                );
-            }
+    container.innerHTML = `
+        <h4>قائمة الطلاب</h4>
+        <button class="custom-btn" onclick="showAddStudentModal()">إضافة طالب</button>
+        <p>جاري تحميل الطلاب...</p>
+    `;
 
-            // عرض نموذج إضافة مشرف
-            function showAddSupervisorModal() {
-                document.getElementById("newSupervisorEmail").value = "";
-                document.getElementById("newSupervisorPassword").value = "";
-                document.getElementById("supervisorModal").style.display = "flex";
-            }
+    try {
+        const { collection, getDocs, query, where } = window.firestoreTools;
 
-            // إضافة مشرف جديد
-            function addSupervisor() {
-                const email = document.getElementById("newSupervisorEmail").value.trim();
-                const password = document.getElementById("newSupervisorPassword").value.trim();
-                if (!email || !password) {
-                    alert("يرجى إدخال البريد الإلكتروني وكلمة المرور!");
-                    return;
-                }
-                if (users.find((u) => u.email === email)) {
-                    alert("هذا البريد مستخدم بالفعل!");
-                    return;
-                }
-                users.push({ email, password, role: "SUPERVISOR" });
-                saveData();
-                closeModal("supervisorModal");
-                renderSupervisors();
-            }
+        // 🔥 نجلب الطلاب من students مباشرة
+        const q = query(collection(window.db, "students"));
+        const snap = await getDocs(q);
 
-            // حذف مستخدم
-            function deleteUser(email) {
-                if (!confirm("هل أنت متأكد من الحذف؟")) return;
-                users = users.filter((u) => u.email !== email);
-                saveData();
-                if (currentUser && (currentUser.role === "ADMIN" || currentUser.role === "SUPERVISOR")) {
-                    renderStudents();
-                    renderSupervisors();
-                }
-            }
+        let rows = "";
 
-            // تفعيل/إلغاء تفعيل طالب
-            function toggleApprove(email) {
-                const user = users.find((u) => u.email === email);
-                if (!user) return;
-                user.approved = !user.approved;
-                saveData();
-                renderStudents();
-            }
+        snap.forEach((docSnap) => {
+            const s = docSnap.data();
+            const id = docSnap.id;
+
+            rows += `
+                <tr>
+                    <td>${s.email || "-"}</td>
+                    <td>${s.approved ? "مفعل" : "غير مفعل"}</td>
+                    <td>${(typeof scores !== "undefined" && scores[s.email]) ? scores[s.email] : "-"}</td>
+                    <td>
+                        <button class="custom-btn" onclick="editStudent('${s.email || ""}')">تعديل</button>
+
+                        <button class="custom-btn" onclick="toggleApprove('${id}', ${s.approved ? "true" : "false"})">
+                            ${s.approved ? "إلغاء التفعيل" : "تفعيل"}
+                        </button>
+
+                        <button class="custom-btn" onclick="deleteUser('${id}', 'students')">حذف</button>
+                    </td>
+                </tr>
+            `;
+        });
+
+        container.innerHTML = `
+            <h4>قائمة الطلاب</h4>
+            <button class="custom-btn" onclick="showAddStudentModal()">إضافة طالب</button>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>البريد الإلكتروني</th>
+                            <th>الحالة</th>
+                            <th>الدرجة</th>
+                            <th>خيارات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rows || `<tr><td colspan="4">لا يوجد طلاب حاليا</td></tr>`}
+                    </tbody>
+                </table>
+            </div>
+        `;
+
+    } catch (err) {
+        console.error(err);
+        container.innerHTML = `<p>حدث خطأ أثناء تحميل الطلاب ❌</p>`;
+    }
+}
+
+// عرض نموذج إضافة طالب
+function showAddStudentModal() {
+    document.getElementById("newStudentEmail").value = "";
+    document.getElementById("newStudentPassword").value = "";
+    document.getElementById("studentModal").style.display = "flex";
+}
+
+// إضافة طالب جديد (Firestore)
+async function addStudent() {
+    const email = document.getElementById("newStudentEmail").value.trim().toLowerCase();
+    const password = document.getElementById("newStudentPassword").value.trim();
+
+    if (!email || !password) {
+        alert("يرجى إدخال البريد الإلكتروني وكلمة المرور!");
+        return;
+    }
+
+    try {
+        const { collection, addDoc, getDocs, query, where } = window.firestoreTools;
+
+        // ✅ منع التكرار
+        const q = query(collection(window.db, "students"), where("email", "==", email));
+        const snap = await getDocs(q);
+
+        if (!snap.empty) {
+            alert("هذا البريد مستخدم بالفعل!");
+            return;
+        }
+
+        await addDoc(collection(window.db, "students"), {
+            name: email.split("@")[0],
+            email,
+            password,
+            role: "STUDENT",
+            approved: true, // الأدمن يضيفه مفعل
+            createdAt: new Date().toISOString()
+        });
+
+        alert("تمت إضافة الطالب بنجاح ✅");
+
+        closeModal("studentModal");
+        renderStudents();
+
+    } catch (err) {
+        console.error(err);
+        alert("حدث خطأ أثناء إضافة الطالب ❌");
+    }
+}
+
+
+// ==============================
+// 👨‍🏫 إدارة المشرفين
+// ==============================
+
+async function renderSupervisors() {
+    const container = document.getElementById("supervisorsList");
+
+    container.classList.remove("hidden");
+    ["studentsList", "testsList", "resultsList"].forEach((id) =>
+        document.getElementById(id).classList.add("hidden")
+    );
+
+    container.innerHTML = `
+        <h4>المشرفون</h4>
+        <button class="custom-btn" onclick="showAddSupervisorModal()">إضافة مشرف</button>
+        <p>جاري تحميل المشرفين...</p>
+    `;
+
+    try {
+        const { collection, getDocs, query, where } = window.firestoreTools;
+
+        // 🔥 نجلب المشرفين من users role=SUPERVISOR
+        const q = query(
+            collection(window.db, "users"),
+            where("role", "==", "SUPERVISOR")
+        );
+
+        const snap = await getDocs(q);
+
+        let rows = "";
+
+        snap.forEach((docSnap) => {
+            const s = docSnap.data();
+            const id = docSnap.id;
+
+            rows += `
+                <tr>
+                    <td>${s.email || "-"}</td>
+                    <td>
+                        <button class="custom-btn" onclick="deleteUser('${id}', 'users')">حذف</button>
+                    </td>
+                </tr>
+            `;
+        });
+
+        container.innerHTML = `
+            <h4>المشرفون</h4>
+            <button class="custom-btn" onclick="showAddSupervisorModal()">إضافة مشرف</button>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>البريد الإلكتروني</th>
+                            <th>خيارات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rows || `<tr><td colspan="2">لا يوجد مشرفين حاليا</td></tr>`}
+                    </tbody>
+                </table>
+            </div>
+        `;
+
+    } catch (err) {
+        console.error(err);
+        container.innerHTML = `<p>حدث خطأ أثناء تحميل المشرفين ❌</p>`;
+    }
+}
+
+// عرض نموذج إضافة مشرف
+function showAddSupervisorModal() {
+    document.getElementById("newSupervisorEmail").value = "";
+    document.getElementById("newSupervisorPassword").value = "";
+    document.getElementById("supervisorModal").style.display = "flex";
+}
+
+// إضافة مشرف جديد (Firestore)
+async function addSupervisor() {
+    const email = document.getElementById("newSupervisorEmail").value.trim().toLowerCase();
+    const password = document.getElementById("newSupervisorPassword").value.trim();
+
+    if (!email || !password) {
+        alert("يرجى إدخال البريد الإلكتروني وكلمة المرور!");
+        return;
+    }
+
+    try {
+        const { collection, addDoc, getDocs, query, where } = window.firestoreTools;
+
+        // ✅ منع التكرار
+        const q = query(collection(window.db, "users"), where("email", "==", email));
+        const snap = await getDocs(q);
+
+        if (!snap.empty) {
+            alert("هذا البريد مستخدم بالفعل!");
+            return;
+        }
+
+        await addDoc(collection(window.db, "users"), {
+            name: email.split("@")[0],
+            email,
+            password,
+            role: "SUPERVISOR",
+            createdAt: new Date().toISOString()
+        });
+
+        alert("تمت إضافة المشرف بنجاح ✅");
+
+        closeModal("supervisorModal");
+        renderSupervisors();
+
+    } catch (err) {
+        console.error(err);
+        alert("حدث خطأ أثناء إضافة المشرف ❌");
+    }
+}
+
+
+// ==============================
+// 🗑️ حذف مستخدم/طالب (Firestore)
+// ==============================
+async function deleteUser(docId, collectionName) {
+    if (!confirm("هل أنت متأكد من الحذف؟")) return;
+
+    try {
+        const { doc, deleteDoc } = window.firestoreTools;
+
+        await deleteDoc(doc(window.db, collectionName, docId));
+
+        alert("تم الحذف بنجاح ✅");
+
+        // تحديث القائمة المناسبة
+        if (collectionName === "students") renderStudents();
+        if (collectionName === "users") renderSupervisors();
+
+    } catch (err) {
+        console.error(err);
+        alert("فشل الحذف ❌");
+    }
+}
+
+
+// ==============================
+// ✅ تفعيل/إلغاء تفعيل طالب (Firestore)
+// ==============================
+async function toggleApprove(studentDocId, currentApproved) {
+    try {
+        const { doc, updateDoc } = window.firestoreTools;
+
+        await updateDoc(doc(window.db, "students", studentDocId), {
+            approved: !currentApproved
+        });
+
+        alert("تم تحديث حالة الطالب ✅");
+        renderStudents();
+
+    } catch (err) {
+        console.error(err);
+        alert("فشل تحديث حالة الطالب ❌");
+    }
+}
+
 
             // إغلاق النماذج
             function closeModal(id) {
@@ -1147,6 +1317,7 @@ async function login() {
 
 </body>
 </html>
+
 
 
 
