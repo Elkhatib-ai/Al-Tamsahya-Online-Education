@@ -61,8 +61,7 @@
 
 
         <!-- صفحة تسجيل الدخول -->
-        <!-- صفحة تسجيل الدخول -->
-        <div id="loginPage" class="login-container">
+                <div id="loginPage" class="login-container">
 
             <h1>AI-Tamsahya-Online-Education</h1>
 
@@ -1381,6 +1380,41 @@ async function toggleApprove(studentDocId, currentApproved) {
 <!-- Firebase init -->
 <script src="./js/firebase.js"></script>
 
+<!-- Login function -->
+<script>
+async function login() {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  // تأكد أن firestoreTools موجود
+  if (!window.firestoreTools) {
+    alert("Firebase لم يتم تحميله بعد");
+    return;
+  }
+
+  const { doc, getDoc } = window.firestoreTools;
+
+  // admins/admin
+  const adminRef = doc("admins", "admin");
+  const snap = await getDoc(adminRef);
+
+  if (!snap.exists()) {
+    alert("لا يوجد أدمن في قاعدة البيانات");
+    return;
+  }
+
+  const data = snap.data();
+
+  if (data.email === email && data.password === password) {
+    alert("تم تسجيل الدخول كأدمن ✅");
+    // افتح صفحة الادمن
+    // location.href = "admin.html";
+  } else {
+    alert("بيانات الدخول غير صحيحة ❌");
+  }
+}
+</script>
+
 <!-- Service Worker -->
 <script>
   if ("serviceWorker" in navigator) {
@@ -1390,11 +1424,13 @@ async function toggleApprove(studentDocId, currentApproved) {
   }
 </script>
 
+
 </body>
 
 
 </body>
 </html>
+
 
 
 
