@@ -19,15 +19,22 @@
 
   // ✅ Make tools globally available (this fixes window.firestoreTools undefined)
   window.firestoreTools = {
-    db,
-    collection: (name) => db.collection(name),
-    doc: (path) => db.doc(path),
-    getDoc: (ref) => ref.get(),
-    setDoc: (ref, data) => ref.set(data),
-    updateDoc: (ref, data) => ref.update(data),
-    query: (ref) => ref, // (بسيطة)
-    where: (...args) => firebase.firestore.FieldPath ? null : null,
-  };
+  db,
+  collection: (name) => db.collection(name),
+
+  // ✅ doc يدعم الطريقتين:
+  // doc("admins","admin")
+  // doc("admins/admin")
+  doc: (...segments) => {
+    const path = segments.join("/");
+    return db.doc(path);
+  },
+
+  getDoc: (ref) => ref.get(),
+  setDoc: (ref, data) => ref.set(data),
+  updateDoc: (ref, data) => ref.update(data),
+};
+
 
   console.log("🔥 Firebase Initialized Successfully");
 })();
