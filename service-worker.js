@@ -5,8 +5,8 @@ const FILES_TO_CACHE = [
   "./",
   "./css/style.css",
   "./manifest.json",
-  "./icons/icon-192.png",
-  "./icons/icon-512.png"
+  "./icon-192.png",
+  "./icon-512.png"
 ];
 
 // Install
@@ -48,17 +48,14 @@ self.addEventListener("fetch", (event) => {
   event.respondWith(
     fetch(event.request)
       .then((res) => {
-        // نخزن نسخة من الرد في الكاش (للملفات الثابتة)
         const copy = res.clone();
         caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
         return res;
       })
       .catch(async () => {
-        // إذا النت فصل: حاول من الكاش
         const cached = await caches.match(event.request);
         if (cached) return cached;
 
-        // fallback رسالة
         return new Response(
           `
           <html>
