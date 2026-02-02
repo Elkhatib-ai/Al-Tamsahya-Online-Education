@@ -450,25 +450,7 @@ async function login() {
       return;
     }
 
-    currentUser = { ...student, id: studentDoc.id, role: "STUDENT" };
-
-    document.getElementById("loginPage").classList.add("hidden");
-    document.getElementById("mainPage").classList.remove("hidden");
-    document.querySelector(".logout-btn").classList.remove("hidden");
-
-    document.getElementById("welcomeMessage").classList.add("hidden");
-    document.getElementById("navUser").textContent = " | " + student.email;
-
-    // ❌ إخفاء لوحة الإدارة للطلاب
-    document.getElementById("adminPanel").classList.add("hidden");
-
-    renderGrades();
-
-  } catch (err) {
-    console.error("LOGIN ERROR FULL:", err);
-    alert("حدث خطأ أثناء تسجيل الدخول ❌\n" + (err.message || err));
-  }
-}
+   
 
 
 
@@ -1431,6 +1413,7 @@ async function toggleApprove(studentDocId, currentApproved) {
 
 </body>
 </html>
+
 
 
 
