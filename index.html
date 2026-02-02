@@ -382,6 +382,7 @@ if (adminSnap.exists) {
     alert("تم تسجيل الدخول كأدمن ✅");
     window.location.href = "./admin.html";
     return;
+      
   }
 }
 
@@ -1395,6 +1396,8 @@ async function toggleApprove(studentDocId, currentApproved) {
       .then(() => console.log("Service Worker Registered"))
       .catch(err => console.log("SW registration failed:", err));
   }
+    window.login = loginUser;
+
 </script>
 
 
@@ -1403,6 +1406,7 @@ async function toggleApprove(studentDocId, currentApproved) {
 
 </body>
 </html>
+
 
 
 
