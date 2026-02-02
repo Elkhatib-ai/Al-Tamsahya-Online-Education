@@ -1383,35 +1383,56 @@ async function toggleApprove(studentDocId, currentApproved) {
 <!-- Login function -->
 <script>
 async function login() {
-  const email = document.getElementById("email").value.trim();
+  const email = document.getElementById("email").value.trim().toLowerCase();
   const password = document.getElementById("password").value.trim();
 
-  if (!window.firestoreTools) {
+  if (!email || !password) {
+    alert("من فضلك أدخل البريد وكلمة المرور");
+    return;
+  }
+
+  if (!window.firestoreTools || !window.firestoreTools.db) {
     alert("Firebase لم يتم تحميله بعد");
     return;
   }
 
   const { db } = window.firestoreTools;
 
-  // ✅ مسار صحيح 100%
-  const adminRef = db.doc("admins/admin");
-  const snap = await adminRef.get();
+  try {
+    // ✅ Admin Document ثابت
+    const adminRef = db.doc("admins/admin");
+    const snap = await adminRef.get();
 
-  if (!snap.exists) {
-    alert("لا يوجد أدمن في قاعدة البيانات");
-    return;
-  }
+    // ✅ في compat لازم exists بدون ()
+    if (!snap.exists) {
+      alert("❌ لا يوجد أدمن داخل Firestore في المسار: admins/admin");
+      return;
+    }
 
-  const data = snap.data();
+    const data = snap.data();
 
-  if (data.email === email && data.password === password) {
-    alert("تم تسجيل الدخول كأدمن ✅");
-    // location.href = "admin.html";
-  } else {
+    if (
+      (data.email || "").toLowerCase() === email &&
+      (data.password || "") === password
+    ) {
+      alert("تم تسجيل الدخول كأدمن ✅");
+
+      // افتح لوحة التحكم عندك
+      // مثال:
+      // document.getElementById("loginPage").classList.add("hidden");
+      // document.getElementById("mainPage").classList.remove("hidden");
+      return;
+    }
+
     alert("بيانات الدخول غير صحيحة ❌");
+
+  } catch (err) {
+    console.error(err);
+    alert("حدث خطأ أثناء تسجيل الدخول ❌\n" + err.message);
   }
 }
 </script>
+
 
 
 <!-- Service Worker -->
@@ -1429,6 +1450,7 @@ async function login() {
 
 </body>
 </html>
+
 
 
 
