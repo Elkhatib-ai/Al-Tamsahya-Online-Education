@@ -1386,19 +1386,18 @@ async function login() {
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
 
-  // تأكد أن firestoreTools موجود
   if (!window.firestoreTools) {
     alert("Firebase لم يتم تحميله بعد");
     return;
   }
 
-  const { doc, getDoc } = window.firestoreTools;
+  const { db } = window.firestoreTools;
 
-  // admins/admin
-  const adminRef = doc("admins", "admin");
-  const snap = await getDoc(adminRef);
+  // ✅ مسار صحيح 100%
+  const adminRef = db.doc("admins/admin");
+  const snap = await adminRef.get();
 
-  if (!snap.exists()) {
+  if (!snap.exists) {
     alert("لا يوجد أدمن في قاعدة البيانات");
     return;
   }
@@ -1407,13 +1406,13 @@ async function login() {
 
   if (data.email === email && data.password === password) {
     alert("تم تسجيل الدخول كأدمن ✅");
-    // افتح صفحة الادمن
     // location.href = "admin.html";
   } else {
     alert("بيانات الدخول غير صحيحة ❌");
   }
 }
 </script>
+
 
 <!-- Service Worker -->
 <script>
@@ -1430,6 +1429,7 @@ async function login() {
 
 </body>
 </html>
+
 
 
 
