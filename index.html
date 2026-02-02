@@ -390,7 +390,7 @@ async function login() {
     const { collection, getDocs, query, where } = window.firestoreTools;
 
     const supQuery = query(
-      collection(window.db, "users"),
+      collection(db, "users")
       where("email", "==", email),
       where("role", "==", "SUPERVISOR")
     );
@@ -545,7 +545,7 @@ async function login() {
     }
 
     // ✅ إضافة الطالب في Firestore
-    await addDoc(collection(window.db, "students"), {
+    await addDoc(collection(window.firestoreTools.db, "students"), {
         name: email.split("@")[0],
         email: email.toLowerCase(),
         password: password,
@@ -1413,6 +1413,7 @@ async function toggleApprove(studentDocId, currentApproved) {
 
 </body>
 </html>
+
 
 
 
