@@ -390,8 +390,8 @@ async function login() {
     alert("تم تسجيل الدخول بنجاح ✅");
     window.location.href = "./index.html"; // غيرها لاسم صفحة المنصة لو مختلف
     return;
-
-  } catch (err) {
+  } 
+  catch (err) {
     console.error("LOGIN ERROR FULL:", err);
     alert("حدث خطأ أثناء تسجيل الدخول ❌\n" + (err.message || err));
   }
@@ -1402,6 +1402,7 @@ async function toggleApprove(studentDocId, currentApproved) {
 
 </body>
 </html>
+
 
 
 
