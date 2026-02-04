@@ -975,20 +975,14 @@ async function renderStudents() {
   `;
 
   try {
-    // ✅ تأكد أن firebase جاهز
     if (!window.firestoreTools || !window.firestoreTools.db) {
       container.innerHTML = `<p>Firebase لم يتم تحميله بعد ❌</p>`;
       return;
     }
 
-    const { collection, getDocs, query } = window.firestoreTools;
-
-    // ✅ هذا هو db الصحيح
     const db = window.firestoreTools.db;
 
-    // 🔥 جلب الطلاب من students
-    const q = query(collection(db, "students"));
-    const snap = await getDocs(q);
+    const snap = await db.collection("students").get();
 
     let rows = "";
 
@@ -1041,6 +1035,7 @@ async function renderStudents() {
     container.innerHTML = `<p>حدث خطأ أثناء تحميل الطلاب ❌<br>${err.message}</p>`;
   }
 }
+
 
 
 // عرض نموذج إضافة طالب
@@ -1101,70 +1096,73 @@ const q = query(collection(db, "students"), where("email", "==", email));
 // ==============================
 
 async function renderSupervisors() {
-    const container = document.getElementById("supervisorsList");
+  const container = document.getElementById("supervisorsList");
 
-    container.classList.remove("hidden");
-    ["studentsList", "testsList", "resultsList"].forEach((id) =>
-        document.getElementById(id).classList.add("hidden")
-    );
+  container.classList.remove("hidden");
+  ["studentsList", "testsList", "resultsList"].forEach((id) =>
+    document.getElementById(id).classList.add("hidden")
+  );
+
+  container.innerHTML = `
+    <h4>المشرفون</h4>
+    <button class="custom-btn" onclick="showAddSupervisorModal()">إضافة مشرف</button>
+    <p>جاري تحميل المشرفين...</p>
+  `;
+
+  try {
+    if (!window.firestoreTools || !window.firestoreTools.db) {
+      container.innerHTML = `<p>Firebase لم يتم تحميله بعد ❌</p>`;
+      return;
+    }
+
+    const db = window.firestoreTools.db;
+
+    // ✅ compat query
+    const snap = await db
+      .collection("users")
+      .where("role", "==", "SUPERVISOR")
+      .get();
+
+    let rows = "";
+
+    snap.forEach((docSnap) => {
+      const s = docSnap.data();
+      const id = docSnap.id;
+
+      rows += `
+        <tr>
+          <td>${s.email || "-"}</td>
+          <td>
+            <button class="custom-btn" onclick="deleteUser('${id}', 'users')">حذف</button>
+          </td>
+        </tr>
+      `;
+    });
 
     container.innerHTML = `
-        <h4>المشرفون</h4>
-        <button class="custom-btn" onclick="showAddSupervisorModal()">إضافة مشرف</button>
-        <p>جاري تحميل المشرفين...</p>
+      <h4>المشرفون</h4>
+      <button class="custom-btn" onclick="showAddSupervisorModal()">إضافة مشرف</button>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>البريد الإلكتروني</th>
+              <th>خيارات</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows || `<tr><td colspan="2">لا يوجد مشرفين حاليا</td></tr>`}
+          </tbody>
+        </table>
+      </div>
     `;
-
-    try {
-        const { collection, getDocs, query, where } = window.firestoreTools;
-
-        // 🔥 نجلب المشرفين من users role=SUPERVISOR
-        const q = query(
-            collection(db, "users"),
-            where("role", "==", "SUPERVISOR")
-        );
-
-        const snap = await getDocs(q);
-
-        let rows = "";
-
-        snap.forEach((docSnap) => {
-            const s = docSnap.data();
-            const id = docSnap.id;
-
-            rows += `
-                <tr>
-                    <td>${s.email || "-"}</td>
-                    <td>
-                        <button class="custom-btn" onclick="deleteUser('${id}', 'users')">حذف</button>
-                    </td>
-                </tr>
-            `;
-        });
-
-        container.innerHTML = `
-            <h4>المشرفون</h4>
-            <button class="custom-btn" onclick="showAddSupervisorModal()">إضافة مشرف</button>
-
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>البريد الإلكتروني</th>
-                            <th>خيارات</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${rows || `<tr><td colspan="2">لا يوجد مشرفين حاليا</td></tr>`}
-                    </tbody>
-                </table>
-            </div>
-        `;
-
-    } catch (err) {
-        console.error(err);
-        container.innerHTML = `<p>حدث خطأ أثناء تحميل المشرفين ❌</p>`;
-    }
+  } catch (err) {
+    console.error(err);
+    container.innerHTML = `<p>حدث خطأ أثناء تحميل المشرفين ❌<br>${err.message}</p>`;
+  }
 }
+
 
 // عرض نموذج إضافة مشرف
 function showAddSupervisorModal() {
@@ -1175,44 +1173,49 @@ function showAddSupervisorModal() {
 
 // إضافة مشرف جديد (Firestore)
 async function addSupervisor() {
-    const email = document.getElementById("newSupervisorEmail").value.trim().toLowerCase();
-    const password = document.getElementById("newSupervisorPassword").value.trim();
+  const email = document.getElementById("newSupervisorEmail").value.trim().toLowerCase();
+  const password = document.getElementById("newSupervisorPassword").value.trim();
 
-    if (!email || !password) {
-        alert("يرجى إدخال البريد الإلكتروني وكلمة المرور!");
-        return;
+  if (!email || !password) {
+    alert("يرجى إدخال البريد الإلكتروني وكلمة المرور!");
+    return;
+  }
+
+  try {
+    if (!window.firestoreTools || !window.firestoreTools.db) {
+      alert("Firebase لم يتم تحميله بعد ❌");
+      return;
     }
 
-    try {
-        const { collection, addDoc, getDocs, query, where } = window.firestoreTools;
+    const db = window.firestoreTools.db;
 
-        // ✅ منع التكرار
-        const q = query(collection(db, "users"), where("email", "==", email));
-        const snap = await getDocs(q);
+    // ✅ منع التكرار
+    const snap = await db.collection("users").where("email", "==", email).get();
 
-        if (!snap.empty) {
-            alert("هذا البريد مستخدم بالفعل!");
-            return;
-        }
-
-        await addDoc(collection(db, "users"), {
-            name: email.split("@")[0],
-            email,
-            password,
-            role: "SUPERVISOR",
-            createdAt: new Date().toISOString()
-        });
-
-        alert("تمت إضافة المشرف بنجاح ✅");
-
-        closeModal("supervisorModal");
-        renderSupervisors();
-
-    } catch (err) {
-        console.error(err);
-        alert("حدث خطأ أثناء إضافة المشرف ❌");
+    if (!snap.empty) {
+      alert("هذا البريد مستخدم بالفعل!");
+      return;
     }
+
+    await db.collection("users").add({
+      name: email.split("@")[0],
+      email,
+      password,
+      role: "SUPERVISOR",
+      createdAt: new Date().toISOString()
+    });
+
+    alert("تمت إضافة المشرف بنجاح ✅");
+
+    closeModal("supervisorModal");
+    renderSupervisors();
+
+  } catch (err) {
+    console.error(err);
+    alert("حدث خطأ أثناء إضافة المشرف ❌\n" + err.message);
+  }
 }
+
 
 
 // ==============================
@@ -1447,6 +1450,7 @@ await updateDoc(doc(db, "students", studentDocId), {
 
 </body>
 </html>
+
 
 
 
