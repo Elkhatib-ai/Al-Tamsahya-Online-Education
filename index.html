@@ -372,16 +372,20 @@ async function login() {
     const adminSnap = await adminRef.get();
 
     if (adminSnap.exists) {
-      const adminData = adminSnap.data();
-      const dbEmail = (adminData.email || "").toLowerCase();
-      const dbPass = adminData.password || "";
+  const adminData = adminSnap.data();
+  const dbEmail = (adminData.email || "").toLowerCase();
+  const dbPass = adminData.password || "";
 
-      if (dbEmail === email && dbPass === password) {
-        alert("تم تسجيل الدخول كأدمن ✅");
-        window.location.href = "./admin.html";
-        return;
-      }
-    }
+  if (dbEmail === email && dbPass === password) {
+    alert("تم تسجيل الدخول كأدمن ✅");
+
+    localStorage.setItem("isAdmin", "true"); // ✅ هنا ممتاز
+
+    window.location.href = "./admin.html";
+    return;
+  }
+}
+
 
     // =========================
     // 2) Supervisor login (users role=SUPERVISOR)
@@ -426,7 +430,7 @@ async function login() {
     // 3) Student login (students)
     // =========================
     const studentQuery = query(
-      collection(window.db, "students"),
+      collection(db, "students"),
       where("email", "==", email)
     );
 
@@ -480,24 +484,27 @@ async function login() {
 
 
 
+// تسجيل خروج
+function logout() {
+    currentUser = null;
 
-            // تسجيل خروج
-            function logout() {
-                currentUser = null;
+    // ✅ حذف صلاحية الأدمن
+    localStorage.removeItem("isAdmin");
 
-                // إيقاف الفيديو نهائيًا
-                document.getElementById("lessonVideo").innerHTML = "";
+    // إيقاف الفيديو نهائيًا
+    document.getElementById("lessonVideo").innerHTML = "";
 
-                document.getElementById("loginPage").classList.remove("hidden");
-                document.getElementById("registerPage").classList.add("hidden");
-                document.getElementById("mainPage").classList.add("hidden");
-                document.getElementById("adminPanel").classList.add("hidden");
-                document.querySelector(".logout-btn").classList.add("hidden");
-                document.getElementById("navUser").textContent = "";
-                document.getElementById("welcomeMessage").classList.remove("hidden");
+    document.getElementById("loginPage").classList.remove("hidden");
+    document.getElementById("registerPage").classList.add("hidden");
+    document.getElementById("mainPage").classList.add("hidden");
+    document.getElementById("adminPanel").classList.add("hidden");
+    document.querySelector(".logout-btn").classList.add("hidden");
+    document.getElementById("navUser").textContent = "";
+    document.getElementById("welcomeMessage").classList.remove("hidden");
 
-                resetNavigation();
-            }
+    resetNavigation();
+}
+
             function goHome() {
                 stopVideo();      // ⛔ إيقاف الفيديو مثل زر الرجوع
                 currentGrade = null;
@@ -534,7 +541,7 @@ async function login() {
 
     // ✅ منع التكرار
     const q = query(
-        collection(window.db, "students"),
+        collection(db, "students"),
         where("email", "==", email.toLowerCase())
     );
     const snap = await getDocs(q);
@@ -947,7 +954,7 @@ async function renderStudents() {
         const { collection, getDocs, query, where } = window.firestoreTools;
 
         // 🔥 نجلب الطلاب من students مباشرة
-        const q = query(collection(window.db, "students"));
+        const q = query(collection(db, "students"));
         const snap = await getDocs(q);
 
         let rows = "";
@@ -1022,7 +1029,7 @@ async function addStudent() {
         const { collection, addDoc, getDocs, query, where } = window.firestoreTools;
 
         // ✅ منع التكرار
-        const q = query(collection(window.db, "students"), where("email", "==", email));
+        const q = query(collection(db, "students"), where("email", "==", email));
         const snap = await getDocs(q);
 
         if (!snap.empty) {
@@ -1030,7 +1037,7 @@ async function addStudent() {
             return;
         }
 
-        await addDoc(collection(window.db, "students"), {
+        await addDoc(collection(db, "students"), {
             name: email.split("@")[0],
             email,
             password,
@@ -1074,7 +1081,7 @@ async function renderSupervisors() {
 
         // 🔥 نجلب المشرفين من users role=SUPERVISOR
         const q = query(
-            collection(window.db, "users"),
+            collection(db, "users"),
             where("role", "==", "SUPERVISOR")
         );
 
@@ -1142,7 +1149,7 @@ async function addSupervisor() {
         const { collection, addDoc, getDocs, query, where } = window.firestoreTools;
 
         // ✅ منع التكرار
-        const q = query(collection(window.db, "users"), where("email", "==", email));
+        const q = query(collection(db, "users"), where("email", "==", email));
         const snap = await getDocs(q);
 
         if (!snap.empty) {
@@ -1150,7 +1157,7 @@ async function addSupervisor() {
             return;
         }
 
-        await addDoc(collection(window.db, "users"), {
+        await addDoc(collection(db, "users"), {
             name: email.split("@")[0],
             email,
             password,
@@ -1389,6 +1396,7 @@ async function toggleApprove(studentDocId, currentApproved) {
 
 </body>
 </html>
+
 
 
 
