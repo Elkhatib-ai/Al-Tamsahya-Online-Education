@@ -975,11 +975,6 @@ async function renderStudents() {
   `;
 
   try {
-    if (!window.firestoreTools || !window.firestoreTools.db) {
-      container.innerHTML = `<p>Firebase لم يتم تحميله بعد ❌</p>`;
-      return;
-    }
-
     const db = window.firestoreTools.db;
 
     const snap = await db.collection("students").get();
@@ -997,11 +992,11 @@ async function renderStudents() {
           <td>${(typeof scores !== "undefined" && scores[s.email]) ? scores[s.email] : "-"}</td>
           <td style="display:flex; gap:6px; flex-wrap:wrap; justify-content:center;">
             
-            <button class="custom-btn" onclick="approveStudent('${id}')">موافقة</button>
+            <button class="custom-btn" onclick="editStudent('${s.email || ""}')">تعديل</button>
+
+            <button class="custom-btn" onclick="setApprove('${id}', true)">موافقة</button>
 
             <button class="custom-btn" onclick="rejectStudent('${id}')">رفض</button>
-
-            <button class="custom-btn" onclick="editStudent('${id}')">تعديل</button>
 
             <button class="custom-btn" onclick="deleteUser('${id}', 'students')">حذف</button>
 
@@ -1030,12 +1025,12 @@ async function renderStudents() {
         </table>
       </div>
     `;
+
   } catch (err) {
     console.error(err);
     container.innerHTML = `<p>حدث خطأ أثناء تحميل الطلاب ❌<br>${err.message}</p>`;
   }
 }
-
 
 
 // عرض نموذج إضافة طالب
@@ -1221,23 +1216,17 @@ async function addSupervisor() {
 // ==============================
 // 🗑️ حذف مستخدم/طالب (Firestore)
 // ==============================
+// 🗑️ حذف مستخدم/طالب (Firestore)
 async function deleteUser(docId, collectionName) {
   if (!confirm("هل أنت متأكد من الحذف؟")) return;
 
   try {
-    if (!window.firestoreTools || !window.firestoreTools.db) {
-      alert("Firebase لم يتم تحميله بعد ❌");
-      return;
-    }
-
     const db = window.firestoreTools.db;
 
-    // ✅ حذف بالطريقة compat
     await db.collection(collectionName).doc(docId).delete();
 
     alert("تم الحذف بنجاح ✅");
 
-    // تحديث القائمة المناسبة
     if (collectionName === "students") renderStudents();
     if (collectionName === "users") renderSupervisors();
 
@@ -1246,31 +1235,40 @@ async function deleteUser(docId, collectionName) {
     alert("فشل الحذف ❌\n" + err.message);
   }
 }
+// ✅ موافقة / رفض طالب
+async function setApprove(studentDocId, approvedValue) {
+  try {
+    const db = window.firestoreTools.db;
 
-// ==============================
-// ✅ تفعيل/إلغاء تفعيل طالب (Firestore)
-// ==============================
-async function toggleApprove(studentDocId, currentApproved) {
-    try {
-        const { doc, updateDoc } = window.firestoreTools;
+    await db.collection("students").doc(studentDocId).update({
+      approved: approvedValue
+    });
 
-        const db = window.firestoreTools.db;
+    alert(approvedValue ? "تمت الموافقة ✅" : "تم الرفض ❌");
+    renderStudents();
 
-
-await updateDoc(doc(db, "students", studentDocId), {
-  approved: !currentApproved
-});
-
-
-        alert("تم تحديث حالة الطالب ✅");
-        renderStudents();
-
-    } catch (err) {
-        console.error(err);
-        alert("فشل تحديث حالة الطالب ❌");
-    }
+  } catch (err) {
+    console.error(err);
+    alert("فشل تحديث حالة الطالب ❌\n" + err.message);
+  }
 }
+// ❌ رفض الطالب (حذف الطلب نهائياً)
+async function rejectStudent(studentDocId) {
+  if (!confirm("هل تريد رفض الطالب وحذف طلبه نهائياً؟")) return;
 
+  try {
+    const db = window.firestoreTools.db;
+
+    await db.collection("students").doc(studentDocId).delete();
+
+    alert("تم رفض الطلب وحذفه ❌");
+    renderStudents();
+
+  } catch (err) {
+    console.error(err);
+    alert("فشل الرفض ❌\n" + err.message);
+  }
+}
 
             // إغلاق النماذج
             function closeModal(id) {
@@ -1446,6 +1444,7 @@ await updateDoc(doc(db, "students", studentDocId), {
 
 </body>
 </html>
+
 
 
 
