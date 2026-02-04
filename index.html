@@ -341,8 +341,7 @@
             //     localStorage.setItem("scores", JSON.stringify(scores));
             // }
 
-        // تسجيل الدخول (Admin + Student)
-// ===============================
+  // ===============================
 // تسجيل الدخول (Admin + Supervisor + Student)
 // ===============================
 async function login() {
@@ -372,20 +371,22 @@ async function login() {
     const adminSnap = await adminRef.get();
 
     if (adminSnap.exists) {
-  const adminData = adminSnap.data();
-  const dbEmail = (adminData.email || "").toLowerCase();
-  const dbPass = adminData.password || "";
+      const adminData = adminSnap.data();
+      const dbEmail = (adminData.email || "").toLowerCase();
+      const dbPass = adminData.password || "";
 
-  if (dbEmail === email && dbPass === password) {
-    alert("تم تسجيل الدخول كأدمن ✅");
+      if (dbEmail === email && dbPass === password) {
+        alert("تم تسجيل الدخول كأدمن ✅");
 
-    localStorage.setItem("isAdmin", "true"); // ✅ هنا ممتاز
+        localStorage.setItem("isAdmin", "true"); // ✅ حفظ الأدمن
 
-    window.location.href = "./admin.html";
-    return;
-  }
-}
+        window.location.href = "./admin.html";
+        return;
+      }
+    }
 
+    // ✅ مهم جدًا: لو لم يكن أدمن احذف العلامة حتى لا يعلق في admin.html
+    localStorage.removeItem("isAdmin");
 
     // =========================
     // 2) Supervisor login (users role=SUPERVISOR)
@@ -393,11 +394,10 @@ async function login() {
     const { collection, getDocs, query, where } = window.firestoreTools;
 
     const supQuery = query(
-  collection(db, "users"),
-  where("email", "==", email),
-  where("role", "==", "SUPERVISOR")
-);
-
+      collection(db, "users"),
+      where("email", "==", email),
+      where("role", "==", "SUPERVISOR")
+    );
 
     const supSnap = await getDocs(supQuery);
 
@@ -409,6 +409,9 @@ async function login() {
         alert("كلمة المرور غير صحيحة ❌");
         return;
       }
+
+      // ✅ Supervisor ليس Admin
+      localStorage.removeItem("isAdmin");
 
       currentUser = { ...sup, id: supDoc.id, role: "SUPERVISOR" };
 
@@ -454,30 +457,29 @@ async function login() {
       return;
     }
 
-   
+    // ✅ Student ليس Admin
+    localStorage.removeItem("isAdmin");
 
+    currentUser = { ...student, id: studentDoc.id, role: "STUDENT" };
 
+    document.getElementById("loginPage").classList.add("hidden");
+    document.getElementById("mainPage").classList.remove("hidden");
+    document.querySelector(".logout-btn").classList.remove("hidden");
 
+    document.getElementById("welcomeMessage").classList.add("hidden");
+    document.getElementById("navUser").textContent = " | " + student.email;
 
-        currentUser = { ...student, id: studentDoc.id, role: "STUDENT" };
+    // ❌ إخفاء لوحة الإدارة للطلاب
+    document.getElementById("adminPanel").classList.add("hidden");
 
-        document.getElementById("loginPage").classList.add("hidden");
-        document.getElementById("mainPage").classList.remove("hidden");
-        document.querySelector(".logout-btn").classList.remove("hidden");
+    renderGrades();
 
-        document.getElementById("welcomeMessage").classList.add("hidden");
-        document.getElementById("navUser").textContent = " | " + student.email;
-
-        // ❌ إخفاء لوحة الإدارة للطلاب
-        document.getElementById("adminPanel").classList.add("hidden");
-
-        renderGrades();
-
-    } catch (err) {
-        console.error(err);
-        alert("حدث خطأ أثناء تسجيل الدخول ❌");
-    }
+  } catch (err) {
+    console.error(err);
+    alert("حدث خطأ أثناء تسجيل الدخول ❌");
+  }
 }
+
 
 
 
@@ -1396,6 +1398,7 @@ async function toggleApprove(studentDocId, currentApproved) {
 
 </body>
 </html>
+
 
 
 
