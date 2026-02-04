@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8" />
@@ -8,10 +9,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
     <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#1e40af">
+    <meta name="theme-color" content="#1e40af">
 
-<link rel="icon" href="icon-192.png">
-<link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="icon" href="icon-192.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
 
 
 
@@ -31,1334 +32,1334 @@
             📲 تثبيت التطبيق
         </button>
     </div>
-        
-        <!-- 🧑‍🎓 رسالة ترحيب رسمية -->
-        <section class="welcome-message" id="welcomeMessage">
 
-            <h2>مرحبًا بكم في منصة التعليم المتقدمة 🎓</h2>
-            <p>
-                نرحب بطلاب المرحلة الإعدادية في منصتنا التعليمية الرقمية،
-                والتي تهدف إلى تقديم محتوى تعليمي مبسط ومنظم
-                وفقًا للمنهج المصري.
-            </p>
-            <p>
-                تتيح المنصة دروسًا تفاعلية، شروحات مرئية،
-                ومتابعة مستمرة لمستوى الطالب الأكاديمي.
-            </p>
-            <p>
-                <strong>نتمنى لكم تجربة تعليمية ناجحة ومثمرة 🌟</strong>
-            </p>
-        </section>
+    <!-- 🧑‍🎓 رسالة ترحيب رسمية -->
+    <section class="welcome-message" id="welcomeMessage">
 
-        <!-- شريط تنقل عام -->
-        <div id="globalNav" class="nav-btns hidden">
-            <button id="backBtn" onclick="smartBack()">⬅️ رجوع</button>
-            <button onclick="goHome()">🏠 الصفحة الرئيسية</button>
-        </div>
+        <h2>مرحبًا بكم في منصة التعليم المتقدمة 🎓</h2>
+        <p>
+            نرحب بطلاب المرحلة الإعدادية في منصتنا التعليمية الرقمية،
+            والتي تهدف إلى تقديم محتوى تعليمي مبسط ومنظم
+            وفقًا للمنهج المصري.
+        </p>
+        <p>
+            تتيح المنصة دروسًا تفاعلية، شروحات مرئية،
+            ومتابعة مستمرة لمستوى الطالب الأكاديمي.
+        </p>
+        <p>
+            <strong>نتمنى لكم تجربة تعليمية ناجحة ومثمرة 🌟</strong>
+        </p>
+    </section>
 
-
+    <!-- شريط تنقل عام -->
+    <div id="globalNav" class="nav-btns hidden">
+        <button id="backBtn" onclick="smartBack()">⬅️ رجوع</button>
+        <button onclick="goHome()">🏠 الصفحة الرئيسية</button>
+    </div>
 
 
 
-        <!-- صفحة تسجيل الدخول -->
-                <div id="loginPage" class="login-container">
-
-            <h1>AI-Tamsahya-Online-Education</h1>
-
-            <input id="email" type="text" placeholder="البريد الإلكتروني">
-            <input id="password" type="password" placeholder="كلمة المرور">
-
-            <!-- الأزرار داخل صفحة الدخول -->
-<div class="auth-buttons">
-    <button id="loginBtn" onclick="login()">تسجيل الدخول</button>
-
-    <button class="register-btn secondary" onclick="registerStudentPage()">
-        تسجيل حساب جديد
-    </button>
-</div>
 
 
-        </div>
+    <!-- صفحة تسجيل الدخول -->
+    <div id="loginPage" class="login-container">
 
-        <!-- صفحة الأدمن -->
-<div id="adminPage" style="display:none; padding:20px; text-align:center;">
-  <h1>✅ مرحباً بك في لوحة الأدمن</h1>
-  <p>تم تسجيل الدخول بنجاح.</p>
+        <h1>AI-Tamsahya-Online-Education</h1>
 
-  <button onclick="logoutAdmin()">تسجيل خروج</button>
-</div>
+        <input id="email" type="text" placeholder="البريد الإلكتروني">
+        <input id="password" type="password" placeholder="كلمة المرور">
 
+        <!-- الأزرار داخل صفحة الدخول -->
+        <div class="auth-buttons">
+            <button id="loginBtn" onclick="login()">تسجيل الدخول</button>
 
-
-        <!-- صفحة التسجيل للطالب -->
-        <div id="registerPage" class="login-container hidden">
-
-            <h1 class="register-title">تسجيل حساب جديد</h1>
-
-            <input type="text" id="regEmail" placeholder="البريد الإلكتروني">
-            <input type="password" id="regPassword" placeholder="كلمة المرور">
-
-            <button class="register-btn primary"
-                    onclick="registerStudent()">
-                إرسال طلب التسجيل
+            <button class="register-btn secondary" onclick="registerStudentPage()">
+                تسجيل حساب جديد
             </button>
-
-            <button class="register-btn secondary"
-                    onclick="backToLogin()">
-                رجوع للصفحة الرئيسية
-            </button>
-
-            <p class="trust-message">
-                🔒 بيانات الطالب محفوظة بأمان<br>
-                ولا يتم مشاركتها مع أي جهة خارجية
-            </p>
-
         </div>
 
 
+    </div>
 
-        <!-- الصفحة الرئيسية بعد تسجيل الدخول -->
-        <div id="mainPage" class="hidden">
+    <!-- صفحة الأدمن -->
+    <div id="adminPage" style="display:none; padding:20px; text-align:center;">
+        <h1>✅ مرحباً بك في لوحة الأدمن</h1>
+        <p>تم تسجيل الدخول بنجاح.</p>
 
-            <!-- صفحة اختيار الصف -->
-            <div id="gradePage" class="list-container"></div>
-
-            <!-- صفحة اختيار المادة -->
-            <div id="subjectPage" class="list-container hidden"></div>
-
-            <!-- صفحة اختيار الوحدة -->
-            <div id="unitPage" class="list-container hidden"></div>
-
-            <div id="lessonPath" class="lesson-path"></div>
-            <!-- صفحة الدرس -->
-            <div id="lessonPage" class="hidden">
-
-                <div class="nav-btns"></div>
-
-                <!-- شريط التقدم -->
-                <div class="progress-box">
-                    <div id="progressBar" class="progress-bar"></div>
-                </div>
-
-                <h2 id="lessonTitle"></h2>
-
-                <button id="toggleLessonsBtn" class="toggle-lessons-btn" onclick="toggleLessons()">
-                    📚 قائمة الدروس
-                </button>
-
-                <div id="lessonList" class="list-container"></div>
-
-                <!-- أزرار التنقل بين الدروس -->
-                <div class="nav-btns">
-                    <button id="prevLessonBtn" onclick="prevLesson()">⬅️ الدرس السابق</button>
-                    <button id="nextLessonBtn" onclick="nextLesson()">➡️ الدرس التالي</button>
-                </div>
-
-                <div id="lessonPageContent">
-                    <div id="lessonVideo"></div>
-                    <div id="lessonText"></div>
-                </div>
-
-            </div>
+        <button onclick="logoutAdmin()">تسجيل خروج</button>
+    </div>
 
 
 
-            <!-- لوحة التحكم للمدير والمشرف -->
-            <div id="adminPanel" class="admin-box hidden">
-                <h3>الإدارة</h3>
-                <div class="nav-btns">
-                    <button class="custom-btn" onclick="showAdminSection('students')">قائمة الطلاب</button>
-                    <button class="custom-btn" onclick="showAdminSection('supervisors')">المشرفون</button>
-                    <button class="custom-btn" onclick="showAdminSection('tests')">الاختبارات</button>
-                    <button class="custom-btn" onclick="showAdminSection('results')">النتائج الأسبوعية</button>
+    <!-- صفحة التسجيل للطالب -->
+    <div id="registerPage" class="login-container hidden">
 
+        <h1 class="register-title">تسجيل حساب جديد</h1>
 
-                </div>
-                <div id="adminContent">
-                    <div id="studentsList" class="table-container hidden"></div>
-                    <div id="supervisorsList" class="table-container hidden"></div>
-                    <div id="testsList" class="table-container hidden"></div>
-                    <div id="resultsList" class="table-container hidden"></div>
-                </div>
-            </div>
-        </div>
+        <input type="text" id="regEmail" placeholder="البريد الإلكتروني">
+        <input type="password" id="regPassword" placeholder="كلمة المرور">
 
-        <!-- النماذج المنبثقة -->
-        <div id="studentModal" class="modal">
-            <div class="modal-content">
-                <h3>إضافة طالب جديد</h3>
-                <input type="text" id="newStudentEmail" placeholder="البريد الإلكتروني" />
-                <input type="password" id="newStudentPassword" placeholder="كلمة المرور" />
-                <br />
-                <button onclick="addStudent()">إضافة</button>
-                <button class="close-btn" onclick="closeModal('studentModal')">إلغاء</button>
-            </div>
-        </div>
-
-        <div id="supervisorModal" class="modal">
-            <div class="modal-content">
-                <h3>إضافة مشرف جديد</h3>
-                <input type="text" id="newSupervisorEmail" placeholder="البريد الإلكتروني" />
-                <input type="password" id="newSupervisorPassword" placeholder="كلمة المرور" />
-                <br />
-                <button onclick="addSupervisor()">إضافة</button>
-                <button class="close-btn" onclick="closeModal('supervisorModal')">إلغاء</button>
-            </div>
-        </div>
-
-        <button class="logout-btn hidden" onclick="logout()">
-            تسجيل الخروج
+        <button class="register-btn primary"
+                onclick="registerStudent()">
+            إرسال طلب التسجيل
         </button>
 
-        <footer>© 2026 منصة التعليم المصرية</footer>
+        <button class="register-btn secondary"
+                onclick="backToLogin()">
+            رجوع للصفحة الرئيسية
+        </button>
 
-        <script>
-          // ✅ لا نستخدم defaultUsers نهائيًا
-// لأن الحسابات أصبحت من Firestore وليس من داخل الكود
+        <p class="trust-message">
+            🔒 بيانات الطالب محفوظة بأمان<br>
+            ولا يتم مشاركتها مع أي جهة خارجية
+        </p>
 
-// let users = JSON.parse(localStorage.getItem("users") || "[]");
+    </div>
 
 
-            const grades = ["الصف الأول الإعدادي", "الصف الثاني الإعدادي", "الصف الثالث الإعدادي"];
-            const subjectsPerGrade = {
-                "الصف الأول الإعدادي": [
-                    "اللغة العربية",
-                    "اللغة الإنجليزية",
-                    "الرياضيات",
-                    "العلوم",
-                    "الدراسات الاجتماعية",
-                    "التربية الدينية",
-                    "النشاط الفني/الحاسب الآلي/الرياضة",
-                ],
-                "الصف الثاني الإعدادي": [
-                    "اللغة العربية",
-                    "اللغة الإنجليزية",
-                    "الرياضيات",
-                    "العلوم",
-                    "الدراسات الاجتماعية",
-                    "التربية الدينية",
-                    "النشاط الفني/الحاسب الآلي/الرياضة",
-                ],
-                "الصف الثالث الإعدادي": [
-                    "اللغة العربية",
-                    "اللغة الإنجليزية",
-                    "الرياضيات",
-                    "العلوم",
-                    "الدراسات الاجتماعية",
-                    "التربية الدينية",
-                    "النشاط الفني/الحاسب الآلي/الرياضة",
-                ],
-            };
-            const unitsPerSubject = {
-                "اللغة العربية": ["النحو", "البلاغة", "القراءة", "الكتابة"],
-                "اللغة الإنجليزية": ["القواعد", "المفردات", "القراءة", "الكتابة"],
-                الرياضيات: ["جبر", "هندسة", "إحصاء", "مسائل تطبيقية"],
-                العلوم: ["المادة والطاقة", "الكائنات الحية", "الأرض والفضاء", "التجارب العلمية"],
-                "الدراسات الاجتماعية": ["التاريخ", "الجغرافيا", "الوطنية", "التربية الدينية"],
-                "التربية الدينية": ["القرآن/الكتاب المقدس", "السلوك والقيم"],
-                "النشاط الفني/الحاسب الآلي/الرياضة": ["الفنون", "الحاسب الآلي", "الرياضة"],
-            };
-            let lessons = {};
-            grades.forEach((grade) => {
-                lessons[grade] = {};
-                subjectsPerGrade[grade].forEach((sub) => {
-                    lessons[grade][sub] = {};
-                    unitsPerSubject[sub].forEach((unit) => {
-                        lessons[grade][sub][unit] = [
-                            {
-                                title: "درس 1 " + unit,
-                                content: "شرح نصي مفصل لدرس 1 في " + unit,
-                                video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-                            },
-                            {
-                                title: "درس 2 " + unit,
-                                content: "شرح نصي مفصل لدرس 2 في " + unit,
-                                video: "https://www.youtube.com/embed/9bZkp7q19f0",
-                            },
-                        ];
-                    });
+
+    <!-- الصفحة الرئيسية بعد تسجيل الدخول -->
+    <div id="mainPage" class="hidden">
+
+        <!-- صفحة اختيار الصف -->
+        <div id="gradePage" class="list-container"></div>
+
+        <!-- صفحة اختيار المادة -->
+        <div id="subjectPage" class="list-container hidden"></div>
+
+        <!-- صفحة اختيار الوحدة -->
+        <div id="unitPage" class="list-container hidden"></div>
+
+        <div id="lessonPath" class="lesson-path"></div>
+        <!-- صفحة الدرس -->
+        <div id="lessonPage" class="hidden">
+
+            <div class="nav-btns"></div>
+
+            <!-- شريط التقدم -->
+            <div class="progress-box">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
+
+            <h2 id="lessonTitle"></h2>
+
+            <button id="toggleLessonsBtn" class="toggle-lessons-btn" onclick="toggleLessons()">
+                📚 قائمة الدروس
+            </button>
+
+            <div id="lessonList" class="list-container"></div>
+
+            <!-- أزرار التنقل بين الدروس -->
+            <div class="nav-btns">
+                <button id="prevLessonBtn" onclick="prevLesson()">⬅️ الدرس السابق</button>
+                <button id="nextLessonBtn" onclick="nextLesson()">➡️ الدرس التالي</button>
+            </div>
+
+            <div id="lessonPageContent">
+                <div id="lessonVideo"></div>
+                <div id="lessonText"></div>
+            </div>
+
+        </div>
+
+
+
+        <!-- لوحة التحكم للمدير والمشرف -->
+        <div id="adminPanel" class="admin-box hidden">
+            <h3>الإدارة</h3>
+            <div class="nav-btns">
+                <button class="custom-btn" onclick="showAdminSection('students')">قائمة الطلاب</button>
+                <button class="custom-btn" onclick="showAdminSection('supervisors')">المشرفون</button>
+                <button class="custom-btn" onclick="showAdminSection('tests')">الاختبارات</button>
+                <button class="custom-btn" onclick="showAdminSection('results')">النتائج الأسبوعية</button>
+
+
+            </div>
+            <div id="adminContent">
+                <div id="studentsList" class="table-container hidden"></div>
+                <div id="supervisorsList" class="table-container hidden"></div>
+                <div id="testsList" class="table-container hidden"></div>
+                <div id="resultsList" class="table-container hidden"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- النماذج المنبثقة -->
+    <div id="studentModal" class="modal">
+        <div class="modal-content">
+            <h3>إضافة طالب جديد</h3>
+            <input type="text" id="newStudentEmail" placeholder="البريد الإلكتروني" />
+            <input type="password" id="newStudentPassword" placeholder="كلمة المرور" />
+            <br />
+            <button onclick="addStudent()">إضافة</button>
+            <button class="close-btn" onclick="closeModal('studentModal')">إلغاء</button>
+        </div>
+    </div>
+
+    <div id="supervisorModal" class="modal">
+        <div class="modal-content">
+            <h3>إضافة مشرف جديد</h3>
+            <input type="text" id="newSupervisorEmail" placeholder="البريد الإلكتروني" />
+            <input type="password" id="newSupervisorPassword" placeholder="كلمة المرور" />
+            <br />
+            <button onclick="addSupervisor()">إضافة</button>
+            <button class="close-btn" onclick="closeModal('supervisorModal')">إلغاء</button>
+        </div>
+    </div>
+
+    <button class="logout-btn hidden" onclick="logout()">
+        تسجيل الخروج
+    </button>
+
+    <footer>© 2026 منصة التعليم المصرية</footer>
+
+    <script>
+        // ✅ لا نستخدم defaultUsers نهائيًا
+        // لأن الحسابات أصبحت من Firestore وليس من داخل الكود
+
+        // let users = JSON.parse(localStorage.getItem("users") || "[]");
+
+
+        const grades = ["الصف الأول الإعدادي", "الصف الثاني الإعدادي", "الصف الثالث الإعدادي"];
+        const subjectsPerGrade = {
+            "الصف الأول الإعدادي": [
+                "اللغة العربية",
+                "اللغة الإنجليزية",
+                "الرياضيات",
+                "العلوم",
+                "الدراسات الاجتماعية",
+                "التربية الدينية",
+                "النشاط الفني/الحاسب الآلي/الرياضة",
+            ],
+            "الصف الثاني الإعدادي": [
+                "اللغة العربية",
+                "اللغة الإنجليزية",
+                "الرياضيات",
+                "العلوم",
+                "الدراسات الاجتماعية",
+                "التربية الدينية",
+                "النشاط الفني/الحاسب الآلي/الرياضة",
+            ],
+            "الصف الثالث الإعدادي": [
+                "اللغة العربية",
+                "اللغة الإنجليزية",
+                "الرياضيات",
+                "العلوم",
+                "الدراسات الاجتماعية",
+                "التربية الدينية",
+                "النشاط الفني/الحاسب الآلي/الرياضة",
+            ],
+        };
+        const unitsPerSubject = {
+            "اللغة العربية": ["النحو", "البلاغة", "القراءة", "الكتابة"],
+            "اللغة الإنجليزية": ["القواعد", "المفردات", "القراءة", "الكتابة"],
+            الرياضيات: ["جبر", "هندسة", "إحصاء", "مسائل تطبيقية"],
+            العلوم: ["المادة والطاقة", "الكائنات الحية", "الأرض والفضاء", "التجارب العلمية"],
+            "الدراسات الاجتماعية": ["التاريخ", "الجغرافيا", "الوطنية", "التربية الدينية"],
+            "التربية الدينية": ["القرآن/الكتاب المقدس", "السلوك والقيم"],
+            "النشاط الفني/الحاسب الآلي/الرياضة": ["الفنون", "الحاسب الآلي", "الرياضة"],
+        };
+        let lessons = {};
+        grades.forEach((grade) => {
+            lessons[grade] = {};
+            subjectsPerGrade[grade].forEach((sub) => {
+                lessons[grade][sub] = {};
+                unitsPerSubject[sub].forEach((unit) => {
+                    lessons[grade][sub][unit] = [
+                        {
+                            title: "درس 1 " + unit,
+                            content: "شرح نصي مفصل لدرس 1 في " + unit,
+                            video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+                        },
+                        {
+                            title: "درس 2 " + unit,
+                            content: "شرح نصي مفصل لدرس 2 في " + unit,
+                            video: "https://www.youtube.com/embed/9bZkp7q19f0",
+                        },
+                    ];
                 });
             });
-
-            
-
-          
-            let scores = JSON.parse(localStorage.getItem("scores") || "{}");
-
-            let currentUser = null;
-            let currentGrade = null;
-            let currentSubject = null;
-            let currentUnit = null;
+        });
 
 
-            function updateBackButton() {
-                const backBtn = document.getElementById("backBtn");
-                if (!backBtn) return;
 
-                // ❌ لا يظهر في الصفحة الرئيسية ولا اختيار الصف
-                if (!currentGrade) {
-                    backBtn.style.display = "none";
+
+        let scores = JSON.parse(localStorage.getItem("scores") || "{}");
+
+        let currentUser = null;
+        let currentGrade = null;
+        let currentSubject = null;
+        let currentUnit = null;
+
+
+        function updateBackButton() {
+            const backBtn = document.getElementById("backBtn");
+            if (!backBtn) return;
+
+            // ❌ لا يظهر في الصفحة الرئيسية ولا اختيار الصف
+            if (!currentGrade) {
+                backBtn.style.display = "none";
+            }
+            // ❌ لا يظهر في اختيار الصف
+            else if (currentGrade && !currentSubject) {
+                backBtn.style.display = "none";
+            }
+            // ✅ يظهر من صفحة المواد وما بعدها
+            else {
+                backBtn.style.display = "inline-block";
+            }
+        }
+
+
+        // خاص بالدروس
+        let currentLessonIndex = 0;
+        let currentLessonsList = [];
+        let lessonCompleted = false;
+
+        // حفظ آخر درس شاهده الطالب
+        function saveLastLesson(index) {
+            if (!currentUser || !currentGrade || !currentSubject || !currentUnit) return;
+
+            const key = `lastLesson_${currentUser.email}_${currentGrade}_${currentSubject}_${currentUnit}`;
+            localStorage.setItem(key, index);
+        }
+
+        // جلب آخر درس شاهده الطالب
+        function getLastLesson() {
+            if (!currentUser || !currentGrade || !currentSubject || !currentUnit) return null;
+
+            const key = `lastLesson_${currentUser.email}_${currentGrade}_${currentSubject}_${currentUnit}`;
+            const index = localStorage.getItem(key);
+
+            return index !== null ? parseInt(index) : null;
+        }
+
+
+
+        // حفظ البيانات
+        // function saveData() {
+        //     localStorage.setItem("users", JSON.stringify(users));
+        //     localStorage.setItem("scores", JSON.stringify(scores));
+        // }
+        // ===============================
+        // ✅ Firebase DB Global Reference
+        // ===============================
+        function getDB() {
+            if (!window.firestoreTools || !window.firestoreTools.db) {
+                throw new Error("Firebase لم يتم تحميله بعد");
+            }
+            return window.firestoreTools.db;
+        }
+
+        // ===============================
+        // تسجيل الدخول (Admin + Supervisor + Student)
+        // ===============================
+        async function login() {
+            const email = document.getElementById("email").value.trim().toLowerCase();
+            const password = document.getElementById("password").value.trim();
+
+            if (!email || !password) {
+                alert("من فضلك أدخل البريد وكلمة المرور");
+                return;
+            }
+
+            if (!window.firestoreTools || !window.firestoreTools.db) {
+                alert("Firebase لم يتم تحميله بعد");
+                console.log("firestoreTools:", window.firestoreTools);
+                return;
+            }
+
+            const db = window.firestoreTools.db;
+
+            try {
+                console.log("=== LOGIN START ===", email);
+
+                // =========================
+                // 1) Admin login (admins/admin)
+                // =========================
+                const adminRef = db.doc("admins/admin");
+                const adminSnap = await adminRef.get();
+
+                if (adminSnap.exists) {
+                    const adminData = adminSnap.data();
+                    const dbEmail = (adminData.email || "").toLowerCase();
+                    const dbPass = adminData.password || "";
+
+                    if (dbEmail === email && dbPass === password) {
+                        alert("تم تسجيل الدخول كأدمن ✅");
+
+                        localStorage.setItem("isAdmin", "true"); // ✅ حفظ الأدمن
+
+                        currentUser = { email: dbEmail, role: "ADMIN" };
+
+                        document.getElementById("loginPage").classList.add("hidden");
+                        document.getElementById("mainPage").classList.remove("hidden");
+                        document.querySelector(".logout-btn").classList.remove("hidden");
+
+                        document.getElementById("welcomeMessage").classList.add("hidden");
+                        document.getElementById("navUser").textContent = " | " + dbEmail;
+
+                        // ✅ إظهار لوحة الإدارة للأدمن
+                        document.getElementById("adminPanel").classList.remove("hidden");
+
+                        renderGrades();
+                        return;
+
+                    }
                 }
-                // ❌ لا يظهر في اختيار الصف
-                else if (currentGrade && !currentSubject) {
-                    backBtn.style.display = "none";
-                }
-                // ✅ يظهر من صفحة المواد وما بعدها
-                else {
-                    backBtn.style.display = "inline-block";
-                }
-            }
 
+                // ✅ مهم جدًا: لو لم يكن أدمن احذف العلامة حتى لا يعلق في admin.html
+                localStorage.removeItem("isAdmin");
 
-            // خاص بالدروس
-            let currentLessonIndex = 0;
-            let currentLessonsList = [];
-            let lessonCompleted = false;
+                // =========================
+                // 2) Supervisor login (users role=SUPERVISOR)
+                // =========================
+                const { collection, getDocs, query, where } = window.firestoreTools;
 
-            // حفظ آخر درس شاهده الطالب
-            function saveLastLesson(index) {
-                if (!currentUser || !currentGrade || !currentSubject || !currentUnit) return;
+                const supQuery = query(
+                    collection(db, "users"),
+                    where("email", "==", email),
+                    where("role", "==", "SUPERVISOR")
+                );
 
-                const key = `lastLesson_${currentUser.email}_${currentGrade}_${currentSubject}_${currentUnit}`;
-                localStorage.setItem(key, index);
-            }
+                const supSnap = await getDocs(supQuery);
 
-            // جلب آخر درس شاهده الطالب
-            function getLastLesson() {
-                if (!currentUser || !currentGrade || !currentSubject || !currentUnit) return null;
+                if (!supSnap.empty) {
+                    const supDoc = supSnap.docs[0];
+                    const sup = supDoc.data();
 
-                const key = `lastLesson_${currentUser.email}_${currentGrade}_${currentSubject}_${currentUnit}`;
-                const index = localStorage.getItem(key);
+                    if (sup.password !== password) {
+                        alert("كلمة المرور غير صحيحة ❌");
+                        return;
+                    }
 
-                return index !== null ? parseInt(index) : null;
-            }
+                    // ✅ Supervisor ليس Admin
+                    localStorage.removeItem("isAdmin");
 
+                    currentUser = { ...sup, id: supDoc.id, role: "SUPERVISOR" };
 
+                    document.getElementById("loginPage").classList.add("hidden");
+                    document.getElementById("mainPage").classList.remove("hidden");
+                    document.querySelector(".logout-btn").classList.remove("hidden");
 
-            // حفظ البيانات
-            // function saveData() {
-            //     localStorage.setItem("users", JSON.stringify(users));
-            //     localStorage.setItem("scores", JSON.stringify(scores));
-            // }
-// ===============================
-// ✅ Firebase DB Global Reference
-// ===============================
-function getDB() {
-  if (!window.firestoreTools || !window.firestoreTools.db) {
-    throw new Error("Firebase لم يتم تحميله بعد");
-  }
-  return window.firestoreTools.db;
-}
+                    document.getElementById("welcomeMessage").classList.add("hidden");
+                    document.getElementById("navUser").textContent = " | " + sup.email;
 
-  // ===============================
-// تسجيل الدخول (Admin + Supervisor + Student)
-// ===============================
-async function login() {
-  const email = document.getElementById("email").value.trim().toLowerCase();
-  const password = document.getElementById("password").value.trim();
+                    // ✅ إظهار لوحة الإدارة للمشرف
+                    document.getElementById("adminPanel").classList.remove("hidden");
 
-  if (!email || !password) {
-    alert("من فضلك أدخل البريد وكلمة المرور");
-    return;
-  }
-
-  if (!window.firestoreTools || !window.firestoreTools.db) {
-    alert("Firebase لم يتم تحميله بعد");
-    console.log("firestoreTools:", window.firestoreTools);
-    return;
-  }
-
-  const db = window.firestoreTools.db;
-
-  try {
-    console.log("=== LOGIN START ===", email);
-
-    // =========================
-    // 1) Admin login (admins/admin)
-    // =========================
-    const adminRef = db.doc("admins/admin");
-    const adminSnap = await adminRef.get();
-
-    if (adminSnap.exists) {
-      const adminData = adminSnap.data();
-      const dbEmail = (adminData.email || "").toLowerCase();
-      const dbPass = adminData.password || "";
-
-      if (dbEmail === email && dbPass === password) {
-        alert("تم تسجيل الدخول كأدمن ✅");
-
-        localStorage.setItem("isAdmin", "true"); // ✅ حفظ الأدمن
-
-        currentUser = { email: dbEmail, role: "ADMIN" };
-
-document.getElementById("loginPage").classList.add("hidden");
-document.getElementById("mainPage").classList.remove("hidden");
-document.querySelector(".logout-btn").classList.remove("hidden");
-
-document.getElementById("welcomeMessage").classList.add("hidden");
-document.getElementById("navUser").textContent = " | " + dbEmail;
-
-// ✅ إظهار لوحة الإدارة للأدمن
-document.getElementById("adminPanel").classList.remove("hidden");
-
-renderGrades();
-return;
-
-      }
-    }
-
-    // ✅ مهم جدًا: لو لم يكن أدمن احذف العلامة حتى لا يعلق في admin.html
-    localStorage.removeItem("isAdmin");
-
-    // =========================
-    // 2) Supervisor login (users role=SUPERVISOR)
-    // =========================
-    const { collection, getDocs, query, where } = window.firestoreTools;
-
-    const supQuery = query(
-      collection(db, "users"),
-      where("email", "==", email),
-      where("role", "==", "SUPERVISOR")
-    );
-
-    const supSnap = await getDocs(supQuery);
-
-    if (!supSnap.empty) {
-      const supDoc = supSnap.docs[0];
-      const sup = supDoc.data();
-
-      if (sup.password !== password) {
-        alert("كلمة المرور غير صحيحة ❌");
-        return;
-      }
-
-      // ✅ Supervisor ليس Admin
-      localStorage.removeItem("isAdmin");
-
-      currentUser = { ...sup, id: supDoc.id, role: "SUPERVISOR" };
-
-      document.getElementById("loginPage").classList.add("hidden");
-      document.getElementById("mainPage").classList.remove("hidden");
-      document.querySelector(".logout-btn").classList.remove("hidden");
-
-      document.getElementById("welcomeMessage").classList.add("hidden");
-      document.getElementById("navUser").textContent = " | " + sup.email;
-
-      // ✅ إظهار لوحة الإدارة للمشرف
-      document.getElementById("adminPanel").classList.remove("hidden");
-
-      renderGrades();
-      return;
-    }
-
-    // =========================
-    // 3) Student login (students)
-    // =========================
-    const studentQuery = query(
-      collection(db, "students"),
-      where("email", "==", email)
-    );
-
-    const studentSnap = await getDocs(studentQuery);
-
-    if (studentSnap.empty) {
-      alert("هذا الحساب غير موجود ❌");
-      return;
-    }
-
-    const studentDoc = studentSnap.docs[0];
-    const student = studentDoc.data();
-
-    if (student.password !== password) {
-      alert("كلمة المرور غير صحيحة ❌");
-      return;
-    }
-
-    if (student.approved !== true) {
-      alert("حسابك قيد المراجعة ولم يتم تفعيله بعد ⏳");
-      return;
-    }
-
-    // ✅ Student ليس Admin
-    localStorage.removeItem("isAdmin");
-
-    currentUser = { ...student, id: studentDoc.id, role: "STUDENT" };
-
-    document.getElementById("loginPage").classList.add("hidden");
-    document.getElementById("mainPage").classList.remove("hidden");
-    document.querySelector(".logout-btn").classList.remove("hidden");
-
-    document.getElementById("welcomeMessage").classList.add("hidden");
-    document.getElementById("navUser").textContent = " | " + student.email;
-
-    // ❌ إخفاء لوحة الإدارة للطلاب
-    document.getElementById("adminPanel").classList.add("hidden");
-
-    renderGrades();
-
-  } catch (err) {
-    console.error(err);
-    alert("حدث خطأ أثناء تسجيل الدخول ❌");
-  }
-}
-
-
-
-
-
-
-
-// تسجيل خروج
-function logout() {
-    currentUser = null;
-
-    // ✅ حذف صلاحية الأدمن
-    localStorage.removeItem("isAdmin");
-
-    // إيقاف الفيديو نهائيًا
-    document.getElementById("lessonVideo").innerHTML = "";
-
-    document.getElementById("loginPage").classList.remove("hidden");
-    document.getElementById("registerPage").classList.add("hidden");
-    document.getElementById("mainPage").classList.add("hidden");
-    document.getElementById("adminPanel").classList.add("hidden");
-    document.querySelector(".logout-btn").classList.add("hidden");
-    document.getElementById("navUser").textContent = "";
-    document.getElementById("welcomeMessage").classList.remove("hidden");
-
-    resetNavigation();
-}
-
-            function goHome() {
-                stopVideo();      // ⛔ إيقاف الفيديو مثل زر الرجوع
-                currentGrade = null;
-                currentSubject = null;
-                currentUnit = null;
-                renderGrades();   // الذهاب لاختيار المرحلة
-            }
-
-
-            // صفحة التسجيل
-            function registerStudentPage() {
-                document.getElementById("loginPage").classList.add("hidden");
-                document.getElementById("welcomeMessage").classList.add("hidden");
-
-                document.getElementById("registerPage").classList.remove("hidden");
-            }
-            function backToLogin() {
-                document.getElementById("registerPage").classList.add("hidden");
-                document.getElementById("loginPage").classList.remove("hidden");
-            }
-
-            // تسجيل طالب جديد
-async function registerStudent() {
-  const email = document.getElementById("regEmail").value.trim().toLowerCase();
-  const password = document.getElementById("regPassword").value.trim();
-
-  if (!email || !password) {
-    alert("يرجى إدخال البريد الإلكتروني وكلمة المرور!");
-    return;
-  }
-
-  // ✅ نفس طريقة الأدمن (compat)
-  const db = window.firestoreTools.db;
-
-  try {
-    // ✅ منع التكرار
-    const existingSnap = await db
-      .collection("students")
-      .where("email", "==", email)
-      .get();
-
-    if (!existingSnap.empty) {
-      alert("هذا البريد مسجل بالفعل ❌");
-      return;
-    }
-
-    // ✅ إضافة الطالب في Firestore
-    await db.collection("students").add({
-      name: email.split("@")[0],
-      email: email,
-      password: password,
-      role: "STUDENT",
-      approved: false, // 👈 في انتظار موافقة الأدمن
-      createdAt: new Date().toISOString()
-    });
-
-    alert("تم إنشاء الحساب بنجاح ✅\nبانتظار موافقة الإدارة");
-
-    // تنظيف الحقول
-    document.getElementById("regEmail").value = "";
-    document.getElementById("regPassword").value = "";
-
-    // رجوع لصفحة تسجيل الدخول
-    backToLogin();
-
-  } catch (err) {
-    console.error(err);
-    alert("حدث خطأ أثناء التسجيل ❌\n" + err.message);
-  }
-}
-
-
-
-
-            // عرض الصفوف بشكل جميل
-            function renderGrades() {
-                resetNavigation();
-                updateGlobalNav(false); // إخفاء زر الصفحة الرئيسية هنا فقط
-
-                const container = document.getElementById("gradePage");
-
-                // هيكل منسق
-                container.innerHTML = `
-                                                                                                                    <section class="grades-section">
-                                                                                                                        <h2>اختر الصف الدراسي</h2>
-                                                                                                                        <div class="grades-grid"></div>
-                                                                                                                    </section>
-                                                                                                                `;
-
-                const grid = container.querySelector(".grades-grid");
-
-                grades.forEach((grade) => {
-                    const btn = document.createElement("button");
-                    btn.textContent = grade;
-                    btn.className = "grade-card";
-                    btn.onclick = () => {
-                        currentGrade = grade;
-                        renderSubjects(grade);
-                    };
-                    grid.appendChild(btn);
-                });
-
-                showSection("gradePage");
-                updateBackButton();
-            }
-
-
-
-
-
-            // عرض المواد بشكل جميل
-            function renderSubjects(grade) {
-                updateGlobalNav(true);
-                resetNavigation();
-
-                currentSubject = null;
-                currentUnit = null;
-
-                const container = document.getElementById("subjectPage");
-
-                container.innerHTML = `
-                                                                                                                    <section class="subjects-section">
-                                                                                                                        <h2>${grade}</h2>
-                                                                                                                        <p class="section-subtitle">اختر المادة الدراسية</p>
-                                                                                                                        <div class="subjects-grid"></div>
-                                                                                                                    </section>
-                                                                                                                `;
-
-                const grid = container.querySelector(".subjects-grid");
-
-                subjectsPerGrade[grade].forEach((sub) => {
-                    const btn = document.createElement("button");
-                    const icons = {
-                        "اللغة العربية": "📘",
-                        "اللغة الإنجليزية": "📕",
-                        "الرياضيات": "📐",
-                        "العلوم": "🧪",
-                        "الدراسات الاجتماعية": "🌍",
-                        "التربية الدينية": "🕌",
-                        "النشاط الفني/الحاسب الآلي/الرياضة": "🎨"
-                    };
-
-                    btn.innerHTML = `
-                                                                                                        <div class="subject-icon">${icons[sub] || "📘"}</div>
-                                                                                                        <div>${sub}</div>
-`;
-
-                    btn.className = "subject-card";
-                    btn.onclick = () => {
-                        currentSubject = sub;
-                        renderUnits(grade, sub);
-                    };
-                    grid.appendChild(btn);
-                });
-
-                showSection("subjectPage");
-                updateBackButton();
-            }
-
-
-            // عرض الوحدات
-            // عرض الوحدات بشكل منسق
-            function renderUnits(grade, subject) {
-                stopVideo();
-                resetNavigation();
-                updateGlobalNav(true);
-
-                currentUnit = null;
-
-                const container = document.getElementById("unitPage");
-
-                container.innerHTML = `
-                                                                                                                    <section class="units-section">
-                                                                                                                        <h2>${subject}</h2>
-                                                                                                                        <p class="section-subtitle">اختر الوحدة</p>
-                                                                                                                        <div class="units-grid"></div>
-                                                                                                                    </section>
-                                                                                                                `;
-
-                const grid = container.querySelector(".units-grid");
-
-                unitsPerSubject[subject].forEach((unit) => {
-                    const btn = document.createElement("button");
-                    btn.textContent = unit;
-                    btn.className = "unit-card";
-                    btn.onclick = () => {
-                        currentUnit = unit;
-                        renderLessons(grade, subject, unit);
-                    };
-                    grid.appendChild(btn);
-                });
-
-                showSection("unitPage");
-                updateBackButton();
-            }
-
-
-
-            // عرض الدروس
-            function renderLessons(grade, subject, unit) {
-                resetNavigation();
-
-                currentLessonsList = lessons[grade][subject][unit];
-
-                // 🔹 جلب آخر درس محفوظ
-                const lastIndex = getLastLesson();
-                currentLessonIndex =
-                    lastIndex !== null && lastIndex < currentLessonsList.length
-                        ? lastIndex
-                        : 0;
-                document.getElementById("lessonPath").style.display = "block";
-
-                showSection("lessonPage");
-                updateBackButton();
-
-                document.getElementById("lessonTitle").textContent =
-                    `${grade} - ${subject} - ${unit}`;
-
-                renderLessonList();
-                loadLesson(currentLessonIndex);
-            }
-
-  function showLessonDetail(lesson) {
-  const videoDiv = document.getElementById("lessonVideo");
-  const textDiv = document.getElementById("lessonText");
-
-  videoDiv.innerHTML = `
-    <video
-      id="lessonPlayer"
-      controls
-      playsinline
-      preload="auto"
-      muted
-      width="100%"
-      style="max-height: 220px; border-radius: 12px;"
-    >
-      <source src="./videos/Lesson1.mp4.mp4?v=1" type="video/mp4">
-      المتصفح لا يدعم تشغيل الفيديو
-    </video>
-  `;
-
-  const video = document.getElementById("lessonPlayer");
-  if (video) {
-    video.play().catch(err => console.log("Autoplay blocked:", err));
-
-    lessonCompleted = false;
-    const nextBtn = document.getElementById("nextLessonBtn");
-    if (nextBtn) nextBtn.disabled = true;
-
-    video.addEventListener("loadeddata", () => {
-      video.muted = false;
-      video.play().catch(() => console.log("المتصفح منع التشغيل التلقائي بالصوت"));
-    });
-
-    video.addEventListener("ended", () => {
-      lessonCompleted = true;
-      if (nextBtn) nextBtn.disabled = false;
-      saveLastLesson(currentLessonIndex);
-    });
-  }
-
-  textDiv.textContent = lesson.content;
-  updateLessonNav(true);
-}
-
-
-            // عرض قائمة الدروس بشكل كروت
-            function renderLessonList() {
-                const listDiv = document.getElementById("lessonList");
-                if (!listDiv) return;
-
-                listDiv.innerHTML = `<div class="lessons-grid"></div>`;
-                const grid = listDiv.querySelector(".lessons-grid");
-
-                currentLessonsList.forEach((lesson, index) => {
-                    const btn = document.createElement("button");
-                    btn.textContent = lesson.title;
-                    btn.className = "lesson-card";
-                    btn.onclick = () => loadLesson(index);
-                    grid.appendChild(btn);
-                });
-            }
-
-
-            // ▶️ تحميل درس معين
-            function loadLesson(index) {
-                currentLessonIndex = index;
-                lessonCompleted = false;
-                document.getElementById("lessonList").style.display = "none";
-
-                const lesson = currentLessonsList[index];
-
-                // مسار الدرس
-                document.getElementById("lessonPath").innerHTML = `
-                                                                                                            <span>${currentSubject}</span>
-                                                                                                            <span> &gt; </span>
-                                                                                                            <span>${currentUnit}</span>
-                                                                                                            <span> &gt; </span>
-                                                                                                            <strong>${lesson.title}</strong>
-                                                                                                        `;
-
-                showLessonDetail(lesson);
-
-                const prevBtn = document.getElementById("prevLessonBtn");
-                const nextBtn = document.getElementById("nextLessonBtn");
-
-                if (prevBtn) prevBtn.disabled = index === 0;
-                if (nextBtn) nextBtn.disabled = true;
-
-                // 📊 شريط التقدم
-                const progress =
-                    ((index + 1) / currentLessonsList.length) * 100;
-                document.getElementById("progressBar").style.width = progress + "%";
-
-                saveLastLesson(index);
-            }
-
-
-
-            function prevLesson() {
-                if (currentLessonIndex > 0) {
-                    currentLessonIndex--;
-                    loadLesson(currentLessonIndex);
-                }
-            }
-
-            function nextLesson() {
-                // 🔒 حماية إضافية: لا ينتقل إلا إذا اكتمل الدرس
-                if (!lessonCompleted) {
-                    alert("يجب مشاهدة الفيديو كاملًا قبل الانتقال للدرس التالي");
+                    renderGrades();
                     return;
                 }
 
-                if (currentLessonIndex < currentLessonsList.length - 1) {
-                    currentLessonIndex++;
-                    loadLesson(currentLessonIndex);
-                } else {
-                    alert("🎉 أحسنت! انتهيت من جميع دروس هذه الوحدة");
+                // =========================
+                // 3) Student login (students)
+                // =========================
+                const studentQuery = query(
+                    collection(db, "students"),
+                    where("email", "==", email)
+                );
+
+                const studentSnap = await getDocs(studentQuery);
+
+                if (studentSnap.empty) {
+                    alert("هذا الحساب غير موجود ❌");
+                    return;
                 }
-            }
 
+                const studentDoc = studentSnap.docs[0];
+                const student = studentDoc.data();
 
-            // التنقل للرجوع حسب الصفحة
-            function back(page) {
-                stopVideo();           // ⛔ إيقاف الفيديو فور الرجوع
-                updateLessonNav(false); // ✅ إخفاء زر "رجوع للوحدة"
-                document.getElementById("lessonList").style.display = "block";
-
-                switch (page) {
-                    case "grade":
-                        renderGrades();
-                        break;
-                    case "subject":
-                        if (currentGrade) renderSubjects(currentGrade);
-                        break;
-                    case "unit":
-                        if (currentGrade && currentSubject) renderUnits(currentGrade, currentSubject);
-                        break;
-                    default:
-                        renderGrades();
+                if (student.password !== password) {
+                    alert("كلمة المرور غير صحيحة ❌");
+                    return;
                 }
-            }
 
-            function smartBack() {
-                stopVideo();
-
-                if (currentUnit) {
-                    // داخل الدروس → رجوع للوحدات
-                    currentUnit = null;
-                    renderUnits(currentGrade, currentSubject);
+                if (student.approved !== true) {
+                    alert("حسابك قيد المراجعة ولم يتم تفعيله بعد ⏳");
+                    return;
                 }
-                else if (currentSubject) {
-                    // داخل الوحدات → رجوع للمواد
-                    currentSubject = null;
-                    renderSubjects(currentGrade);
-                }
-                else if (currentGrade) {
-                    // داخل المواد → رجوع للصفوف
-                    currentGrade = null;
-                    renderGrades();
-                }
+
+                // ✅ Student ليس Admin
+                localStorage.removeItem("isAdmin");
+
+                currentUser = { ...student, id: studentDoc.id, role: "STUDENT" };
+
+                document.getElementById("loginPage").classList.add("hidden");
+                document.getElementById("mainPage").classList.remove("hidden");
+                document.querySelector(".logout-btn").classList.remove("hidden");
+
+                document.getElementById("welcomeMessage").classList.add("hidden");
+                document.getElementById("navUser").textContent = " | " + student.email;
+
+                // ❌ إخفاء لوحة الإدارة للطلاب
+                document.getElementById("adminPanel").classList.add("hidden");
+
+                renderGrades();
+
+            } catch (err) {
+                console.error(err);
+                alert("حدث خطأ أثناء تسجيل الدخول ❌");
             }
-
-
-
-            // إظهار قسم معين وإخفاء الباقي
-            function showSection(idToShow) {
-                ["gradePage", "subjectPage", "unitPage", "lessonPage"].forEach((id) => {
-                    document.getElementById(id).classList.toggle("hidden", id !== idToShow);
-                });
-                // لوحة الإدارة تظهر مع الأقسام الخاصة بها ولا تؤثر هنا
-            }
-
-            // إخفاء كل أقسام الإدارة
-            function hideAllAdminSections() {
-                ["studentsList", "supervisorsList", "testsList", "resultsList"].forEach((id) => {
-                    document.getElementById(id).classList.add("hidden");
-                });
-            }
-
-            // عرض أقسام الإدارة
-            function showAdminSection(section) {
-                hideAllAdminSections();
-                switch (section) {
-                    case "students":
-                        renderStudents();
-                        break;
-                    case "supervisors":
-                        renderSupervisors();
-                        break;
-                    case "tests":
-                        renderTests();
-                        break;
-                    case "results":
-                        renderResults();
-                        break;
-                }
-            }
-            async function loadPendingStudents() {
-                const res = await fetch("/api/students/pending"); // نطلب الطلبات من السيرفر
-                const data = await res.json();                    // نحولها JSON
-                console.log(data);                                // نعرضها في Console
-            }
-
-
-            // إدارة الطلاب (تعرض فقط للمدير والمشرف)
-// ==============================
-// 👨‍💼 إدارة الطلاب والمشرفين (Firestore)
-// ==============================
-
-// عرض قائمة الطلاب
-async function renderStudents() {
-  const container = document.getElementById("studentsList");
-
-  container.classList.remove("hidden");
-  ["supervisorsList", "testsList", "resultsList"].forEach((id) =>
-    document.getElementById(id).classList.add("hidden")
-  );
-
-  container.innerHTML = `
-    <h4>قائمة الطلاب</h4>
-    <button class="custom-btn" onclick="showAddStudentModal()">إضافة طالب</button>
-    <p>جاري تحميل الطلاب...</p>
-  `;
-
-  try {
-    const db = window.firestoreTools.db;
-
-    const snap = await db.collection("students").get();
-
-    let rows = "";
-
-    snap.forEach((docSnap) => {
-      const s = docSnap.data();
-      const id = docSnap.id;
-
-      rows += `
-        <tr>
-          <td>${s.email || "-"}</td>
-          <td>${s.approved ? "مفعل ✅" : "غير مفعل ⛔"}</td>
-          <td>${(typeof scores !== "undefined" && scores[s.email]) ? scores[s.email] : "-"}</td>
-          <td style="display:flex; gap:6px; flex-wrap:wrap; justify-content:center;">
-            
-            <button class="custom-btn" onclick="editStudent('${s.email || ""}')">تعديل</button>
-
-            <button class="custom-btn" onclick="setApprove('${id}', true)">موافقة</button>
-
-            <button class="custom-btn" onclick="rejectStudent('${id}')">رفض</button>
-
-            <button class="custom-btn" onclick="deleteUser('${id}', 'students')">حذف</button>
-
-          </td>
-        </tr>
-      `;
-    });
-
-    container.innerHTML = `
-      <h4>قائمة الطلاب</h4>
-      <button class="custom-btn" onclick="showAddStudentModal()">إضافة طالب</button>
-
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>البريد الإلكتروني</th>
-              <th>الحالة</th>
-              <th>الدرجة</th>
-              <th>خيارات</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${rows || `<tr><td colspan="4">لا يوجد طلاب حاليا</td></tr>`}
-          </tbody>
-        </table>
-      </div>
-    `;
-
-  } catch (err) {
-    console.error(err);
-    container.innerHTML = `<p>حدث خطأ أثناء تحميل الطلاب ❌<br>${err.message}</p>`;
-  }
-}
-
-
-// عرض نموذج إضافة طالب
-function showAddStudentModal() {
-    document.getElementById("newStudentEmail").value = "";
-    document.getElementById("newStudentPassword").value = "";
-    document.getElementById("studentModal").style.display = "flex";
-}
-
-// إضافة طالب جديد (Firestore)
-async function addStudent() {
-    const email = document.getElementById("newStudentEmail").value.trim().toLowerCase();
-    const password = document.getElementById("newStudentPassword").value.trim();
-
-    if (!email || !password) {
-        alert("يرجى إدخال البريد الإلكتروني وكلمة المرور!");
-        return;
-    }
-
-    try {
-        const { collection, addDoc, getDocs, query, where } = window.firestoreTools;
-
-        // ✅ منع التكرار
-        const db = window.firestoreTools.db;
-
-const q = query(collection(db, "students"), where("email", "==", email));
-
-        const snap = await getDocs(q);
-
-        if (!snap.empty) {
-            alert("هذا البريد مستخدم بالفعل!");
-            return;
         }
 
-        await addDoc(collection(db, "students"), {
-            name: email.split("@")[0],
-            email,
-            password,
-            role: "STUDENT",
-            approved: true, // الأدمن يضيفه مفعل
-            createdAt: new Date().toISOString()
-        });
-
-        alert("تمت إضافة الطالب بنجاح ✅");
-
-        closeModal("studentModal");
-        renderStudents();
-
-    } catch (err) {
-        console.error(err);
-        alert("حدث خطأ أثناء إضافة الطالب ❌");
-    }
-}
 
 
-// ==============================
-// 👨‍🏫 إدارة المشرفين
-// ==============================
 
-async function renderSupervisors() {
-  const container = document.getElementById("supervisorsList");
 
-  container.classList.remove("hidden");
-  ["studentsList", "testsList", "resultsList"].forEach((id) =>
-    document.getElementById(id).classList.add("hidden")
-  );
 
-  container.innerHTML = `
-    <h4>المشرفون</h4>
-    <button class="custom-btn" onclick="showAddSupervisorModal()">إضافة مشرف</button>
-    <p>جاري تحميل المشرفين...</p>
-  `;
 
-  try {
-    if (!window.firestoreTools || !window.firestoreTools.db) {
-      container.innerHTML = `<p>Firebase لم يتم تحميله بعد ❌</p>`;
-      return;
-    }
+        // تسجيل خروج
+        function logout() {
+            currentUser = null;
 
-    const db = window.firestoreTools.db;
+            // ✅ حذف صلاحية الأدمن
+            localStorage.removeItem("isAdmin");
 
-    // ✅ compat query
-    const snap = await db
-      .collection("users")
-      .where("role", "==", "SUPERVISOR")
-      .get();
+            // إيقاف الفيديو نهائيًا
+            document.getElementById("lessonVideo").innerHTML = "";
 
-    let rows = "";
+            document.getElementById("loginPage").classList.remove("hidden");
+            document.getElementById("registerPage").classList.add("hidden");
+            document.getElementById("mainPage").classList.add("hidden");
+            document.getElementById("adminPanel").classList.add("hidden");
+            document.querySelector(".logout-btn").classList.add("hidden");
+            document.getElementById("navUser").textContent = "";
+            document.getElementById("welcomeMessage").classList.remove("hidden");
 
-    snap.forEach((docSnap) => {
-      const s = docSnap.data();
-      const id = docSnap.id;
+            resetNavigation();
+        }
 
-      rows += `
-        <tr>
-          <td>${s.email || "-"}</td>
-          <td>
-            <button class="custom-btn" onclick="deleteUser('${id}', 'users')">حذف</button>
-          </td>
-        </tr>
+        function goHome() {
+            stopVideo();      // ⛔ إيقاف الفيديو مثل زر الرجوع
+            currentGrade = null;
+            currentSubject = null;
+            currentUnit = null;
+            renderGrades();   // الذهاب لاختيار المرحلة
+        }
+
+
+        // صفحة التسجيل
+        function registerStudentPage() {
+            document.getElementById("loginPage").classList.add("hidden");
+            document.getElementById("welcomeMessage").classList.add("hidden");
+
+            document.getElementById("registerPage").classList.remove("hidden");
+        }
+        function backToLogin() {
+            document.getElementById("registerPage").classList.add("hidden");
+            document.getElementById("loginPage").classList.remove("hidden");
+        }
+
+        // تسجيل طالب جديد
+        async function registerStudent() {
+            const email = document.getElementById("regEmail").value.trim().toLowerCase();
+            const password = document.getElementById("regPassword").value.trim();
+
+            if (!email || !password) {
+                alert("يرجى إدخال البريد الإلكتروني وكلمة المرور!");
+                return;
+            }
+
+            // ✅ نفس طريقة الأدمن (compat)
+            const db = window.firestoreTools.db;
+
+            try {
+                // ✅ منع التكرار
+                const existingSnap = await db
+                    .collection("students")
+                    .where("email", "==", email)
+                    .get();
+
+                if (!existingSnap.empty) {
+                    alert("هذا البريد مسجل بالفعل ❌");
+                    return;
+                }
+
+                // ✅ إضافة الطالب في Firestore
+                await db.collection("students").add({
+                    name: email.split("@")[0],
+                    email: email,
+                    password: password,
+                    role: "STUDENT",
+                    approved: false, // 👈 في انتظار موافقة الأدمن
+                    createdAt: new Date().toISOString()
+                });
+
+                alert("تم إنشاء الحساب بنجاح ✅\nبانتظار موافقة الإدارة");
+
+                // تنظيف الحقول
+                document.getElementById("regEmail").value = "";
+                document.getElementById("regPassword").value = "";
+
+                // رجوع لصفحة تسجيل الدخول
+                backToLogin();
+
+            } catch (err) {
+                console.error(err);
+                alert("حدث خطأ أثناء التسجيل ❌\n" + err.message);
+            }
+        }
+
+
+
+
+        // عرض الصفوف بشكل جميل
+        function renderGrades() {
+            resetNavigation();
+            updateGlobalNav(false); // إخفاء زر الصفحة الرئيسية هنا فقط
+
+            const container = document.getElementById("gradePage");
+
+            // هيكل منسق
+            container.innerHTML = `
+                                                                                                                        <section class="grades-section">
+                                                                                                                            <h2>اختر الصف الدراسي</h2>
+                                                                                                                            <div class="grades-grid"></div>
+                                                                                                                        </section>
+                                                                                                                    `;
+
+            const grid = container.querySelector(".grades-grid");
+
+            grades.forEach((grade) => {
+                const btn = document.createElement("button");
+                btn.textContent = grade;
+                btn.className = "grade-card";
+                btn.onclick = () => {
+                    currentGrade = grade;
+                    renderSubjects(grade);
+                };
+                grid.appendChild(btn);
+            });
+
+            showSection("gradePage");
+            updateBackButton();
+        }
+
+
+
+
+
+        // عرض المواد بشكل جميل
+        function renderSubjects(grade) {
+            updateGlobalNav(true);
+            resetNavigation();
+
+            currentSubject = null;
+            currentUnit = null;
+
+            const container = document.getElementById("subjectPage");
+
+            container.innerHTML = `
+                                                                                                                        <section class="subjects-section">
+                                                                                                                            <h2>${grade}</h2>
+                                                                                                                            <p class="section-subtitle">اختر المادة الدراسية</p>
+                                                                                                                            <div class="subjects-grid"></div>
+                                                                                                                        </section>
+                                                                                                                    `;
+
+            const grid = container.querySelector(".subjects-grid");
+
+            subjectsPerGrade[grade].forEach((sub) => {
+                const btn = document.createElement("button");
+                const icons = {
+                    "اللغة العربية": "📘",
+                    "اللغة الإنجليزية": "📕",
+                    "الرياضيات": "📐",
+                    "العلوم": "🧪",
+                    "الدراسات الاجتماعية": "🌍",
+                    "التربية الدينية": "🕌",
+                    "النشاط الفني/الحاسب الآلي/الرياضة": "🎨"
+                };
+
+                btn.innerHTML = `
+                                                                                                            <div class="subject-icon">${icons[sub] || "📘"}</div>
+                                                                                                            <div>${sub}</div>
+`;
+
+                btn.className = "subject-card";
+                btn.onclick = () => {
+                    currentSubject = sub;
+                    renderUnits(grade, sub);
+                };
+                grid.appendChild(btn);
+            });
+
+            showSection("subjectPage");
+            updateBackButton();
+        }
+
+
+        // عرض الوحدات
+        // عرض الوحدات بشكل منسق
+        function renderUnits(grade, subject) {
+            stopVideo();
+            resetNavigation();
+            updateGlobalNav(true);
+
+            currentUnit = null;
+
+            const container = document.getElementById("unitPage");
+
+            container.innerHTML = `
+                                                                                                                        <section class="units-section">
+                                                                                                                            <h2>${subject}</h2>
+                                                                                                                            <p class="section-subtitle">اختر الوحدة</p>
+                                                                                                                            <div class="units-grid"></div>
+                                                                                                                        </section>
+                                                                                                                    `;
+
+            const grid = container.querySelector(".units-grid");
+
+            unitsPerSubject[subject].forEach((unit) => {
+                const btn = document.createElement("button");
+                btn.textContent = unit;
+                btn.className = "unit-card";
+                btn.onclick = () => {
+                    currentUnit = unit;
+                    renderLessons(grade, subject, unit);
+                };
+                grid.appendChild(btn);
+            });
+
+            showSection("unitPage");
+            updateBackButton();
+        }
+
+
+
+        // عرض الدروس
+        function renderLessons(grade, subject, unit) {
+            resetNavigation();
+
+            currentLessonsList = lessons[grade][subject][unit];
+
+            // 🔹 جلب آخر درس محفوظ
+            const lastIndex = getLastLesson();
+            currentLessonIndex =
+                lastIndex !== null && lastIndex < currentLessonsList.length
+                    ? lastIndex
+                    : 0;
+            document.getElementById("lessonPath").style.display = "block";
+
+            showSection("lessonPage");
+            updateBackButton();
+
+            document.getElementById("lessonTitle").textContent =
+                `${grade} - ${subject} - ${unit}`;
+
+            renderLessonList();
+            loadLesson(currentLessonIndex);
+        }
+
+        function showLessonDetail(lesson) {
+            const videoDiv = document.getElementById("lessonVideo");
+            const textDiv = document.getElementById("lessonText");
+
+            videoDiv.innerHTML = `
+        <video
+          id="lessonPlayer"
+          controls
+          playsinline
+          preload="auto"
+          muted
+          width="100%"
+          style="max-height: 220px; border-radius: 12px;"
+        >
+          <source src="./videos/Lesson1.mp4.mp4?v=1" type="video/mp4">
+          المتصفح لا يدعم تشغيل الفيديو
+        </video>
       `;
-    });
 
-    container.innerHTML = `
-      <h4>المشرفون</h4>
-      <button class="custom-btn" onclick="showAddSupervisorModal()">إضافة مشرف</button>
+            const video = document.getElementById("lessonPlayer");
+            if (video) {
+                video.play().catch(err => console.log("Autoplay blocked:", err));
 
-      <div class="table-container">
-        <table>
-          <thead>
+                lessonCompleted = false;
+                const nextBtn = document.getElementById("nextLessonBtn");
+                if (nextBtn) nextBtn.disabled = true;
+
+                video.addEventListener("loadeddata", () => {
+                    video.muted = false;
+                    video.play().catch(() => console.log("المتصفح منع التشغيل التلقائي بالصوت"));
+                });
+
+                video.addEventListener("ended", () => {
+                    lessonCompleted = true;
+                    if (nextBtn) nextBtn.disabled = false;
+                    saveLastLesson(currentLessonIndex);
+                });
+            }
+
+            textDiv.textContent = lesson.content;
+            updateLessonNav(true);
+        }
+
+
+        // عرض قائمة الدروس بشكل كروت
+        function renderLessonList() {
+            const listDiv = document.getElementById("lessonList");
+            if (!listDiv) return;
+
+            listDiv.innerHTML = `<div class="lessons-grid"></div>`;
+            const grid = listDiv.querySelector(".lessons-grid");
+
+            currentLessonsList.forEach((lesson, index) => {
+                const btn = document.createElement("button");
+                btn.textContent = lesson.title;
+                btn.className = "lesson-card";
+                btn.onclick = () => loadLesson(index);
+                grid.appendChild(btn);
+            });
+        }
+
+
+        // ▶️ تحميل درس معين
+        function loadLesson(index) {
+            currentLessonIndex = index;
+            lessonCompleted = false;
+            document.getElementById("lessonList").style.display = "none";
+
+            const lesson = currentLessonsList[index];
+
+            // مسار الدرس
+            document.getElementById("lessonPath").innerHTML = `
+                                                                                                                <span>${currentSubject}</span>
+                                                                                                                <span> &gt; </span>
+                                                                                                                <span>${currentUnit}</span>
+                                                                                                                <span> &gt; </span>
+                                                                                                                <strong>${lesson.title}</strong>
+                                                                                                            `;
+
+            showLessonDetail(lesson);
+
+            const prevBtn = document.getElementById("prevLessonBtn");
+            const nextBtn = document.getElementById("nextLessonBtn");
+
+            if (prevBtn) prevBtn.disabled = index === 0;
+            if (nextBtn) nextBtn.disabled = true;
+
+            // 📊 شريط التقدم
+            const progress =
+                ((index + 1) / currentLessonsList.length) * 100;
+            document.getElementById("progressBar").style.width = progress + "%";
+
+            saveLastLesson(index);
+        }
+
+
+
+        function prevLesson() {
+            if (currentLessonIndex > 0) {
+                currentLessonIndex--;
+                loadLesson(currentLessonIndex);
+            }
+        }
+
+        function nextLesson() {
+            // 🔒 حماية إضافية: لا ينتقل إلا إذا اكتمل الدرس
+            if (!lessonCompleted) {
+                alert("يجب مشاهدة الفيديو كاملًا قبل الانتقال للدرس التالي");
+                return;
+            }
+
+            if (currentLessonIndex < currentLessonsList.length - 1) {
+                currentLessonIndex++;
+                loadLesson(currentLessonIndex);
+            } else {
+                alert("🎉 أحسنت! انتهيت من جميع دروس هذه الوحدة");
+            }
+        }
+
+
+        // التنقل للرجوع حسب الصفحة
+        function back(page) {
+            stopVideo();           // ⛔ إيقاف الفيديو فور الرجوع
+            updateLessonNav(false); // ✅ إخفاء زر "رجوع للوحدة"
+            document.getElementById("lessonList").style.display = "block";
+
+            switch (page) {
+                case "grade":
+                    renderGrades();
+                    break;
+                case "subject":
+                    if (currentGrade) renderSubjects(currentGrade);
+                    break;
+                case "unit":
+                    if (currentGrade && currentSubject) renderUnits(currentGrade, currentSubject);
+                    break;
+                default:
+                    renderGrades();
+            }
+        }
+
+        function smartBack() {
+            stopVideo();
+
+            if (currentUnit) {
+                // داخل الدروس → رجوع للوحدات
+                currentUnit = null;
+                renderUnits(currentGrade, currentSubject);
+            }
+            else if (currentSubject) {
+                // داخل الوحدات → رجوع للمواد
+                currentSubject = null;
+                renderSubjects(currentGrade);
+            }
+            else if (currentGrade) {
+                // داخل المواد → رجوع للصفوف
+                currentGrade = null;
+                renderGrades();
+            }
+        }
+
+
+
+        // إظهار قسم معين وإخفاء الباقي
+        function showSection(idToShow) {
+            ["gradePage", "subjectPage", "unitPage", "lessonPage"].forEach((id) => {
+                document.getElementById(id).classList.toggle("hidden", id !== idToShow);
+            });
+            // لوحة الإدارة تظهر مع الأقسام الخاصة بها ولا تؤثر هنا
+        }
+
+        // إخفاء كل أقسام الإدارة
+        function hideAllAdminSections() {
+            ["studentsList", "supervisorsList", "testsList", "resultsList"].forEach((id) => {
+                document.getElementById(id).classList.add("hidden");
+            });
+        }
+
+        // عرض أقسام الإدارة
+        function showAdminSection(section) {
+            hideAllAdminSections();
+            switch (section) {
+                case "students":
+                    renderStudents();
+                    break;
+                case "supervisors":
+                    renderSupervisors();
+                    break;
+                case "tests":
+                    renderTests();
+                    break;
+                case "results":
+                    renderResults();
+                    break;
+            }
+        }
+        async function loadPendingStudents() {
+            const res = await fetch("/api/students/pending"); // نطلب الطلبات من السيرفر
+            const data = await res.json();                    // نحولها JSON
+            console.log(data);                                // نعرضها في Console
+        }
+
+
+        // إدارة الطلاب (تعرض فقط للمدير والمشرف)
+        // ==============================
+        // 👨‍💼 إدارة الطلاب والمشرفين (Firestore)
+        // ==============================
+
+        // عرض قائمة الطلاب
+        async function renderStudents() {
+            const container = document.getElementById("studentsList");
+
+            container.classList.remove("hidden");
+            ["supervisorsList", "testsList", "resultsList"].forEach((id) =>
+                document.getElementById(id).classList.add("hidden")
+            );
+
+            container.innerHTML = `
+        <h4>قائمة الطلاب</h4>
+        <button class="custom-btn" onclick="showAddStudentModal()">إضافة طالب</button>
+        <p>جاري تحميل الطلاب...</p>
+      `;
+
+            try {
+                const db = window.firestoreTools.db;
+
+                const snap = await db.collection("students").get();
+
+                let rows = "";
+
+                snap.forEach((docSnap) => {
+                    const s = docSnap.data();
+                    const id = docSnap.id;
+
+                    rows += `
             <tr>
-              <th>البريد الإلكتروني</th>
-              <th>خيارات</th>
+              <td>${s.email || "-"}</td>
+              <td>${s.approved ? "مفعل ✅" : "غير مفعل ⛔"}</td>
+              <td>${(typeof scores !== "undefined" && scores[s.email]) ? scores[s.email] : "-"}</td>
+              <td style="display:flex; gap:6px; flex-wrap:wrap; justify-content:center;">
+
+                <button class="custom-btn" onclick="editStudent('${s.email || ""}')">تعديل</button>
+
+                <button class="custom-btn" onclick="setApprove('${id}', true)">موافقة</button>
+
+                <button class="custom-btn" onclick="rejectStudent('${id}')">رفض</button>
+
+                <button class="custom-btn" onclick="deleteUser('${id}', 'students')">حذف</button>
+
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            ${rows || `<tr><td colspan="2">لا يوجد مشرفين حاليا</td></tr>`}
-          </tbody>
-        </table>
-      </div>
-    `;
-  } catch (err) {
-    console.error(err);
-    container.innerHTML = `<p>حدث خطأ أثناء تحميل المشرفين ❌<br>${err.message}</p>`;
-  }
-}
+          `;
+                });
+
+                container.innerHTML = `
+          <h4>قائمة الطلاب</h4>
+          <button class="custom-btn" onclick="showAddStudentModal()">إضافة طالب</button>
+
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>البريد الإلكتروني</th>
+                  <th>الحالة</th>
+                  <th>الدرجة</th>
+                  <th>خيارات</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows || `<tr><td colspan="4">لا يوجد طلاب حاليا</td></tr>`}
+              </tbody>
+            </table>
+          </div>
+        `;
+
+            } catch (err) {
+                console.error(err);
+                container.innerHTML = `<p>حدث خطأ أثناء تحميل الطلاب ❌<br>${err.message}</p>`;
+            }
+        }
 
 
-// عرض نموذج إضافة مشرف
-function showAddSupervisorModal() {
-    document.getElementById("newSupervisorEmail").value = "";
-    document.getElementById("newSupervisorPassword").value = "";
-    document.getElementById("supervisorModal").style.display = "flex";
-}
+        // عرض نموذج إضافة طالب
+        function showAddStudentModal() {
+            document.getElementById("newStudentEmail").value = "";
+            document.getElementById("newStudentPassword").value = "";
+            document.getElementById("studentModal").style.display = "flex";
+        }
 
-// إضافة مشرف جديد (Firestore)
-async function addSupervisor() {
-  const email = document.getElementById("newSupervisorEmail").value.trim().toLowerCase();
-  const password = document.getElementById("newSupervisorPassword").value.trim();
+        // إضافة طالب جديد (Firestore)
+        async function addStudent() {
+            const email = document.getElementById("newStudentEmail").value.trim().toLowerCase();
+            const password = document.getElementById("newStudentPassword").value.trim();
 
-  if (!email || !password) {
-    alert("يرجى إدخال البريد الإلكتروني وكلمة المرور!");
-    return;
-  }
-
-  try {
-    if (!window.firestoreTools || !window.firestoreTools.db) {
-      alert("Firebase لم يتم تحميله بعد ❌");
-      return;
-    }
-
-    const db = window.firestoreTools.db;
-
-    // ✅ منع التكرار
-    const snap = await db.collection("users").where("email", "==", email).get();
-
-    if (!snap.empty) {
-      alert("هذا البريد مستخدم بالفعل!");
-      return;
-    }
-
-    await db.collection("users").add({
-      name: email.split("@")[0],
-      email,
-      password,
-      role: "SUPERVISOR",
-      createdAt: new Date().toISOString()
-    });
-
-    alert("تمت إضافة المشرف بنجاح ✅");
-
-    closeModal("supervisorModal");
-    renderSupervisors();
-
-  } catch (err) {
-    console.error(err);
-    alert("حدث خطأ أثناء إضافة المشرف ❌\n" + err.message);
-  }
-}
-
-
-
-// ==============================
-// 🗑️ حذف مستخدم/طالب (Firestore)
-// ==============================
-// 🗑️ حذف مستخدم/طالب (Firestore)
-async function deleteUser(docId, collectionName) {
-  if (!confirm("هل أنت متأكد من الحذف؟")) return;
-
-  try {
-    const db = window.firestoreTools.db;
-
-    await db.collection(collectionName).doc(docId).delete();
-
-    alert("تم الحذف بنجاح ✅");
-
-    if (collectionName === "students") renderStudents();
-    if (collectionName === "users") renderSupervisors();
-
-  } catch (err) {
-    console.error(err);
-    alert("فشل الحذف ❌\n" + err.message);
-  }
-}
-// ✅ موافقة / رفض طالب
-async function setApprove(studentDocId, approvedValue) {
-  try {
-    const db = window.firestoreTools.db;
-
-    await db.collection("students").doc(studentDocId).update({
-      approved: approvedValue
-    });
-
-    alert(approvedValue ? "تمت الموافقة ✅" : "تم الرفض ❌");
-    renderStudents();
-
-  } catch (err) {
-    console.error(err);
-    alert("فشل تحديث حالة الطالب ❌\n" + err.message);
-  }
-}
-// ❌ رفض الطالب (حذف الطلب نهائياً)
-async function rejectStudent(studentDocId) {
-  if (!confirm("هل تريد رفض الطالب وحذف طلبه نهائياً؟")) return;
-
-  try {
-    const db = window.firestoreTools.db;
-
-    await db.collection("students").doc(studentDocId).delete();
-
-    alert("تم رفض الطلب وحذفه ❌");
-    renderStudents();
-
-  } catch (err) {
-    console.error(err);
-    alert("فشل الرفض ❌\n" + err.message);
-  }
-}
-
-            // إغلاق النماذج
-            function closeModal(id) {
-                document.getElementById(id).style.display = "none";
+            if (!email || !password) {
+                alert("يرجى إدخال البريد الإلكتروني وكلمة المرور!");
+                return;
             }
 
-            // أقسام الإدارة الأخرى (نموذج مبدئي)
-            function renderTests() {
-                const container = document.getElementById("testsList");
-                container.innerHTML = `<h4>قائمة الاختبارات</h4><p>هنا يمكنك إضافة وإدارة الاختبارات لاحقاً.</p>`;
-                container.classList.remove("hidden");
-                ["studentsList", "supervisorsList", "resultsList"].forEach((id) =>
-                    document.getElementById(id).classList.add("hidden")
-                );
-            }
-            function renderResults() {
-                const container = document.getElementById("resultsList");
-                container.innerHTML = `<h4>النتائج الأسبوعية</h4><p>هنا يمكنك عرض نتائج الامتحانات الأسبوعية للطلاب.</p>`;
-                container.classList.remove("hidden");
-                ["studentsList", "supervisorsList", "testsList"].forEach((id) =>
-                    document.getElementById(id).classList.add("hidden")
-                );
-            }
+            try {
+                const { collection, addDoc, getDocs, query, where } = window.firestoreTools;
 
-            // إعادة تعيين التنقل (اخفاء كل الصفحات عدا الرئيسية)
-            function resetNavigation() {
-                document.getElementById("gradePage").classList.add("hidden");
-                document.getElementById("subjectPage").classList.add("hidden");
-                document.getElementById("unitPage").classList.add("hidden");
-                document.getElementById("lessonPage").classList.add("hidden");
+                // ✅ منع التكرار
+                const db = window.firestoreTools.db;
 
-                // ✅ إخفاء مسار الدرس في كل التنقلات
-                document.getElementById("lessonPath").style.display = "none";
-            }
+                const q = query(collection(db, "students"), where("email", "==", email));
 
-            // 🔴 إيقاف الفيديو عند مغادرة صفحة الدرس
-            function stopVideo() {
-                const video = document.getElementById("lessonPlayer");
-                if (video) {
-                    video.pause();
-                    video.currentTime = 0;
-                    video.src = "";
-                }
-            }
-            function updateLessonNav(showBackUnit = true) {
-                const btnBackUnit = document.getElementById("btnBackUnit");
-                const btnHome = document.getElementById("btnHome");
+                const snap = await getDocs(q);
 
-                if (btnBackUnit) {
-                    btnBackUnit.style.display = showBackUnit ? "inline-block" : "none";
+                if (!snap.empty) {
+                    alert("هذا البريد مستخدم بالفعل!");
+                    return;
                 }
 
-                if (btnHome) {
-                    btnHome.style.display = "inline-block";
+                await addDoc(collection(db, "students"), {
+                    name: email.split("@")[0],
+                    email,
+                    password,
+                    role: "STUDENT",
+                    approved: true, // الأدمن يضيفه مفعل
+                    createdAt: new Date().toISOString()
+                });
+
+                alert("تمت إضافة الطالب بنجاح ✅");
+
+                closeModal("studentModal");
+                renderStudents();
+
+            } catch (err) {
+                console.error(err);
+                alert("حدث خطأ أثناء إضافة الطالب ❌");
+            }
+        }
+
+
+        // ==============================
+        // 👨‍🏫 إدارة المشرفين
+        // ==============================
+
+        async function renderSupervisors() {
+            const container = document.getElementById("supervisorsList");
+
+            container.classList.remove("hidden");
+            ["studentsList", "testsList", "resultsList"].forEach((id) =>
+                document.getElementById(id).classList.add("hidden")
+            );
+
+            container.innerHTML = `
+        <h4>المشرفون</h4>
+        <button class="custom-btn" onclick="showAddSupervisorModal()">إضافة مشرف</button>
+        <p>جاري تحميل المشرفين...</p>
+      `;
+
+            try {
+                if (!window.firestoreTools || !window.firestoreTools.db) {
+                    container.innerHTML = `<p>Firebase لم يتم تحميله بعد ❌</p>`;
+                    return;
                 }
-            }
-            function updateGlobalNav(show) {
-                const nav = document.getElementById("globalNav");
-                if (!nav) return;
 
-                if (show) {
-                    nav.classList.remove("hidden");
-                } else {
-                    nav.classList.add("hidden");
+                const db = window.firestoreTools.db;
+
+                // ✅ compat query
+                const snap = await db
+                    .collection("users")
+                    .where("role", "==", "SUPERVISOR")
+                    .get();
+
+                let rows = "";
+
+                snap.forEach((docSnap) => {
+                    const s = docSnap.data();
+                    const id = docSnap.id;
+
+                    rows += `
+            <tr>
+              <td>${s.email || "-"}</td>
+              <td>
+                <button class="custom-btn" onclick="deleteUser('${id}', 'users')">حذف</button>
+              </td>
+            </tr>
+          `;
+                });
+
+                container.innerHTML = `
+          <h4>المشرفون</h4>
+          <button class="custom-btn" onclick="showAddSupervisorModal()">إضافة مشرف</button>
+
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>البريد الإلكتروني</th>
+                  <th>خيارات</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows || `<tr><td colspan="2">لا يوجد مشرفين حاليا</td></tr>`}
+              </tbody>
+            </table>
+          </div>
+        `;
+            } catch (err) {
+                console.error(err);
+                container.innerHTML = `<p>حدث خطأ أثناء تحميل المشرفين ❌<br>${err.message}</p>`;
+            }
+        }
+
+
+        // عرض نموذج إضافة مشرف
+        function showAddSupervisorModal() {
+            document.getElementById("newSupervisorEmail").value = "";
+            document.getElementById("newSupervisorPassword").value = "";
+            document.getElementById("supervisorModal").style.display = "flex";
+        }
+
+        // إضافة مشرف جديد (Firestore)
+        async function addSupervisor() {
+            const email = document.getElementById("newSupervisorEmail").value.trim().toLowerCase();
+            const password = document.getElementById("newSupervisorPassword").value.trim();
+
+            if (!email || !password) {
+                alert("يرجى إدخال البريد الإلكتروني وكلمة المرور!");
+                return;
+            }
+
+            try {
+                if (!window.firestoreTools || !window.firestoreTools.db) {
+                    alert("Firebase لم يتم تحميله بعد ❌");
+                    return;
                 }
+
+                const db = window.firestoreTools.db;
+
+                // ✅ منع التكرار
+                const snap = await db.collection("users").where("email", "==", email).get();
+
+                if (!snap.empty) {
+                    alert("هذا البريد مستخدم بالفعل!");
+                    return;
+                }
+
+                await db.collection("users").add({
+                    name: email.split("@")[0],
+                    email,
+                    password,
+                    role: "SUPERVISOR",
+                    createdAt: new Date().toISOString()
+                });
+
+                alert("تمت إضافة المشرف بنجاح ✅");
+
+                closeModal("supervisorModal");
+                renderSupervisors();
+
+            } catch (err) {
+                console.error(err);
+                alert("حدث خطأ أثناء إضافة المشرف ❌\n" + err.message);
+            }
+        }
+
+
+
+        // ==============================
+        // 🗑️ حذف مستخدم/طالب (Firestore)
+        // ==============================
+        // 🗑️ حذف مستخدم/طالب (Firestore)
+        async function deleteUser(docId, collectionName) {
+            if (!confirm("هل أنت متأكد من الحذف؟")) return;
+
+            try {
+                const db = window.firestoreTools.db;
+
+                await db.collection(collectionName).doc(docId).delete();
+
+                alert("تم الحذف بنجاح ✅");
+
+                if (collectionName === "students") renderStudents();
+                if (collectionName === "users") renderSupervisors();
+
+            } catch (err) {
+                console.error(err);
+                alert("فشل الحذف ❌\n" + err.message);
+            }
+        }
+        // ✅ موافقة / رفض طالب
+        async function setApprove(studentDocId, approvedValue) {
+            try {
+                const db = window.firestoreTools.db;
+
+                await db.collection("students").doc(studentDocId).update({
+                    approved: approvedValue
+                });
+
+                alert(approvedValue ? "تمت الموافقة ✅" : "تم الرفض ❌");
+                renderStudents();
+
+            } catch (err) {
+                console.error(err);
+                alert("فشل تحديث حالة الطالب ❌\n" + err.message);
+            }
+        }
+        // ❌ رفض الطالب (حذف الطلب نهائياً)
+        async function rejectStudent(studentDocId) {
+            if (!confirm("هل تريد رفض الطالب وحذف طلبه نهائياً؟")) return;
+
+            try {
+                const db = window.firestoreTools.db;
+
+                await db.collection("students").doc(studentDocId).delete();
+
+                alert("تم رفض الطلب وحذفه ❌");
+                renderStudents();
+
+            } catch (err) {
+                console.error(err);
+                alert("فشل الرفض ❌\n" + err.message);
+            }
+        }
+
+        // إغلاق النماذج
+        function closeModal(id) {
+            document.getElementById(id).style.display = "none";
+        }
+
+        // أقسام الإدارة الأخرى (نموذج مبدئي)
+        function renderTests() {
+            const container = document.getElementById("testsList");
+            container.innerHTML = `<h4>قائمة الاختبارات</h4><p>هنا يمكنك إضافة وإدارة الاختبارات لاحقاً.</p>`;
+            container.classList.remove("hidden");
+            ["studentsList", "supervisorsList", "resultsList"].forEach((id) =>
+                document.getElementById(id).classList.add("hidden")
+            );
+        }
+        function renderResults() {
+            const container = document.getElementById("resultsList");
+            container.innerHTML = `<h4>النتائج الأسبوعية</h4><p>هنا يمكنك عرض نتائج الامتحانات الأسبوعية للطلاب.</p>`;
+            container.classList.remove("hidden");
+            ["studentsList", "supervisorsList", "testsList"].forEach((id) =>
+                document.getElementById(id).classList.add("hidden")
+            );
+        }
+
+        // إعادة تعيين التنقل (اخفاء كل الصفحات عدا الرئيسية)
+        function resetNavigation() {
+            document.getElementById("gradePage").classList.add("hidden");
+            document.getElementById("subjectPage").classList.add("hidden");
+            document.getElementById("unitPage").classList.add("hidden");
+            document.getElementById("lessonPage").classList.add("hidden");
+
+            // ✅ إخفاء مسار الدرس في كل التنقلات
+            document.getElementById("lessonPath").style.display = "none";
+        }
+
+        // 🔴 إيقاف الفيديو عند مغادرة صفحة الدرس
+        function stopVideo() {
+            const video = document.getElementById("lessonPlayer");
+            if (video) {
+                video.pause();
+                video.currentTime = 0;
+                video.src = "";
+            }
+        }
+        function updateLessonNav(showBackUnit = true) {
+            const btnBackUnit = document.getElementById("btnBackUnit");
+            const btnHome = document.getElementById("btnHome");
+
+            if (btnBackUnit) {
+                btnBackUnit.style.display = showBackUnit ? "inline-block" : "none";
             }
 
-            function toggleLessons() {
-                const list = document.getElementById("lessonList");
-                list.style.display = list.style.display === "none" ? "block" : "none";
+            if (btnHome) {
+                btnHome.style.display = "inline-block";
             }
+        }
+        function updateGlobalNav(show) {
+            const nav = document.getElementById("globalNav");
+            if (!nav) return;
 
-            function toggleDarkMode() {
-                document.body.classList.toggle("dark-mode");
-
-                // حفظ الاختيار
-                localStorage.setItem(
-                    "darkMode",
-                    document.body.classList.contains("dark-mode")
-                );
+            if (show) {
+                nav.classList.remove("hidden");
+            } else {
+                nav.classList.add("hidden");
             }
+        }
 
-            // تحميل الوضع المحفوظ
-            if (localStorage.getItem("darkMode") === "true") {
-                document.body.classList.add("dark-mode");
-            }
+        function toggleLessons() {
+            const list = document.getElementById("lessonList");
+            list.style.display = list.style.display === "none" ? "block" : "none";
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+
+            // حفظ الاختيار
+            localStorage.setItem(
+                "darkMode",
+                document.body.classList.contains("dark-mode")
+            );
+        }
+
+        // تحميل الوضع المحفوظ
+        if (localStorage.getItem("darkMode") === "true") {
+            document.body.classList.add("dark-mode");
+        }
 
 
-        </script>
-        <!--<div>
+    </script>
+    <!--<div>
     <script src="js/auth.js"></script>
     <script src="js/data.js"></script>
     <script src="js/navigation.js"></script>
@@ -1366,59 +1367,71 @@ async function rejectStudent(studentDocId) {
     <script src="js/admin.js"></script>
     <script src="js/app.js"></script>
     </div>-->
-       <script>
-  // ===============================
-  // 📲 PWA Install Button Logic
-  // ===============================
-  let deferredPrompt = null;
-  const installBtn = document.getElementById("installBtn");
+    <script>
+        // ===============================
+        // 📲 PWA Install Button Logic
+        // ===============================
+        let deferredPrompt = null;
+        const installBtn = document.getElementById("installBtn");
 
-  // إخفاء الزر افتراضيًا
-  installBtn.classList.add("hidden");
+        // إخفاء الزر افتراضيًا
+        installBtn.classList.add("hidden");
 
-  window.addEventListener("beforeinstallprompt", (e) => {
-    // منع البانر التلقائي
-    e.preventDefault();
+        window.addEventListener("beforeinstallprompt", (e) => {
+            // منع البانر التلقائي
+            e.preventDefault();
 
-    // حفظ الحدث لاستخدامه لاحقًا عند الضغط على الزر
-    deferredPrompt = e;
+            // حفظ الحدث لاستخدامه لاحقًا عند الضغط على الزر
+            deferredPrompt = e;
 
-    // إظهار زر التثبيت
-    installBtn.classList.remove("hidden");
+            // إظهار زر التثبيت
+            installBtn.classList.remove("hidden");
 
-    // (اختياري) منع ظهور التحذير في console
-    // console.log("PWA install prompt captured");
-  });
+            // (اختياري) منع ظهور التحذير في console
+            // console.log("PWA install prompt captured");
+        });
 
-  installBtn.addEventListener("click", async () => {
-    try {
-      if (!deferredPrompt) return;
+        installBtn.addEventListener("click", async () => {
+            try {
+                if (!deferredPrompt) return;
 
-      // عرض نافذة التثبيت
-      deferredPrompt.prompt();
+                // عرض نافذة التثبيت
+                deferredPrompt.prompt();
 
-      // انتظار قرار المستخدم
-      const { outcome } = await deferredPrompt.userChoice;
+                // انتظار قرار المستخدم
+                const { outcome } = await deferredPrompt.userChoice;
 
-      // تفريغ الحدث بعد الاستخدام
-      deferredPrompt = null;
+                // تفريغ الحدث بعد الاستخدام
+                deferredPrompt = null;
 
-      // إخفاء الزر بعد الاختيار
-      installBtn.classList.add("hidden");
+                // إخفاء الزر بعد الاختيار
+                installBtn.classList.add("hidden");
 
-      // console.log("Install outcome:", outcome);
-    } catch (err) {
-      console.log("Install prompt failed:", err);
-    }
-  });
+                // console.log("Install outcome:", outcome);
+            } catch (err) {
+                console.log("Install prompt failed:", err);
+            }
+        });
 
-  // بعد التثبيت فعليًا
-  window.addEventListener("appinstalled", () => {
-    deferredPrompt = null;
-    installBtn.classList.add("hidden");
-    // console.log("App installed");
-  });
-</script>
+        // بعد التثبيت فعليًا
+        window.addEventListener("appinstalled", () => {
+            deferredPrompt = null;
+            installBtn.classList.add("hidden");
+            // console.log("App installed");
+        });
+
+
+    <!-- Service Worker -->
+    <script>
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("./sw.js")
+                .then(() => console.log("Service Worker Registered"))
+                .catch(err => console.log("SW registration failed:", err));
+}
+
+
+    </script>
+
 
 <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -1426,7 +1439,6 @@ async function rejectStudent(studentDocId) {
 
 <!-- Firebase init -->
 <script src="./js/firebase.js"></script>
-
 <!-- Service Worker -->
 <script>
   if ("serviceWorker" in navigator) {
@@ -1434,66 +1446,64 @@ async function rejectStudent(studentDocId) {
       .then(() => console.log("Service Worker Registered"))
       .catch(err => console.log("SW registration failed:", err));
   }
-   window.login = login;
-
 </script>
+<!-- PWA Install Button -->
+<script>
+  let deferredPrompt = null;
+  const installBtn = document.getElementById("installBtn");
 
+  installBtn.classList.add("hidden");
 
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.classList.remove("hidden");
+  });
 
+  installBtn.addEventListener("click", async () => {
+    if (!deferredPrompt) return;
+
+    deferredPrompt.prompt();
+    await deferredPrompt.userChoice;
+
+    deferredPrompt = null;
+    installBtn.classList.add("hidden");
+  });
+
+  window.addEventListener("appinstalled", () => {
+    deferredPrompt = null;
+    installBtn.classList.add("hidden");
+  });
+</script>
+<!-- PWA Install Button -->
+<script>
+  let deferredPrompt = null;
+  const installBtn = document.getElementById("installBtn");
+
+  installBtn.classList.add("hidden");
+
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.classList.remove("hidden");
+  });
+
+  installBtn.addEventListener("click", async () => {
+    if (!deferredPrompt) return;
+
+    deferredPrompt.prompt();
+    await deferredPrompt.userChoice;
+
+    deferredPrompt = null;
+    installBtn.classList.add("hidden");
+  });
+
+  window.addEventListener("appinstalled", () => {
+    deferredPrompt = null;
+    installBtn.classList.add("hidden");
+  });
+</script>
 
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
