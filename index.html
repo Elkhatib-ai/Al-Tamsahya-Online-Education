@@ -412,55 +412,93 @@
                 localStorage.removeItem("isAdmin");
 
                 // =========================
-                // 2) Supervisor login (users role=SUPERVISOR)
-                // =========================
-                const { collection, getDocs, query, where } = window.firestoreTools;
+       // =========================
+// 2) Supervisor login (compat)
+// =========================
+const supSnap = await db
+  .collection("users")
+  .where("email", "==", email)
+  .where("role", "==", "SUPERVISOR")
+  .get();
 
-                const supQuery = query(
-                    collection(db, "users"),
-                    where("email", "==", email),
-                    where("role", "==", "SUPERVISOR")
-                );
+if (!supSnap.empty) {
+  const supDoc = supSnap.docs[0];
+  const sup = supDoc.data();
 
-                const supSnap = await getDocs(supQuery);
+  if (sup.password !== password) {
+    alert("كلمة المرور غير صحيحة ❌");
+    return;
+  }
 
-                if (!supSnap.empty) {
-                    const supDoc = supSnap.docs[0];
-                    const sup = supDoc.data();
+  localStorage.removeItem("isAdmin");
 
-                    if (sup.password !== password) {
-                        alert("كلمة المرور غير صحيحة ❌");
-                        return;
-                    }
+  currentUser = { ...sup, id: supDoc.id, role: "SUPERVISOR" };
 
-                    // ✅ Supervisor ليس Admin
-                    localStorage.removeItem("isAdmin");
+  document.getElementById("loginPage").classList.add("hidden");
+  document.getElementById("mainPage").classList.remove("hidden");
+  document.querySelector(".logout-btn").classList.remove("hidden");
 
-                    currentUser = { ...sup, id: supDoc.id, role: "SUPERVISOR" };
+  document.getElementById("welcomeMessage").classList.add("hidden");
+  document.getElementById("navUser").textContent = " | " + sup.email;
 
-                    document.getElementById("loginPage").classList.add("hidden");
-                    document.getElementById("mainPage").classList.remove("hidden");
-                    document.querySelector(".logout-btn").classList.remove("hidden");
+  document.getElementById("adminPanel").classList.remove("hidden");
 
-                    document.getElementById("welcomeMessage").classList.add("hidden");
-                    document.getElementById("navUser").textContent = " | " + sup.email;
+  renderGrades();
+  return;
+}
 
-                    // ✅ إظهار لوحة الإدارة للمشرف
-                    document.getElementById("adminPanel").classList.remove("hidden");
+// =========================
+// 3) Student login (compat)
+// =========================
+const studentSnap = await db
+  .collection("students")
+  .where("email", "==", email)
+  .get();
 
-                    renderGrades();
-                    return;
+if (studentSnap.empty) {
+  alert("هذا الحساب غير موجود ❌");
+  return;
+}
+
+const studentDoc = studentSnap.docs[0];
+const student = studentDoc.data();
+
+if (student.password !== password) {
+  alert("كلمة المرور غير صحيحة ❌");
+  return;
+}
+
+if (student.approved !== true) {
+  alert("حسابك قيد المراجعة ولم يتم تفعيله بعد ⏳");
+  return;
+}
+
+localStorage.removeItem("isAdmin");
+
+currentUser = { ...student, id: studentDoc.id, role: "STUDENT" };
+
+document.getElementById("loginPage").classList.add("hidden");
+document.getElementById("mainPage").classList.remove("hidden");
+document.querySelector(".logout-btn").classList.remove("hidden");
+
+document.getElementById("welcomeMessage").classList.add("hidden");
+document.getElementById("navUser").textContent = " | " + student.email;
+
+document.getElementById("adminPanel").classList.add("hidden");
+
+renderGrades();
+return;
+
                 }
 
                 // =========================
                 // 3) Student login (students)
                 // =========================
-                const studentQuery = query(
-                    collection(db, "students"),
-                    where("email", "==", email)
-                );
+               const studentSnap = await db
+  .collection("students")
+  .where("email", "==", email)
+  .get();
 
-                const studentSnap = await getDocs(studentQuery);
 
                 if (studentSnap.empty) {
                     alert("هذا الحساب غير موجود ❌");
@@ -1032,6 +1070,47 @@
                 container.innerHTML = `<p>حدث خطأ أثناء تحميل الطلاب ❌<br>${err.message}</p>`;
             }
         }
+        // ✏️ تعديل بيانات الطالب (email + password)
+async function editStudent(studentEmail) {
+  try {
+    const db = window.firestoreTools.db;
+
+    // 1) نبحث عن الطالب بالبريد
+    const snap = await db.collection("students")
+      .where("email", "==", (studentEmail || "").toLowerCase())
+      .get();
+
+    if (snap.empty) {
+      alert("لم يتم العثور على الطالب ❌");
+      return;
+    }
+
+    const docSnap = snap.docs[0];
+    const student = docSnap.data();
+    const docId = docSnap.id;
+
+    // 2) نطلب بيانات جديدة
+    const newEmail = prompt("تعديل البريد الإلكتروني:", student.email || "");
+    if (!newEmail) return;
+
+    const newPassword = prompt("تعديل كلمة المرور:", student.password || "");
+    if (!newPassword) return;
+
+    // 3) تحديث Firestore
+    await db.collection("students").doc(docId).update({
+      email: newEmail.trim().toLowerCase(),
+      password: newPassword.trim(),
+      name: newEmail.trim().toLowerCase().split("@")[0]
+    });
+
+    alert("تم تعديل بيانات الطالب ✅");
+    renderStudents();
+
+  } catch (err) {
+    console.error(err);
+    alert("فشل التعديل ❌\n" + err.message);
+  }
+}
 
 
         // عرض نموذج إضافة طالب
@@ -1384,35 +1463,11 @@
       .catch(err => console.log("SW registration failed:", err));
   }
 </script>
-     <!-- // 📲 PWA Install Button Logic -->
-<script>
-  let deferredPrompt = null;
-  const installBtn = document.getElementById("installBtn");
 
-  installBtn.classList.add("hidden");
-
-  window.addEventListener("beforeinstallprompt", (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    installBtn.classList.remove("hidden");
-  });
-
-  installBtn.addEventListener("click", async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    await deferredPrompt.userChoice;
-    deferredPrompt = null;
-    installBtn.classList.add("hidden");
-  });
-
-  window.addEventListener("appinstalled", () => {
-    deferredPrompt = null;
-    installBtn.classList.add("hidden");
-  });
-</script>
 
 </body>
 </html>
+
 
 
 
