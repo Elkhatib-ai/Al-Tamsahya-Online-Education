@@ -1413,33 +1413,15 @@
             }
         });
 
-        // بعد التثبيت فعليًا
+                // بعد التثبيت فعليًا
         window.addEventListener("appinstalled", () => {
             deferredPrompt = null;
             installBtn.classList.add("hidden");
             // console.log("App installed");
         });
 
+</script>  <!-- ✅ هنا نهاية سكربت الموقع الأساسي -->
 
-   <!-- Service Worker -->
-<script>
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("./sw.js")
-      .then(() => console.log("Service Worker Registered"))
-      .catch(err => console.log("SW registration failed:", err));
-  }
-</script>
-
-
-    </script>
-
-
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-
-<!-- Firebase init -->
-<script src="./js/firebase.js"></script>
 <!-- Service Worker -->
 <script>
   if ("serviceWorker" in navigator) {
@@ -1448,6 +1430,17 @@
       .catch(err => console.log("SW registration failed:", err));
   }
 </script>
+
+
+
+    </script>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<!-- Firebase init -->
+<script src="./js/firebase.js"></script>
+
 <!-- PWA Install Button -->
 <script>
   let deferredPrompt = null;
@@ -1482,5 +1475,6 @@
 
 </body>
 </html>
+
 
 
