@@ -1230,12 +1230,10 @@ async function deleteUser(docId, collectionName) {
       return;
     }
 
-    const { doc, deleteDoc } = window.firestoreTools;
-
-    // ✅ db الصحيح
     const db = window.firestoreTools.db;
 
-    await deleteDoc(doc(db, collectionName, docId));
+    // ✅ حذف بالطريقة compat
+    await db.collection(collectionName).doc(docId).delete();
 
     alert("تم الحذف بنجاح ✅");
 
@@ -1248,8 +1246,6 @@ async function deleteUser(docId, collectionName) {
     alert("فشل الحذف ❌\n" + err.message);
   }
 }
-
-
 
 // ==============================
 // ✅ تفعيل/إلغاء تفعيل طالب (Firestore)
@@ -1450,6 +1446,7 @@ await updateDoc(doc(db, "students", studentDocId), {
 
 </body>
 </html>
+
 
 
 
