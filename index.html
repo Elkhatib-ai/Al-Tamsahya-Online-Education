@@ -303,12 +303,21 @@
 
 
 
-        let scores = JSON.parse(localStorage.getItem("scores") || "{}");
+       let scores = JSON.parse(localStorage.getItem("scores") || "{}");
 
-        let currentUser = null;
-        let currentGrade = null;
-        let currentSubject = null;
-        let currentUnit = null;
+let currentUser = null;
+let currentGrade = null;
+let currentSubject = null;
+let currentUnit = null;
+
+let currentFilter = "all";
+let savedStudents = [];
+        
+function filterStudents(type) {
+  currentFilter = type;
+  renderStudentsFiltered();
+}
+
 
 
         function updateBackButton() {
@@ -486,10 +495,15 @@ async function login() {
       return;
     }
 
-    if (student.approved !== true) {
-      alert("حسابك قيد المراجعة ولم يتم تفعيله بعد ⏳");
-      return;
-    }
+   if (student.approved !== true) {
+  alert(
+    "⏳ حسابك قيد المراجعة\n" +
+    "سيتم تفعيله بعد موافقة الإدارة.\n" +
+    "يرجى المحاولة لاحقًا."
+  );
+  return;
+}
+
 
     // ✅ Student ليس Admin
     localStorage.removeItem("isAdmin");
@@ -989,55 +1003,131 @@ async function login() {
 
             try {
                 const db = window.firestoreTools.db;
+const snap = await db.collection("students").get();
+        let students = [];
 
-                const snap = await db.collection("students").get();
+// 1️⃣ نحول نتائج Firestore لمصفوفة
+snap.forEach((docSnap) => {
+  students.push({
+    id: docSnap.id,
+    ...docSnap.data()
+  });
+});
 
-                let rows = "";
+// ✅ نحفظهم للاستخدام في الفلترة والرسم البياني
+savedStudents = students;
 
-                snap.forEach((docSnap) => {
-                    const s = docSnap.data();
-                    const id = docSnap.id;
+// 2️⃣ نرتّب: المفعلين فوق
+students.sort((a, b) => {
+  if (a.approved === b.approved) return 0;
+  return a.approved ? -1 : 1;
+});
 
-                    rows += `
-            <tr>
-              <td>${s.email || "-"}</td>
-              <td>${s.approved ? "مفعل ✅" : "غير مفعل ⛔"}</td>
-              <td>${(typeof scores !== "undefined" && scores[s.email]) ? scores[s.email] : "-"}</td>
-              <td style="display:flex; gap:6px; flex-wrap:wrap; justify-content:center;">
+const totalStudents = students.length;
+const approvedStudents = students.filter(s => s.approved).length;
+const pendingStudents = students.filter(s => !s.approved).length;
+container.innerHTML = `
+  <h4>قائمة الطلاب</h4>
+  <button class="custom-btn" onclick="showAddStudentModal()">إضافة طالب</button>
 
-                <button class="custom-btn" onclick="editStudent('${s.email || ""}')">تعديل</button>
+  <div style="margin:10px 0;">
+    📚 عدد الطلاب: <strong>${totalStudents}</strong>
+  </div>
 
-                <button class="custom-btn" onclick="setApprove('${id}', true)">موافقة</button>
+  <div style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap;">
+    <div class="stat-box approved">🟢 مفعلين: ${approvedStudents}</div>
+    <div class="stat-box pending">🟡 قيد المراجعة: ${pendingStudents}</div>
+  </div>
 
-                <button class="custom-btn" onclick="rejectStudent('${id}')">رفض</button>
+  <div id="studentsItems"></div>
+`;
 
-                <button class="custom-btn" onclick="deleteUser('${id}', 'students')">حذف</button>
 
-              </td>
-            </tr>
-          `;
-                });
+/* ========= هنا يبدأ الكود الجديد ========= */
 
-                container.innerHTML = `
-          <h4>قائمة الطلاب</h4>
-          <button class="custom-btn" onclick="showAddStudentModal()">إضافة طالب</button>
+let students = [];
 
-          <div class="table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>البريد الإلكتروني</th>
-                  <th>الحالة</th>
-                  <th>الدرجة</th>
-                  <th>خيارات</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${rows || `<tr><td colspan="4">لا يوجد طلاب حاليا</td></tr>`}
-              </tbody>
-            </table>
-          </div>
-        `;
+// 1️⃣ نحول نتائج Firestore لمصفوفة
+snap.forEach((docSnap) => {
+  students.push({
+    id: docSnap.id,
+    ...docSnap.data()
+  });
+});
+
+// 2️⃣ نرتّب: المفعلين فوق
+students.sort((a, b) => {
+  if (a.approved === b.approved) return 0;
+  return a.approved ? -1 : 1;
+});
+
+// 3️⃣ نرسم الصفوف
+let rows = "";
+
+students.forEach((s) => {
+  rows += `
+    <tr>
+      <td>${s.email || "-"}</td>
+
+      <td>
+        ${
+          s.approved
+            ? `<span class="status approved">🟢 مفعل</span>`
+            : `<span class="status pending">🟡 قيد المراجعة</span>`
+        }
+      </td>
+
+      <td>${(typeof scores !== "undefined" && scores[s.email]) ? scores[s.email] : "-"}</td>
+
+      <td style="display:flex; gap:6px; flex-wrap:wrap; justify-content:center;">
+        ${
+          s.approved
+            ? `
+              <button class="custom-btn" onclick="editStudent('${s.email || ""}')">✏️ تعديل</button>
+              <button class="custom-btn" onclick="deleteUser('${s.id}', 'students')">🗑️ حذف</button>
+            `
+            : `
+              <button class="custom-btn" onclick="setApprove('${s.id}', true)">✅ موافقة</button>
+              <button class="custom-btn danger" onclick="rejectStudent('${s.id}')">❌ رفض</button>
+            `
+        }
+      </td>
+    </tr>
+  `;
+});
+
+/* ========= هنا ينتهي الكود الجديد ========= */
+
+            container.innerHTML = `
+  <h4>قائمة الطلاب</h4>
+  <button class="custom-btn" onclick="showAddStudentModal()">إضافة طالب</button>
+
+  <div style="margin:10px 0;">
+    📚 عدد الطلاب: <strong>${totalStudents}</strong>
+  </div>
+
+  <div style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap;">
+    <div class="stat-box approved">🟢 مفعلين: ${approvedStudents}</div>
+    <div class="stat-box pending">🟡 قيد المراجعة: ${pendingStudents}</div>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>البريد الإلكتروني</th>
+          <th>الحالة</th>
+          <th>الدرجة</th>
+          <th>خيارات</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rows || `<tr><td colspan="4">لا يوجد طلاب حاليا</td></tr>`}
+      </tbody>
+    </table>
+  </div>
+`;
+
 
             } catch (err) {
                 console.error(err);
@@ -1191,6 +1281,11 @@ async function editStudent(studentEmail) {
                 container.innerHTML = `
           <h4>المشرفون</h4>
           <button class="custom-btn" onclick="showAddSupervisorModal()">إضافة مشرف</button>
+          <div style="margin:10px 0;">
+  <button onclick="filterStudents('all')">الكل</button>
+  <button onclick="filterStudents('approved')">🟢 مفعلين</button>
+  <button onclick="filterStudents('pending')">🟡 قيد المراجعة</button>
+</div>
 
           <div class="table-container">
             <table>
@@ -1290,22 +1385,30 @@ async function editStudent(studentEmail) {
             }
         }
         // ✅ موافقة / رفض طالب
-        async function setApprove(studentDocId, approvedValue) {
-            try {
-                const db = window.firestoreTools.db;
+       async function setApprove(studentDocId, approvedValue) {
+  try {
+    const db = window.firestoreTools.db;
+    const ref = db.collection("students").doc(studentDocId);
+    const snap = await ref.get();
 
-                await db.collection("students").doc(studentDocId).update({
-                    approved: approvedValue
-                });
+    if (!snap.exists) return;
 
-                alert(approvedValue ? "تمت الموافقة ✅" : "تم الرفض ❌");
-                renderStudents();
+    if (snap.data().approved === true) {
+      alert("هذا الطالب مفعل بالفعل ✅");
+      return;
+    }
 
-            } catch (err) {
-                console.error(err);
-                alert("فشل تحديث حالة الطالب ❌\n" + err.message);
-            }
-        }
+    await ref.update({ approved: approvedValue });
+
+    alert("تمت الموافقة ✅");
+    renderStudents();
+
+  } catch (err) {
+    console.error(err);
+    alert("فشل التحديث ❌");
+  }
+}
+
         // ❌ رفض الطالب (حذف الطلب نهائياً)
         async function rejectStudent(studentDocId) {
             if (!confirm("هل تريد رفض الطالب وحذف طلبه نهائياً؟")) return;
@@ -1441,6 +1544,7 @@ async function editStudent(studentEmail) {
 
 </body>
 </html>
+
 
 
 
