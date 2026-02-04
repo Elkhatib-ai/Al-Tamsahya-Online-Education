@@ -961,77 +961,87 @@ async function registerStudent() {
 
 // عرض قائمة الطلاب
 async function renderStudents() {
-    const container = document.getElementById("studentsList");
+  const container = document.getElementById("studentsList");
 
-    container.classList.remove("hidden");
-    ["supervisorsList", "testsList", "resultsList"].forEach((id) =>
-        document.getElementById(id).classList.add("hidden")
-    );
+  container.classList.remove("hidden");
+  ["supervisorsList", "testsList", "resultsList"].forEach((id) =>
+    document.getElementById(id).classList.add("hidden")
+  );
+
+  container.innerHTML = `
+    <h4>قائمة الطلاب</h4>
+    <button class="custom-btn" onclick="showAddStudentModal()">إضافة طالب</button>
+    <p>جاري تحميل الطلاب...</p>
+  `;
+
+  try {
+    // ✅ تأكد أن firebase جاهز
+    if (!window.firestoreTools || !window.firestoreTools.db) {
+      container.innerHTML = `<p>Firebase لم يتم تحميله بعد ❌</p>`;
+      return;
+    }
+
+    const { collection, getDocs, query } = window.firestoreTools;
+
+    // ✅ هذا هو db الصحيح
+    const db = window.firestoreTools.db;
+
+    // 🔥 جلب الطلاب من students
+    const q = query(collection(db, "students"));
+    const snap = await getDocs(q);
+
+    let rows = "";
+
+    snap.forEach((docSnap) => {
+      const s = docSnap.data();
+      const id = docSnap.id;
+
+      rows += `
+        <tr>
+          <td>${s.email || "-"}</td>
+          <td>${s.approved ? "مفعل ✅" : "غير مفعل ⛔"}</td>
+          <td>${(typeof scores !== "undefined" && scores[s.email]) ? scores[s.email] : "-"}</td>
+          <td style="display:flex; gap:6px; flex-wrap:wrap; justify-content:center;">
+            
+            <button class="custom-btn" onclick="approveStudent('${id}')">موافقة</button>
+
+            <button class="custom-btn" onclick="rejectStudent('${id}')">رفض</button>
+
+            <button class="custom-btn" onclick="editStudent('${id}')">تعديل</button>
+
+            <button class="custom-btn" onclick="deleteUser('${id}', 'students')">حذف</button>
+
+          </td>
+        </tr>
+      `;
+    });
 
     container.innerHTML = `
-        <h4>قائمة الطلاب</h4>
-        <button class="custom-btn" onclick="showAddStudentModal()">إضافة طالب</button>
-        <p>جاري تحميل الطلاب...</p>
+      <h4>قائمة الطلاب</h4>
+      <button class="custom-btn" onclick="showAddStudentModal()">إضافة طالب</button>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>البريد الإلكتروني</th>
+              <th>الحالة</th>
+              <th>الدرجة</th>
+              <th>خيارات</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows || `<tr><td colspan="4">لا يوجد طلاب حاليا</td></tr>`}
+          </tbody>
+        </table>
+      </div>
     `;
-
-    try {
-        const { collection, getDocs, query, where } = window.firestoreTools;
-
-        // 🔥 نجلب الطلاب من students مباشرة
-        const db = getDB();
-const q = query(collection(db, "students"));
-        const snap = await getDocs(q);
-
-        let rows = "";
-
-        snap.forEach((docSnap) => {
-            const s = docSnap.data();
-            const id = docSnap.id;
-
-            rows += `
-                <tr>
-                    <td>${s.email || "-"}</td>
-                    <td>${s.approved ? "مفعل" : "غير مفعل"}</td>
-                    <td>${(typeof scores !== "undefined" && scores[s.email]) ? scores[s.email] : "-"}</td>
-                    <td>
-                        <button class="custom-btn" onclick="editStudent('${s.email || ""}')">تعديل</button>
-
-                        <button class="custom-btn" onclick="toggleApprove('${id}', ${s.approved ? "true" : "false"})">
-                            ${s.approved ? "إلغاء التفعيل" : "تفعيل"}
-                        </button>
-
-                        <button class="custom-btn" onclick="deleteUser('${id}', 'students')">حذف</button>
-                    </td>
-                </tr>
-            `;
-        });
-
-        container.innerHTML = `
-            <h4>قائمة الطلاب</h4>
-            <button class="custom-btn" onclick="showAddStudentModal()">إضافة طالب</button>
-
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>البريد الإلكتروني</th>
-                            <th>الحالة</th>
-                            <th>الدرجة</th>
-                            <th>خيارات</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${rows || `<tr><td colspan="4">لا يوجد طلاب حاليا</td></tr>`}
-                    </tbody>
-                </table>
-            </div>
-        `;
-
-    } catch (err) {
-        console.error(err);
-        container.innerHTML = `<p>حدث خطأ أثناء تحميل الطلاب ❌</p>`;
-    }
+  } catch (err) {
+    console.error(err);
+    container.innerHTML = `<p>حدث خطأ أثناء تحميل الطلاب ❌<br>${err.message}</p>`;
+  }
 }
+
 
 // عرض نموذج إضافة طالب
 function showAddStudentModal() {
@@ -1208,24 +1218,31 @@ async function addSupervisor() {
 // 🗑️ حذف مستخدم/طالب (Firestore)
 // ==============================
 async function deleteUser(docId, collectionName) {
-    if (!confirm("هل أنت متأكد من الحذف؟")) return;
+  if (!confirm("هل أنت متأكد من الحذف؟")) return;
 
-    try {
-        const { doc, deleteDoc } = window.firestoreTools;
-
-        const db = getDB();
-await deleteDoc(doc(db, collectionName, docId));
-
-        alert("تم الحذف بنجاح ✅");
-
-        // تحديث القائمة المناسبة
-        if (collectionName === "students") renderStudents();
-        if (collectionName === "users") renderSupervisors();
-
-    } catch (err) {
-        console.error(err);
-        alert("فشل الحذف ❌");
+  try {
+    if (!window.firestoreTools || !window.firestoreTools.db) {
+      alert("Firebase لم يتم تحميله بعد ❌");
+      return;
     }
+
+    const { doc, deleteDoc } = window.firestoreTools;
+
+    // ✅ db الصحيح
+    const db = window.firestoreTools.db;
+
+    await deleteDoc(doc(db, collectionName, docId));
+
+    alert("تم الحذف بنجاح ✅");
+
+    // تحديث القائمة المناسبة
+    if (collectionName === "students") renderStudents();
+    if (collectionName === "users") renderSupervisors();
+
+  } catch (err) {
+    console.error(err);
+    alert("فشل الحذف ❌\n" + err.message);
+  }
 }
 
 
@@ -1427,6 +1444,7 @@ await updateDoc(doc(db, "students", studentDocId), {
 
 </body>
 </html>
+
 
 
 
