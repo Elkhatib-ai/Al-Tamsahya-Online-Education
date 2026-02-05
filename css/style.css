@@ -1052,3 +1052,10 @@ body {
     color: #93c5fd;
     border-color: #93c5fd;
 }
+@media (max-width: 768px) {
+  .admin-section,
+  .footer,
+  .mobile-actions {
+    display: block !important;
+  }
+}
