@@ -652,11 +652,7 @@ body[dir="rtl"] {
     cursor: pointer;
     margin-bottom: 10px;
     font-size: 14px;
-}
-.dark-mode {
-    background-color: #0f172a;
-    color: #e5e7eb;
-}
+
 
     .dark-mode .top-nav,
     .dark-mode .list-container,
@@ -710,7 +706,7 @@ body[dir="rtl"] {
 ========================== */
 
 
-}
+
 
     .login-container h1 {
         font-size: 1.1rem;
@@ -765,7 +761,8 @@ body[dir="rtl"] {
         transform: translateY(-1px);
     }
 
-..register-btn.secondary {
+.register-btn.secondary {
+
     min-width: 150px;
     padding: 12px 20px;
     font-size: 0.9rem;
@@ -872,12 +869,7 @@ img, video {
   color: #155724;
 }
 
-/* ====== DARK MODE ====== */
 
-.dark-mode {
-  background-color: #0f172a;
-  color: #ffffff;
-}
 
 /* الشريط العلوي */
 .dark-mode header,
@@ -918,7 +910,103 @@ img, video {
   background: #1d4ed8;
   color: #ffffff;
 }
+/* ===================== */
+/* 🌙 Dark Mode Styling */
+/* ===================== */
 
+
+
+/* العناوين */
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode p {
+  color: #ffffff !important;
+}
+
+/* النص تحت "اختر الصف الدراسي" */
+body.dark-mode .section-title {
+  color: #ffffff !important;
+}
+
+/* كروت الصفوف */
+body.dark-mode .card,
+body.dark-mode .grade-card {
+  background-color: #334155;
+  color: #ffffff;
+}
+
+/* أزرار */
+body.dark-mode button {
+  background-color: #475569;
+  color: #ffffff;
+}
+
+/* زر تسجيل الخروج */
+body.dark-mode .logout-btn {
+  background-color: #dc2626;
+  color: #ffffff;
+}
+
+
+/* ==========================
+   🌙 DARK MODE – FINAL
+========================== */
+
+body.dark-mode {
+  background: #0f172a;
+  color: #e5e7eb;
+}
+
+/* العناوين */
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode p,
+body.dark-mode span {
+  color: #e5e7eb !important;
+}
+
+/* الشريط العلوي */
+body.dark-mode nav,
+body.dark-mode .top-nav {
+  background: linear-gradient(135deg, #020617, #020617);
+}
+
+/* الكروت */
+body.dark-mode .card,
+body.dark-mode .grade-card,
+body.dark-mode .lesson-card,
+body.dark-mode .subject-card,
+body.dark-mode .unit-card {
+  background: #1e293b;
+  color: #e5e7eb;
+  box-shadow: none;
+}
+
+/* منع بهتان النص */
+body.dark-mode * {
+  opacity: 1 !important;
+}
+
+/* الأزرار */
+body.dark-mode button,
+body.dark-mode .custom-btn {
+  background: #334155;
+  color: #ffffff;
+}
+
+/* hover */
+body.dark-mode .custom-btn:hover {
+  background: #475569;
+}
+
+/* زر تسجيل الخروج */
+body.dark-mode .logout-btn {
+  background: #dc2626;
+}
 
 
 
