@@ -1559,35 +1559,35 @@ if ("serviceWorker" in navigator) {
 }
 
 // ==================
-// PWA Install Button
+<script>
+// ==================
+// PWA Install (Modal)
 // ==================
 let deferredPrompt;
-const installBtn = document.getElementById("installBtn");
 
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredPrompt = e;
 
-  if (installBtn) {
-    installBtn.classList.remove("hidden");
-  }
+  // إظهار النافذة الجميلة
+  document.getElementById("installModal").classList.remove("hidden");
 });
 
-if (installBtn) {
-  installBtn.addEventListener("click", async () => {
-    if (!deferredPrompt) return;
+document.getElementById("confirmInstall").addEventListener("click", async () => {
+  if (!deferredPrompt) return;
 
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
 
-    if (outcome === "accepted") {
-      console.log("User accepted install");
-    }
+  deferredPrompt = null;
+  document.getElementById("installModal").classList.add("hidden");
+});
 
-    deferredPrompt = null;
-    installBtn.classList.add("hidden");
-  });
-}
+document.getElementById("closeInstall").addEventListener("click", () => {
+  document.getElementById("installModal").classList.add("hidden");
+});
+</script>
+
 </script>
 <!-- Install Modal -->
 <div id="installModal" class="install-modal hidden">
@@ -1606,6 +1606,7 @@ if (installBtn) {
 
 </body>
 </html>
+
 
 
 
