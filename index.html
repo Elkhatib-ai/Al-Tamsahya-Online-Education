@@ -1558,23 +1558,25 @@ if ("serviceWorker" in navigator) {
     .catch(err => console.log("SW registration failed:", err));
 }
 
-// ==================
+<!-- PWA Install (Modal) -->
 <script>
-// ==================
-// PWA Install (Modal)
-// ==================
 let deferredPrompt;
 
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredPrompt = e;
 
-  // إظهار النافذة الجميلة
-  document.getElementById("installModal").classList.remove("hidden");
+  // إظهار نافذة التثبيت بعد 5 ثواني
+  setTimeout(() => {
+    document.getElementById("installModal").classList.remove("hidden");
+  }, 5000);
 });
 
 document.getElementById("confirmInstall").addEventListener("click", async () => {
-  if (!deferredPrompt) return;
+  if (!deferredPrompt) {
+    alert("📌 افتح القائمة ⋮ ثم اختر (تثبيت التطبيق)");
+    return;
+  }
 
   deferredPrompt.prompt();
   await deferredPrompt.userChoice;
@@ -1588,7 +1590,7 @@ document.getElementById("closeInstall").addEventListener("click", () => {
 });
 </script>
 
-</script>
+
 <!-- Install Modal -->
 <div id="installModal" class="install-modal hidden">
   <div class="install-box">
@@ -1606,6 +1608,7 @@ document.getElementById("closeInstall").addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
 
