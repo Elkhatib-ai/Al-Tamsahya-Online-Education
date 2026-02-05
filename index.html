@@ -1033,85 +1033,84 @@ async function login() {
         // ==============================
 
         // عرض قائمة الطلاب
-        async function renderStudents() {
-            const container = document.getElementById("studentsList");
+       async function renderStudents() {
+  const container = document.getElementById("studentsList");
 
-            container.classList.remove("hidden");
-            ["supervisorsList", "testsList", "resultsList"].forEach((id) =>
-                document.getElementById(id).classList.add("hidden")
-            );
+  container.classList.remove("hidden");
+  ["supervisorsList", "testsList", "resultsList"].forEach(id =>
+    document.getElementById(id)?.classList.add("hidden")
+  );
 
-            container.innerHTML = `
-        <h4>قائمة الطلاب</h4>
-        <button class="custom-btn" onclick="showAddStudentModal()">إضافة طالب</button>
-        <p>جاري تحميل الطلاب...</p>
-      `;
+  try {
+    const db = window.firestoreTools.db;
+    const snapshot = await db.collection("students").get();
 
-            try {
-                const db = window.firestoreTools.db;
-const snap = await db.collection("students").get();
-        let students = [];
+    let totalStudents = snapshot.size;
+    let approvedStudents = 0;
+    let pendingStudents = 0;
+    let rows = "";
 
-// 1️⃣ نحول نتائج Firestore لمصفوفة
-snap.forEach((docSnap) => {
-  students.push({
-    id: docSnap.id,
-    ...docSnap.data()
-  });
-});
+    snapshot.forEach(doc => {
+      const student = doc.data();
+      const status = student.approved ? "مفعل" : "قيد المراجعة";
 
-// ✅ نحفظهم للاستخدام في الفلترة والرسم البياني
-savedStudents = students;
+      if (student.approved) approvedStudents++;
+      else pendingStudents++;
 
-// 2️⃣ نرتّب: المفعلين فوق
-students.sort((a, b) => {
-  if (a.approved === b.approved) return 0;
-  return a.approved ? -1 : 1;
-});
-
-const totalStudents = students.length;
-const approvedStudents = students.filter(s => s.approved).length;
-const pendingStudents = students.filter(s => !s.approved).length;
-                
-container.innerHTML = `
-  <h4>قائمة الطلاب</h4>
-  <button class="custom-btn" onclick="showAddStudentModal()">إضافة طالب</button>
-
-  <div style="margin:10px 0;">
-    📚 عدد الطلاب: <strong>${totalStudents}</strong>
-  </div>
-
-  <div style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap;">
-    <div class="stat-box approved">🟢 مفعلين: ${approvedStudents}</div>
-    <div class="stat-box pending">🟡 قيد المراجعة: ${pendingStudents}</div>
-  </div>
-
-  <div id="studentsItems"></div>
-`;
-
-  <div class="table-container">
-    <table>
-      <thead>
+      rows += `
         <tr>
-          <th>البريد الإلكتروني</th>
-          <th>الحالة</th>
-          <th>الدرجة</th>
-          <th>خيارات</th>
+          <td>${student.email || "-"}</td>
+          <td>${status}</td>
+          <td>${student.grade || "-"}</td>
+          <td>
+            <button onclick="editStudent('${student.email}')">✏️ تعديل</button>
+          </td>
         </tr>
-      </thead>
-      <tbody>
-        ${rows || `<tr><td colspan="4">لا يوجد طلاب حاليا</td></tr>`}
-      </tbody>
-    </table>
-  </div>
-`;
+      `;
+    });
 
+    if (!rows) {
+      rows = `<tr><td colspan="4">لا يوجد طلاب حاليا</td></tr>`;
+    }
 
-            } catch (err) {
-                console.error(err);
-                container.innerHTML = `<p>حدث خطأ أثناء تحميل الطلاب ❌<br>${err.message}</p>`;
-            }
-        }
+    container.innerHTML = `
+      <h4>قائمة الطلاب</h4>
+      <button class="custom-btn" onclick="showAddStudentModal()">إضافة طالب</button>
+
+      <div style="margin:10px 0;">
+        📚 عدد الطلاب: <strong>${totalStudents}</strong>
+      </div>
+
+      <div style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap;">
+        <div class="stat-box approved">🟢 مفعلين: ${approvedStudents}</div>
+        <div class="stat-box pending">🟡 قيد المراجعة: ${pendingStudents}</div>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>البريد الإلكتروني</th>
+              <th>الحالة</th>
+              <th>الدرجة</th>
+              <th>خيارات</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows}
+          </tbody>
+        </table>
+      </div>
+    `;
+
+  } catch (err) {
+    console.error(err);
+    container.innerHTML = `
+      <p>حدث خطأ أثناء تحميل الطلاب ❌<br>${err.message}</p>
+    `;
+  }
+}
+
         // ✏️ تعديل بيانات الطالب (email + password)
 async function editStudent(studentEmail) {
   try {
@@ -1522,6 +1521,7 @@ async function editStudent(studentEmail) {
 
 </body>
 </html>
+
 
 
 
