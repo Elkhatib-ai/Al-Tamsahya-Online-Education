@@ -948,91 +948,39 @@ body.dark-mode .logout-btn {
   background-color: #dc2626;
   color: #ffffff;
 }
-
-
-/* ==========================
-   🌙 DARK MODE – FINAL
-========================== */
-
+/* نص المرحلة تحت عنوان تسجيل الدخول */
+.login-container p {
+  color: #000 !important;
+}
+/* ===== Dark Mode ===== */
 body.dark-mode {
-  background: #0f172a;
-  color: #e5e7eb;
+  background-color: #1b2430;
+  color: #ffffff;
+}
+
+/* العنوان العلوي */
+body.dark-mode header,
+body.dark-mode .top-bar {
+  background: linear-gradient(135deg, #1f3c88, #162447);
 }
 
 /* العناوين */
 body.dark-mode h1,
 body.dark-mode h2,
 body.dark-mode h3,
-body.dark-mode h4,
-body.dark-mode p,
-body.dark-mode span {
-  color: #e5e7eb !important;
-}
-
-/* الشريط العلوي */
-body.dark-mode nav,
-body.dark-mode .top-nav {
-  background: linear-gradient(135deg, #020617, #020617);
-}
-
-/* الكروت */
-body.dark-mode .card,
-body.dark-mode .grade-card,
-body.dark-mode .lesson-card,
-body.dark-mode .subject-card,
-body.dark-mode .unit-card {
-  background: #1e293b;
-  color: #e5e7eb;
-  box-shadow: none;
-}
-
-/* منع بهتان النص */
-body.dark-mode * {
-  opacity: 1 !important;
-}
-
-/* الأزرار */
-body.dark-mode button,
-body.dark-mode .custom-btn {
-  background: #334155;
+body.dark-mode p {
   color: #ffffff;
 }
 
-/* hover */
-body.dark-mode .custom-btn:hover {
-  background: #475569;
-}
-
-/* زر تسجيل الخروج */
-body.dark-mode .logout-btn {
-  background: #dc2626;
-}
-/* ==========================
-   إصلاح النصوص في Dark Mode
-========================== */
-
-/* عنوان اختر الصف الدراسي */
-body.dark-mode .section-title,
-body.dark-mode h2 {
-  color: #e5e7eb !important;
-}
-
-/* كروت / أزرار الصفوف */
+/* أزرار الصفوف */
 body.dark-mode .grade-card,
-body.dark-mode .grade-btn,
-body.dark-mode .card {
-  background-color: #1e293b !important;
-  color: #ffffff !important;
+body.dark-mode .card,
+body.dark-mode button {
+  background-color: #2a3442;
+  color: #ffffff;
 }
 
-/* النص داخل الأزرار */
-body.dark-mode .grade-card *,
-body.dark-mode .grade-btn *,
-body.dark-mode .card * {
-  color: #ffffff !important;
-}
-
-/* hover */
+/* تأثير خفيف */
 body.dark-mode .grade-card:hover {
-  background-color: #334155 !important;
+  background-color: #334155;
 }
