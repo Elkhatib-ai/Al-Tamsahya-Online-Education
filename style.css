@@ -871,12 +871,14 @@ img, video {
   background: #d4edda;
   color: #155724;
 }
-/* نص المرحلة تحت عنوان تسجيل الدخول */
-.login-container p {
-  color: #ffffff;      /* أبيض واضح */
+#loginPage p {
+  color: #ffffff !important;
+}
+#loginPage h1 + p {
+  color: #ffffff;
   font-size: 15px;
-  margin-bottom: 18px;
   opacity: 0.9;
 }
+
 
 
