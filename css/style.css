@@ -1014,3 +1014,41 @@ body {
     background: rgba(30, 64, 175, 0.08);
     transform: translateY(-1px);
 }
+/* =====================
+   DARK MODE – LOGIN FIX
+===================== */
+
+.dark-mode .login-container {
+    background: linear-gradient(180deg, #020617, #020617);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+}
+
+/* حقول الإدخال */
+.dark-mode .login-container input {
+    background: #020617;
+    color: #e5e7eb;
+    border: 1px solid #334155;
+}
+
+/* placeholder */
+.dark-mode .login-container input::placeholder {
+    color: #94a3b8;
+}
+
+/* عنوان صفحة الدخول */
+.dark-mode .login-container h1,
+.dark-mode .login-container p {
+    color: #f8fafc;
+}
+
+/* أزرار الدخول */
+.dark-mode .login-btn {
+    background: #22c55e;
+    color: #022c22;
+}
+
+.dark-mode .register-btn.secondary {
+    background: transparent;
+    color: #93c5fd;
+    border-color: #93c5fd;
+}
