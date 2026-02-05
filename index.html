@@ -367,22 +367,21 @@ function drawStudentsTable(students) {
 // ===== باقي كودك =====
 function updateBackButton() {
   const backBtn = document.getElementById("backBtn");
-  if (!backBtn) return;
+  const globalNav = document.getElementById("globalNav");
+
+  if (!backBtn || !globalNav) return;
+
+  // إظهار شريط الرجوع
+  globalNav.classList.remove("hidden");
+
+  // إخفاء الزر في الصفحة الرئيسية فقط
+  if (!currentGrade) {
+    backBtn.style.display = "none";
+  } else {
+    backBtn.style.display = "inline-block";
+  }
 }
 
-
-            // ❌ لا يظهر في الصفحة الرئيسية ولا اختيار الصف
-            if (!currentGrade) {
-                backBtn.style.display = "none";
-            }
-            // ❌ لا يظهر في اختيار الصف
-            else if (currentGrade && !currentSubject) {
-                backBtn.style.display = "none";
-            }
-            // ✅ يظهر من صفحة المواد وما بعدها
-            else {
-                backBtn.style.display = "inline-block";
-            }
     
 
 
@@ -1545,6 +1544,7 @@ async function editStudent(studentEmail) {
 
 </body>
 </html>
+
 
 
 
