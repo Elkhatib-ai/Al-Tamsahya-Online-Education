@@ -43,9 +43,7 @@
             <button id="darkToggle" onclick="toggleDarkMode()">🌙</button>
           
         </nav>
-        <button id="installBtn" class="install-btn hidden">
-            📲 تثبيت التطبيق
-        </button>
+        
     </div>
 
     <!-- 🧑‍🎓 رسالة ترحيب رسمية -->
@@ -301,13 +299,12 @@ let currentUser = null;
 let currentGrade = null;
 let currentSubject = null;
 let currentUnit = null;
-
 // ===== فلترة الطلاب =====
 let currentFilter = "all";
 let savedStudents = [];
 
 // زر الفلترة
-function filterStudents(type) {
+function filterStudentsByStatus(type) {
   currentFilter = type;
   renderStudentsFiltered();
 }
@@ -321,7 +318,7 @@ function renderStudentsFiltered() {
   }
 
   if (currentFilter === "pending") {
-    filteredStudents = savedStudents.filter(s => !s.approved);
+    filteredStudents = savedStudents.filter(s => s.approved !== true);
   }
 
   drawStudentsTable(filteredStudents);
@@ -333,7 +330,7 @@ function drawStudentsTable(students) {
 
   students.forEach((s) => {
     rows += `
-      <tr>
+      <tr data-email="${(s.email || "").toLowerCase()}">
         <td>${s.email || "-"}</td>
         <td>
           ${
@@ -342,20 +339,18 @@ function drawStudentsTable(students) {
               : `<span class="status pending">🟡 قيد المراجعة</span>`
           }
         </td>
-        <td>${scores[s.email] ?? "-"}</td>
+        <td>${s.grade ?? "-"}</td>
         <td style="display:flex; gap:6px; justify-content:center;">
-        ${
-  s.approved
-    ? `
-      <button class="custom-btn" onclick="editStudent('${s.email}')">✏️ تعديل</button>
-      <button class="custom-btn danger" disabled title="لا يمكن حذف طالب مفعل">🗑️ حذف</button>
-    `
-    : `
-      <button class="custom-btn" onclick="setApprove('${s.id}', true)">✅ موافقة</button>
-      <button class="custom-btn danger" onclick="rejectStudent('${s.id}')">❌ رفض</button>
-    `
-}
-
+          ${
+            s.approved
+              ? `
+                <button class="custom-btn" onclick="editStudent('${s.email}')">✏️ تعديل</button>
+              `
+              : `
+                <button class="custom-btn" onclick="setApprove('${s.id}', true)">✅ موافقة</button>
+                <button class="custom-btn danger" onclick="rejectStudent('${s.id}')">❌ رفض</button>
+              `
+          }
         </td>
       </tr>
     `;
@@ -1039,14 +1034,12 @@ function filterStudents() {
             console.log(data);                                // نعرضها في Console
         }
 
-
         // إدارة الطلاب (تعرض فقط للمدير والمشرف)
         // ==============================
         // 👨‍💼 إدارة الطلاب والمشرفين (Firestore)
         // ==============================
-
-        // عرض قائمة الطلاب
-       async function renderStudents() {
+// عرض قائمة الطلاب
+async function renderStudents() {
   const container = document.getElementById("studentsList");
 
   container.classList.remove("hidden");
@@ -1057,60 +1050,82 @@ function filterStudents() {
   try {
     const db = window.firestoreTools.db;
     const snapshot = await db.collection("students").get();
+    savedStudents = [];
 
     let totalStudents = snapshot.size;
     let approvedStudents = 0;
     let pendingStudents = 0;
     let rows = "";
 
-  snapshot.forEach(doc => {
+    snapshot.forEach(doc => {
   const student = doc.data();
   const status = student.approved ? "مفعل" : "قيد المراجعة";
 
+  // ✅ تخزين الطالب للفلترة
+  savedStudents.push({
+    id: doc.id,
+    email: student.email || "",
+    approved: student.approved === true,
+    grade: student.grade || "-"
+  });
+
   if (student.approved) approvedStudents++;
   else pendingStudents++;
-
-  rows += `
-    <tr data-email="${(student.email || "").toLowerCase()}">
-      <td>${student.email || "-"}</td>
-      <td>${status}</td>
-      <td>${student.grade || "-"}</td>
-      <td class="actions-cell">
-  <button
-    class="custom-btn"
-    onclick="editStudent('${student.email}')">
-    ✏️ تعديل
-  </button>
-
-  <button
-    class="custom-btn danger"
-    onclick="deleteUser('${doc.id}', 'students')">
-    🗑 حذف
-  </button>
-</td>
-</tr>
-`;
 });
 
-
+      rows += `
+        <tr data-email="${(student.email || "").toLowerCase()}">
+          <td>${student.email || "-"}</td>
+          <td>${status}</td>
+          <td>${student.grade || "-"}</td>
+          <td class="actions-cell" style="display:flex; gap:6px; justify-content:center;">
+            ${
+              student.approved
+                ? `
+                  <button class="custom-btn"
+                    onclick="editStudent('${student.email}')">
+                    ✏️ تعديل
+                  </button>
+                `
+                : `
+                  <button class="custom-btn"
+                    onclick="setApprove('${doc.id}', true)">
+                    ✅ موافقة
+                  </button>
+                  <button class="custom-btn danger"
+                    onclick="rejectStudent('${doc.id}')">
+                    ❌ رفض
+                  </button>
+                `
+            }
+          </td>
+        </tr>
+      `;
+    });
 
     if (!rows) {
       rows = `<tr><td colspan="4">لا يوجد طلاب حاليا</td></tr>`;
     }
 
+    // ✅ رسم الواجهة مرة واحدة فقط
     container.innerHTML = `
       <h4>قائمة الطلاب</h4>
-      <input id="studentSearch" onkeyup="filterStudents()" placeholder="🔍 ابحث بالبريد">
 
-      <button class="custom-btn" onclick="showAddStudentModal()">إضافة طالب</button>
+      <input id="studentSearch"
+        onkeyup="filterStudents()"
+        placeholder="🔍 ابحث بالبريد">
 
       <div style="margin:10px 0;">
-        📚 عدد الطلاب: <strong>${totalStudents}</strong>
+        📚 عدد الطلاب: <strong id="totalCount">${totalStudents}</strong>
       </div>
 
       <div style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap;">
-        <div class="stat-box approved">🟢 مفعلين: ${approvedStudents}</div>
-        <div class="stat-box pending">🟡 قيد المراجعة: ${pendingStudents}</div>
+        <div class="stat-box approved">
+          🟢 مفعلين: <span id="approvedCount">${approvedStudents}</span>
+        </div>
+        <div class="stat-box pending">
+          🟡 قيد المراجعة: <span id="pendingCount">${pendingStudents}</span>
+        </div>
       </div>
 
       <div class="table-container">
@@ -1137,6 +1152,8 @@ function filterStudents() {
     `;
   }
 }
+
+ 
 
         // ✏️ تعديل بيانات الطالب (email + password)
 async function editStudent(studentEmail) {
@@ -1554,22 +1571,20 @@ if ("serviceWorker" in navigator) {
 }
 </script>
 
-<!-- PWA Install (Modal) -->
+<button id="installBtn" class="install-btn hidden" onclick="installApp()">
+📲 تثبيت التطبيق
+</button>
 <script>
-let deferredPrompt;
+let deferredPrompt = null;
 
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredPrompt = e;
 
-  // ⏱️ إظهار نافذة التثبيت بعد 5 ثواني
-  setTimeout(() => {
-    const modal = document.getElementById("installModal");
-    if (modal) modal.classList.remove("hidden");
-  }, 5000);
+  document.getElementById("installBtn")?.classList.remove("hidden");
 });
 
-document.getElementById("confirmInstall")?.addEventListener("click", async () => {
+async function installApp() {
   if (!deferredPrompt) {
     alert("📌 افتح القائمة ⋮ ثم اختر (تثبيت التطبيق)");
     return;
@@ -1577,62 +1592,11 @@ document.getElementById("confirmInstall")?.addEventListener("click", async () =>
 
   deferredPrompt.prompt();
   await deferredPrompt.userChoice;
-
   deferredPrompt = null;
-  document.getElementById("installModal").classList.add("hidden");
-});
-
-document.getElementById("closeInstall")?.addEventListener("click", () => {
-  document.getElementById("installModal").classList.add("hidden");
-});
+}
 </script>
 
-<!-- Install Modal -->
-<div id="installModal" class="install-modal hidden">
-  <div class="install-box">
-    <h3>📚 منصة التمساحية</h3>
-    <p>
-      ✔️ دروس منظمة للمرحلة الإعدادية<br>
-      ✔️ أسرع من المتصفح<br>
-      ✔️ تعمل بدون إنترنت
-    </p>
-    <button id="confirmInstall">📲 تثبيت التطبيق</button>
-    <button id="closeInstall">لاحقًا</button>
-  </div>
-</div>
 
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
