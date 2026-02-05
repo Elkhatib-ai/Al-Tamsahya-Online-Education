@@ -1534,29 +1534,25 @@ async function editStudent(studentEmail) {
 
 <!-- Firebase init -->
 <script src="./js/firebase.js"></script>
-
 <!-- Service Worker + PWA Install -->
 <script>
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("./sw.js")
     .then((reg) => {
       console.log("Service Worker Registered");
-
-      // إجبار التحديث
       reg.update();
 
-      // لو فيه نسخة جديدة جاهزة
       if (reg.waiting) {
         reg.waiting.postMessage({ type: "SKIP_WAITING" });
       }
 
-      // عند التبديل → إعادة تحميل
       navigator.serviceWorker.addEventListener("controllerchange", () => {
         window.location.reload();
       });
     })
     .catch(err => console.log("SW registration failed:", err));
 }
+</script>
 
 <!-- PWA Install (Modal) -->
 <script>
@@ -1566,13 +1562,14 @@ window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredPrompt = e;
 
-  // إظهار نافذة التثبيت بعد 5 ثواني
+  // ⏱️ إظهار نافذة التثبيت بعد 5 ثواني
   setTimeout(() => {
-    document.getElementById("installModal").classList.remove("hidden");
+    const modal = document.getElementById("installModal");
+    if (modal) modal.classList.remove("hidden");
   }, 5000);
 });
 
-document.getElementById("confirmInstall").addEventListener("click", async () => {
+document.getElementById("confirmInstall")?.addEventListener("click", async () => {
   if (!deferredPrompt) {
     alert("📌 افتح القائمة ⋮ ثم اختر (تثبيت التطبيق)");
     return;
@@ -1585,11 +1582,10 @@ document.getElementById("confirmInstall").addEventListener("click", async () => 
   document.getElementById("installModal").classList.add("hidden");
 });
 
-document.getElementById("closeInstall").addEventListener("click", () => {
+document.getElementById("closeInstall")?.addEventListener("click", () => {
   document.getElementById("installModal").classList.add("hidden");
 });
 </script>
-
 
 <!-- Install Modal -->
 <div id="installModal" class="install-modal hidden">
@@ -1608,6 +1604,7 @@ document.getElementById("closeInstall").addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
 
