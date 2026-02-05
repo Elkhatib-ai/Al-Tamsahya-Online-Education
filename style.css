@@ -872,6 +872,53 @@ img, video {
   color: #155724;
 }
 
+/* ====== DARK MODE ====== */
+
+.dark-mode {
+  background-color: #0f172a;
+  color: #ffffff;
+}
+
+/* الشريط العلوي */
+.dark-mode header,
+.dark-mode .top-bar {
+  background: #020617 !important;
+}
+
+/* صفحة تسجيل الدخول */
+.dark-mode .login-container {
+  background: #020617;
+  color: #ffffff;
+}
+
+/* العنوان */
+.dark-mode .login-container h1 {
+  color: #ffffff;
+}
+
+/* النص تحت العنوان */
+.dark-mode .login-container p {
+  color: #c7d2fe;
+}
+
+/* الحقول */
+.dark-mode input {
+  background: #020617;
+  color: #ffffff;
+  border: 1px solid #334155;
+}
+
+/* placeholder */
+.dark-mode input::placeholder {
+  color: #94a3b8;
+}
+
+/* الأزرار */
+.dark-mode button {
+  background: #1d4ed8;
+  color: #ffffff;
+}
+
 
 
 
