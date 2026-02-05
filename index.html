@@ -1072,6 +1072,7 @@ students.sort((a, b) => {
 const totalStudents = students.length;
 const approvedStudents = students.filter(s => s.approved).length;
 const pendingStudents = students.filter(s => !s.approved).length;
+                
 container.innerHTML = `
   <h4>قائمة الطلاب</h4>
   <button class="custom-btn" onclick="showAddStudentModal()">إضافة طالب</button>
@@ -1087,20 +1088,6 @@ container.innerHTML = `
 
   <div id="studentsItems"></div>
 `;
-
-
-            container.innerHTML = `
-  <h4>قائمة الطلاب</h4>
-  <button class="custom-btn" onclick="showAddStudentModal()">إضافة طالب</button>
-
-  <div style="margin:10px 0;">
-    📚 عدد الطلاب: <strong>${totalStudents}</strong>
-  </div>
-
-  <div style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap;">
-    <div class="stat-box approved">🟢 مفعلين: ${approvedStudents}</div>
-    <div class="stat-box pending">🟡 قيد المراجعة: ${pendingStudents}</div>
-  </div>
 
   <div class="table-container">
     <table>
@@ -1535,6 +1522,7 @@ async function editStudent(studentEmail) {
 
 </body>
 </html>
+
 
 
 
