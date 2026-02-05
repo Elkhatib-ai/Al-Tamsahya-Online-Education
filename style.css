@@ -871,14 +871,8 @@ img, video {
   background: #d4edda;
   color: #155724;
 }
-#loginPage p {
-  color: #ffffff !important;
-}
-#loginPage h1 + p {
-  color: #ffffff;
-  font-size: 15px;
-  opacity: 0.9;
-}
+
+
 
 
 
