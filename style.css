@@ -367,4 +367,87 @@ body.dark-mode select {
     font-size: 16px;
   }
 }
+/* الوضع الليلي الفاتح – شامل الصفحة كلها */
+body.dark-mode {
+  background-color: #121826; /* داكن ناعم */
+  color: #e5e7eb;
+}
+
+/* كل الأقسام */
+body.dark-mode section,
+body.dark-mode main,
+body.dark-mode header,
+body.dark-mode footer,
+body.dark-mode .container {
+  background-color: #121826;
+}
+
+/* البطاقات والجداول */
+body.dark-mode .card,
+body.dark-mode table,
+body.dark-mode .table-container {
+  background-color: #1a2035;
+  color: #e5e7eb;
+}
+
+/* الأزرار – بدون بهتان */
+body.dark-mode button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+}
+
+body.dark-mode button.danger {
+  background-color: #dc2626;
+}
+/* ===============================
+   الوضع الليلي الفاتح – الصفحة كاملة
+================================ */
+
+body.dark-mode {
+  background-color: #e9eef5;
+  color: #1f2937;
+}
+
+/* المدخلات */
+body.dark-mode input,
+body.dark-mode select {
+  background-color: #0f172a;
+  color: #e5e7eb;
+  border: 1px solid #334155;
+}
+body.dark-mode table {
+  background-color: #f8fafc;
+}
+
+body.dark-mode th {
+  background-color: #e2e8f0;
+  color: #111827;
+}
+
+body.dark-mode td {
+  background-color: #f8fafc;
+  color: #1f2937;
+}
+body.dark-mode button,
+body.dark-mode .custom-btn {
+  background-color: #dde6f2;
+  color: #111827;
+  border: none;
+}
+
+body.dark-mode button:hover {
+  background-color: #cfd9ea;
+}
+body.dark-mode .danger {
+  background-color: #f2caca;
+  color: #7f1d1d;
+}
+body.dark-mode input,
+body.dark-mode select {
+  background-color: #eef2f7;
+  color: #111827;
+  border: 1px solid #cbd5e1;
+}
+
 
