@@ -332,6 +332,34 @@ function drawStudentsTable(students) {
   let rows = "";
 
   students.forEach((s) => {
+    let actions = "";
+
+    // 👑 ADMIN
+    if (currentUser?.role === "ADMIN") {
+      actions += `
+        <button class="custom-btn"
+          onclick="editStudent('${s.email}')">✏️ تعديل</button>
+      `;
+
+      if (!s.approved) {
+        actions += `
+          <button class="custom-btn"
+            onclick="setApprove('${s.id}', true)">✅ موافقة</button>
+
+          <button class="custom-btn danger"
+            onclick="rejectStudent('${s.id}')">❌ رفض</button>
+        `;
+      }
+    }
+
+    // 👤 SUPERVISOR (موافقة فقط)
+    if (currentUser?.role === "SUPERVISOR" && !s.approved) {
+      actions += `
+        <button class="custom-btn"
+          onclick="setApprove('${s.id}', true)">✅ موافقة</button>
+      `;
+    }
+
     rows += `
       <tr data-email="${(s.email || "").toLowerCase()}">
         <td>${s.email || "-"}</td>
@@ -344,16 +372,7 @@ function drawStudentsTable(students) {
         </td>
         <td>${s.grade ?? "-"}</td>
         <td style="display:flex; gap:6px; justify-content:center;">
-          ${
-            s.approved
-              ? `
-                <button class="custom-btn" onclick="editStudent('${s.email}')">✏️ تعديل</button>
-              `
-              : `
-                <button class="custom-btn" onclick="setApprove('${s.id}', true)">✅ موافقة</button>
-                <button class="custom-btn danger" onclick="rejectStudent('${s.id}')">❌ رفض</button>
-              `
-          }
+          ${actions || "-"}
         </td>
       </tr>
     `;
@@ -362,6 +381,7 @@ function drawStudentsTable(students) {
   document.getElementById("studentsTableBody").innerHTML =
     rows || `<tr><td colspan="4">لا يوجد طلاب</td></tr>`;
 }
+
 
 // ===== باقي كودك =====
 function updateBackButton() {
@@ -1062,9 +1082,7 @@ async function renderStudents() {
 
     snapshot.forEach(doc => {
       const student = doc.data();
-      const status = student.approved ? "مفعل" : "قيد المراجعة";
 
-      // ✅ تخزين الطالب للفلترة
       savedStudents.push({
         id: doc.id,
         email: student.email || "",
@@ -1078,90 +1096,41 @@ async function renderStudents() {
       rows += `
 <tr data-email="${(student.email || "").toLowerCase()}">
   <td>${student.email || "-"}</td>
-  <td>${status}</td>
+  <td>${student.approved ? "🟢 مفعل" : "🟡 قيد المراجعة"}</td>
   <td>${student.grade || "-"}</td>
 
   <td class="actions-cell">
     <div class="actions-wrapper">
 
       ${
-        // 👑 الأدمن: تعديل + حذف
         currentUser?.role === "ADMIN"
           ? `
-            <button class="custom-btn"
-              onclick="editStudent('${student.email}')">
-              ✏️ تعديل
-            </button>
-
-            <button class="custom-btn danger"
-              onclick="deleteUser('${doc.id}', 'students')">
-              🗑 حذف
-            </button>
+            <button class="custom-btn" onclick="editStudent('${student.email}')">✏️ تعديل</button>
+            <button class="custom-btn danger" onclick="deleteUser('${doc.id}', 'students')">🗑 حذف</button>
+            ${
+              !student.approved
+                ? `
+                  <button class="custom-btn" onclick="setApprove('${doc.id}', true)">✅ موافقة</button>
+                  <button class="custom-btn danger" onclick="rejectStudent('${doc.id}')">❌ رفض</button>
+                `
+                : ""
+            }
           `
           : ""
       }
 
       ${
-        // 👤 المشرف: موافقة + رفض (لو غير مفعل)
         currentUser?.role === "SUPERVISOR" && !student.approved
-          ? `
-            <button class="custom-btn"
-              onclick="setApprove('${doc.id}', true)">
-              ✅ موافقة
-            </button>
-
-            <button class="custom-btn danger"
-              onclick="rejectStudent('${doc.id}')">
-              ❌ رفض
-            </button>
-          `
+          ? `<button class="custom-btn" onclick="setApprove('${doc.id}', true)">✅ موافقة</button>`
           : ""
       }
 
     </div>
   </td>
-</tr>
-`;
-
-      // 👤 المشرف: موافقة + رفض فقط (إذا كان غير مفعل)
-      currentUser?.role === "SUPERVISOR" && !student.approved
-        ? `
-          <button class="custom-btn"
-            onclick="setApprove('${doc.id}', true)">
-            ✅ موافقة
-          </button>
-
-          <button class="custom-btn danger"
-            onclick="rejectStudent('${doc.id}')">
-            ❌ رفض
-          </button>
-        `
-        : ""
-
-
-</td>
-
-      // 👤 المشرف (موافقة فقط)
-      : currentUser?.role === "SUPERVISOR" && !student.approved
-        ? `
-          <button class="custom-btn"
-            onclick="setApprove('${doc.id}', true)">
-            ✅ موافقة
-          </button>
-        `
-        : ""
-  }
-</td>
-
-        </tr>
-      `;
+</tr>`;
     });
 
-    if (!rows) {
-      rows = `<tr><td colspan="4">لا يوجد طلاب حاليا</td></tr>`;
-    }
-
-    // ✅ رسم الواجهة مرة واحدة فقط
+    // ✅ رسم الصفحة مرة واحدة فقط
     container.innerHTML = `
       <h4>قائمة الطلاب</h4>
 
@@ -1170,16 +1139,12 @@ async function renderStudents() {
         placeholder="🔍 ابحث بالبريد">
 
       <div style="margin:10px 0;">
-        📚 عدد الطلاب: <strong id="totalCount">${totalStudents}</strong>
+        📚 عدد الطلاب: <strong>${totalStudents}</strong>
       </div>
 
       <div style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap;">
-        <div class="stat-box approved">
-          🟢 مفعلين: <span id="approvedCount">${approvedStudents}</span>
-        </div>
-        <div class="stat-box pending">
-          🟡 قيد المراجعة: <span id="pendingCount">${pendingStudents}</span>
-        </div>
+        <div class="stat-box approved">🟢 مفعلين: ${approvedStudents}</div>
+        <div class="stat-box pending">🟡 قيد المراجعة: ${pendingStudents}</div>
       </div>
 
       <div class="table-container">
@@ -1193,7 +1158,7 @@ async function renderStudents() {
             </tr>
           </thead>
           <tbody>
-            ${rows}
+            ${rows || `<tr><td colspan="4">لا يوجد طلاب</td></tr>`}
           </tbody>
         </table>
       </div>
@@ -1201,11 +1166,10 @@ async function renderStudents() {
 
   } catch (err) {
     console.error(err);
-    container.innerHTML = `
-      <p>حدث خطأ أثناء تحميل الطلاب ❌<br>${err.message}</p>
-    `;
+    container.innerHTML = `<p>حدث خطأ ❌<br>${err.message}</p>`;
   }
 }
+
 
 
         // ✏️ تعديل بيانات الطالب (email + password)
@@ -1653,6 +1617,7 @@ async function installApp() {
 
 </body>
 </html>
+
 
 
 
