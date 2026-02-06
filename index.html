@@ -1076,29 +1076,52 @@ async function renderStudents() {
       else pendingStudents++;
 
       rows += `
-        <tr data-email="${(student.email || "").toLowerCase()}">
-          <td>${student.email || "-"}</td>
-          <td>${status}</td>
-          <td>${student.grade || "-"}</td>
-          <td class="actions-cell">
-  <div class="actions-wrapper">
+<tr data-email="${(student.email || "").toLowerCase()}">
+  <td>${student.email || "-"}</td>
+  <td>${status}</td>
+  <td>${student.grade || "-"}</td>
 
-    ${
-      // 👑 الأدمن: تعديل + حذف فقط
-      currentUser?.role === "ADMIN"
-        ? `
-          <button class="custom-btn"
-            onclick="editStudent('${student.email}')">
-            ✏️ تعديل
-          </button>
+  <td class="actions-cell">
+    <div class="actions-wrapper">
 
-          <button class="custom-btn danger"
-            onclick="deleteUser('${doc.id}', 'students')">
-            🗑 حذف
-          </button>
-        `
-        : ""
-    }
+      ${
+        // 👑 الأدمن: تعديل + حذف
+        currentUser?.role === "ADMIN"
+          ? `
+            <button class="custom-btn"
+              onclick="editStudent('${student.email}')">
+              ✏️ تعديل
+            </button>
+
+            <button class="custom-btn danger"
+              onclick="deleteUser('${doc.id}', 'students')">
+              🗑 حذف
+            </button>
+          `
+          : ""
+      }
+
+      ${
+        // 👤 المشرف: موافقة + رفض (لو غير مفعل)
+        currentUser?.role === "SUPERVISOR" && !student.approved
+          ? `
+            <button class="custom-btn"
+              onclick="setApprove('${doc.id}', true)">
+              ✅ موافقة
+            </button>
+
+            <button class="custom-btn danger"
+              onclick="rejectStudent('${doc.id}')">
+              ❌ رفض
+            </button>
+          `
+          : ""
+      }
+
+    </div>
+  </td>
+</tr>
+`;
 
     ${
       // 👤 المشرف: موافقة + رفض فقط (إذا كان غير مفعل)
@@ -1632,6 +1655,7 @@ async function installApp() {
 
 </body>
 </html>
+
 
 
 
