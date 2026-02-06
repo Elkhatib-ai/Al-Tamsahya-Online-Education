@@ -1087,17 +1087,33 @@ body {
     white-space: nowrap;
   }
 }
-/* حل مشكلة عدم الضغط على زر التسجيل في الموبايل */
-.login-container {
-  position: relative;
-  z-index: 20;
+/* 🔥 إصلاح جذري لمشكلة أزرار الموبايل */
+button {
+  touch-action: manipulation;
 }
 
-.welcome-message {
+/* تأكد أن صفحة الدخول فوق أي شيء */
+#loginPage {
   position: relative;
-  z-index: 1;
+  z-index: 9999;
 }
 
-.auth-buttons button {
+/* رسالة الترحيب لا تستقبل لمس */
+#welcomeMessage {
+  pointer-events: none;
+}
+
+/* شريط الأعلى لا يمنع الضغط */
+.top-nav {
+  pointer-events: none;
+}
+
+.top-nav button {
   pointer-events: auto;
+}
+
+/* أزرار الدخول */
+.auth-buttons {
+  position: relative;
+  z-index: 10000;
 }
