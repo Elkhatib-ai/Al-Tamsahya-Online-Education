@@ -1059,3 +1059,33 @@ body {
     display: block !important;
   }
 }
+/* =========================
+   ADMIN STUDENTS ACTIONS
+========================= */
+
+/* خلية الخيارات */
+.actions-cell {
+  padding: 12px 0;
+  text-align: center;
+}
+
+/* حاوية الأزرار */
+.actions-wrapper {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: nowrap; /* يخلّي تعديل + حذف جنب بعض */
+}
+
+/* موبايل */
+@media (max-width: 600px) {
+  .actions-wrapper {
+    gap: 6px;
+  }
+
+  .custom-btn {
+    padding: 8px 10px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+}
