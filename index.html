@@ -1123,7 +1123,6 @@ async function renderStudents() {
 </tr>
 `;
 
-    ${
       // 👤 المشرف: موافقة + رفض فقط (إذا كان غير مفعل)
       currentUser?.role === "SUPERVISOR" && !student.approved
         ? `
@@ -1655,6 +1654,7 @@ async function installApp() {
 
 </body>
 </html>
+
 
 
 
