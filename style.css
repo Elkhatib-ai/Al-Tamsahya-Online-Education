@@ -332,3 +332,48 @@ body.dark-mode textarea {
   color: #111827;
   border: 1px solid #cbd5e1;
 }
+/* =====================
+   🔧 MOBILE CLICK FIX (IMPORTANT)
+   حل مشكلة عدم الضغط على زر تسجيل حساب جديد
+===================== */
+
+/* منع أي عنصر شفاف من تعطيل اللمس */
+#welcomeMessage,
+.top-nav,
+#globalNav {
+  pointer-events: none;
+}
+
+/* السماح فقط للأزرار باستقبال اللمس */
+#welcomeMessage button,
+.top-nav button,
+#globalNav button,
+.auth-buttons button {
+  pointer-events: auto;
+}
+
+/* تأكيد أن صفحة الدخول فوق الجميع */
+#loginPage {
+  position: relative;
+  z-index: 10000;
+}
+
+/* تأكيد أن صفحة التسجيل تظهر فوق */
+#registerPage {
+  position: relative;
+  z-index: 10001;
+}
+
+/* تحسين اللمس على الموبايل */
+button {
+  touch-action: manipulation;
+}
+
+/* منع hover الوهمي في الموبايل */
+@media (hover: none) {
+  button:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
