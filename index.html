@@ -40,7 +40,10 @@
     منصة التمساحية التعليمية
 </div>
   <div id="navUser" class="nav-user"></div>
-            <button id="darkToggle" onclick="toggleDarkMode()">🌙</button>
+            
+<button onclick="toggleDarkMode()" class="dark-btn">
+  🌙 الوضع الليلي
+</button>
           
         </nav>
         
@@ -1593,17 +1596,14 @@ async function installApp() {
   await deferredPrompt.userChoice;
   deferredPrompt = null;
 }
-</script>
-
+    
 function toggleDarkMode() {
   document.body.classList.toggle("dark-mode");
 }
-
-<button onclick="toggleDarkMode()" class="dark-btn">
-  🌙 الوضع الليلي
-</button>
+</script>
 
 </body>
 </html>
+
 
 
