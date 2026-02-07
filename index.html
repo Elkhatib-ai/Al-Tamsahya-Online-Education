@@ -281,30 +281,32 @@
 grades.forEach((grade) => {
     lessons[grade] = {};
 
-   subjectsPerGrade[grade].forEach((sub) => {
-    lessons[grade][sub] = {};
+   let lessons = {};
 
-    if (unitsPerSubject[sub]) {
-        unitsPerSubject[sub].forEach((unit) => {
-            lessons[grade][sub][unit] = [
-                {
-                    title: "درس 1 " + unit,
-                    content: "شرح نصي مفصل لدرس 1 في " + unit,
-                    video: `videos/${sub}/${unit}-lesson1.mp4`,
-                },
-                {
-                    title: "درس 2 " + unit,
-                    content: "شرح نصي مفصل لدرس 2 في " + unit,
-                    video: `videos/${sub}/${unit}-lesson2.mp4`,
-                },
-            ];
-        });
-    }
-});
+grades.forEach((grade) => {
+    lessons[grade] = {};
 
+    subjectsPerGrade[grade].forEach((sub) => {
+        lessons[grade][sub] = {};
 
-
-
+        if (unitsPerSubject[sub]) {
+            unitsPerSubject[sub].forEach((unit) => {
+                lessons[grade][sub][unit] = [
+                    {
+                        title: "درس 1 " + unit,
+                        content: "شرح نصي مفصل لدرس 1 في " + unit,
+                        video: `videos/${sub}/${unit}-lesson1.mp4`,
+                    },
+                    {
+                        title: "درس 2 " + unit,
+                        content: "شرح نصي مفصل لدرس 2 في " + unit,
+                        video: `videos/${sub}/${unit}-lesson2.mp4`,
+                    },
+                ];
+            });
+        }
+    });
+}); // ✅ هذا القوس كان ناقص
 
 let scores = JSON.parse(localStorage.getItem("scores") || "{}");
 
@@ -1650,6 +1652,7 @@ async function installApp() {
 
 </body>
 </html>
+
 
 
 
