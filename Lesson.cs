@@ -11,5 +11,9 @@
 
         public int SubjectId { get; set; }
         public Subject Subject { get; set; }
+        public int SectionId { get; set; }
+        public Section Section { get; set; }
+
     }
 }
+
