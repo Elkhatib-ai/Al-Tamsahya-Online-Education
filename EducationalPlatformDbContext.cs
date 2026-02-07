@@ -17,8 +17,10 @@ namespace EducationalPlatform.API.Data
         public DbSet<Lesson> Lessons { get; set; } = null!;
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<LessonProgress> LessonProgresses { get; set; }
+        public DbSet<Section> Sections { get; set; }
 
 
 
     }
 }
+
