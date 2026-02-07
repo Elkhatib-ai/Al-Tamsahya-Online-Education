@@ -36,5 +36,34 @@ namespace EducationalPlatform.API.Controllers
 
             return Ok(lessons);
         }
+
+        // =======================
+        // ✅ ADDED: Create Lesson with Video
+        // =======================
+        [HttpPost]
+        public IActionResult CreateLesson([FromBody] Lesson lesson)
+        {
+            _context.Lessons.Add(lesson);
+            _context.SaveChanges();
+
+            return Ok(lesson);
+        }
+
+        // =======================
+        // ✅ ADDED: Update Lesson Video
+        // =======================
+        [HttpPut("{id}/video")]
+        public IActionResult UpdateLessonVideo(int id, [FromBody] string videoUrl)
+        {
+            var lesson = _context.Lessons.Find(id);
+
+            if (lesson == null)
+                return NotFound();
+
+            lesson.VideoUrl = videoUrl;
+            _context.SaveChanges();
+
+            return Ok(lesson);
+        }
     }
 }
