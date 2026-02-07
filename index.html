@@ -276,12 +276,7 @@
             "التربية الدينية": ["القرآن/الكتاب المقدس", "السلوك والقيم"],
             "النشاط الفني/الحاسب الآلي/الرياضة": ["الفنون", "الحاسب الآلي", "الرياضة"],
         };
-   let lessons = {};
-
-grades.forEach((grade) => {
-    lessons[grade] = {};
-
-   let lessons = {};
+  let lessons = {};
 
 grades.forEach((grade) => {
     lessons[grade] = {};
@@ -289,8 +284,8 @@ grades.forEach((grade) => {
     subjectsPerGrade[grade].forEach((sub) => {
         lessons[grade][sub] = {};
 
-        if (unitsPerSubject[sub]) {
-            unitsPerSubject[sub].forEach((unit) => {
+        if (sectionsPerSubject[sub]) {
+            sectionsPerSubject[sub].forEach((unit) => {
                 lessons[grade][sub][unit] = [
                     {
                         title: "درس 1 " + unit,
@@ -306,7 +301,7 @@ grades.forEach((grade) => {
             });
         }
     });
-}); // ✅ هذا القوس كان ناقص
+});
 
 let scores = JSON.parse(localStorage.getItem("scores") || "{}");
 
@@ -1652,6 +1647,7 @@ async function installApp() {
 
 </body>
 </html>
+
 
 
 
