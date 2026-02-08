@@ -2,73 +2,77 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>تثبيت منصة التمساحية</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>منصة التمساحية</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#1e40af">
+  <meta name="theme-color" content="#2563eb">
   <link rel="icon" href="icon-192.png">
 
   <style>
     body {
       font-family: Cairo, sans-serif;
-      background: linear-gradient(135deg, #1e40af, #2563eb);
+      background: linear-gradient(180deg, #1e40af, #2563eb);
+      margin: 0;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
-      text-align: center;
+      padding: 16px;
+      box-sizing: border-box;
     }
 
     .box {
       background: #ffffff;
-      color: #1e293b;
-      padding: 40px 32px;
-      border-radius: 22px;
-      max-width: 420px;
-      width: 90%;
-      box-shadow: 0 20px 45px rgba(0,0,0,0.25);
+      width: 100%;
+      max-width: 360px;
+      border-radius: 18px;
+      padding: 24px 20px;
+      text-align: center;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
     }
 
     h2 {
-      margin-top: 0;
+      margin: 0 0 12px;
+      font-size: 20px;
       color: #1e40af;
     }
 
     p {
-      line-height: 1.7;
-      font-size: 16px;
+      margin: 0 0 16px;
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: #334155;
     }
 
     button {
-      margin-top: 24px;
-      font-size: 17px;
-      padding: 14px 26px;
-      border-radius: 14px;
+      width: 100%;
+      font-size: 16px;
+      padding: 14px;
+      border-radius: 12px;
       border: none;
-      cursor: pointer;
       background: #2563eb;
       color: white;
       font-weight: bold;
-      width: 100%;
+      cursor: pointer;
     }
 
-    button:hover {
-      background: #1e40af;
+    button:active {
+      transform: scale(0.98);
     }
 
     .hint {
-      margin-top: 18px;
-      font-size: 14px;
-      color: #475569;
+      margin-top: 14px;
+      font-size: 13px;
+      color: #64748b;
+      line-height: 1.5;
     }
 
     .success {
-      margin-top: 22px;
-      font-size: 18px;
-      color: #16a34a;
       display: none;
+      margin-top: 18px;
+      font-size: 15px;
+      color: #16a34a;
       line-height: 1.6;
       font-weight: bold;
     }
@@ -77,29 +81,28 @@
 <body>
 
 <div class="box">
-  <h2> 👋 مرحبًا بك في منصة التمساحية</h2>
+  <h2>👋 مرحبًا بك في منصة التمساحية</h2>
 
   <p id="desc">
-    يمكنك إضافة منصة التمساحية إلى هاتفك  
-    <br>
-    لاستخدامها بسهولة في أي وقت
+    يمكنك إضافة المنصة إلى هاتفك  
+    لمتابعة دروسك بسهولة في أي وقت
   </p>
 
   <button id="installBtn" style="display:none">
-    📲 إضافة التطبيق إلى الهاتف
+    📲 إضافة المنصة إلى الهاتف
   </button>
 
   <div id="successMsg" class="success">
-    🎉 تم إضافة منصة التمساحية إلى هاتفك بنجاح  
+    🎉 تم الإعداد بنجاح  
     <br>
-    نتمنى لك تجربة تعليمية ممتعة
+    يمكنك الآن بدء التعلم
   </div>
 
-  <p id="hint" class="hint">
-    في بعض الهواتف ستظهر رسالة التثبيت تلقائيًا  
+  <div id="hint" class="hint">
+    قد تظهر رسالة التثبيت تلقائيًا  
     <br>
-    فقط اتبع التعليمات التي تظهر على الشاشة
-  </p>
+    فقط اتبع الخطوات التي تظهر على الشاشة
+  </div>
 </div>
 
 <script>
