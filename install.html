@@ -12,8 +12,7 @@
   <style>
     body {
       font-family: Cairo, sans-serif;
-      background: #1e40af;
-      color: white;
+      background: linear-gradient(135deg, #1e40af, #2563eb);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -21,56 +20,85 @@
       margin: 0;
       text-align: center;
     }
+
     .box {
-      background: rgba(255,255,255,0.15);
-      padding: 35px 30px;
-      border-radius: 18px;
+      background: #ffffff;
+      color: #1e293b;
+      padding: 40px 32px;
+      border-radius: 22px;
       max-width: 420px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      width: 90%;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.25);
     }
+
+    h2 {
+      margin-top: 0;
+      color: #1e40af;
+    }
+
+    p {
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
     button {
-      margin-top: 20px;
-      font-size: 18px;
-      padding: 14px 28px;
+      margin-top: 24px;
+      font-size: 17px;
+      padding: 14px 26px;
       border-radius: 14px;
       border: none;
       cursor: pointer;
-      background: white;
-      color: #1e40af;
+      background: #2563eb;
+      color: white;
       font-weight: bold;
+      width: 100%;
     }
+
+    button:hover {
+      background: #1e40af;
+    }
+
+    .hint {
+      margin-top: 18px;
+      font-size: 14px;
+      color: #475569;
+    }
+
     .success {
-      margin-top: 20px;
-      font-size: 20px;
-      color: #a7f3d0;
+      margin-top: 22px;
+      font-size: 18px;
+      color: #16a34a;
       display: none;
+      line-height: 1.6;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
 
 <div class="box">
-  <h2>📲 منصة التمساحية التعليمية</h2>
+  <h2> 👋 مرحبًا بك في منصة التمساحية</h2>
 
   <p id="desc">
-    اضغط على الزر بالأسفل لتثبيت التطبيق  
-    <br>على هاتفك
+    يمكنك إضافة منصة التمساحية إلى هاتفك  
+    <br>
+    لاستخدامها بسهولة في أي وقت
   </p>
 
   <button id="installBtn" style="display:none">
-    ⬇️ تثبيت التطبيق
+    📲 إضافة التطبيق إلى الهاتف
   </button>
 
   <div id="successMsg" class="success">
-    ✅ تم تثبيت التطبيق بنجاح  
+    🎉 تم إضافة منصة التمساحية إلى هاتفك بنجاح  
     <br>
-    يمكنك فتحه الآن من شاشة هاتفك
+    نتمنى لك تجربة تعليمية ممتعة
   </div>
 
-  <p id="hint" style="margin-top:15px;font-size:14px">
-    لو الزر ما ظهرش  
-    افتح القائمة ⋮ واختر  
-    <b>تثبيت التطبيق</b>
+  <p id="hint" class="hint">
+    في بعض الهواتف ستظهر رسالة التثبيت تلقائيًا  
+    <br>
+    فقط اتبع التعليمات التي تظهر على الشاشة
   </p>
 </div>
 
@@ -84,7 +112,7 @@ const hint = document.getElementById("hint");
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  installBtn.style.display = "inline-block";
+  installBtn.style.display = "block";
 });
 
 installBtn.onclick = async () => {
